@@ -25,3 +25,6 @@ Syed Abul A'la Mawdudi r. The written Tafhimul Quran (Tafhimul Quran Bangla) is 
 ■ Tafhimul Quran Bangla Tafsir
 
 Disclaimer: We have tried to make it as accurate as possible, but there are still many mistakes. If you tell us about such mistakes, we will try to fix them in the next version. There is a communication system from the application.
+
+
+https://play.google.com/store/apps/details?id=com.minbar.tafhimulquran
