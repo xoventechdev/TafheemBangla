@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Activity.SearchActivity">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/search_Bar"
+                android:clipToPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="1dp"
+                app:cardUseCompatPadding="false"
+                style="@style/Widget.MaterialComponents.CardView">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:padding="16dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:srcCompat="@drawable/ic_baseline_search"
+                        app:tint="@android:color/darker_gray" />
+
+                    <EditText
+                        android:id="@+id/et_Search"
+                        android:background="@android:color/transparent"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:hint="এখানে লিখুন......"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:layout_weight="1"
+                        android:imeOptions="actionSearch">
+
+                        <requestFocus />
+                    </EditText>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/s_surah"
+                android:text="সুরাহ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/common"/>
+
+            <RadioButton
+                android:id="@+id/s_Bn"
+                android:text="বাংলা অনুবাদ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/common"/>
+
+            <RadioButton
+                android:id="@+id/s_En"
+                android:text="ইংরেজি অনুবাদ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/common"/>
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+
+                    android:layout_marginTop="50dp"
+                    android:id="@+id/noData"
+                    android:gravity="center"
+                    android:text="No data"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:visibility="gone"
+                    android:id="@+id/searchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </LinearLayout>
+</layout>

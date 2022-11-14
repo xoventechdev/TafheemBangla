@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.AudioActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_above="@+id/audioOut"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="ScrollViewCount">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/audioViwer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fadeScrollbars="true"
+                    app:fastScrollEnabled="true"
+                    app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+                    app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+                    app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+                    app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            </LinearLayout>
+        </ScrollView>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/audioOut"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@drawable/play_bg">
+
+
+            <com.arges.sepan.argmusicplayer.PlayerViews.ArgPlayerSmallView
+                android:id="@+id/argmusicplayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <!--  <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingStart="20dp"
+                        android:paddingRight="20dp"
+                        tools:ignore="RtlSymmetry">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical" >
+
+                            <FrameLayout
+                                android:id="@+id/play_pause_layout"
+                                android:layout_width="40dp"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentLeft="true"
+                                android:paddingBottom="5dp"
+                                android:paddingRight="5dp"
+                                android:paddingTop="5dp" >
+
+                                <ImageView
+                                    android:id="@+id/play"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="6dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/ic_baseline_play_circle_filled_24" />
+
+                                <ImageView
+                                    android:id="@+id/pause"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="6dp"
+                                    android:src="@drawable/ic_baseline_stop_circle_24"
+                                    android:visibility="gone" />
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:id="@+id/seekbar_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_toRightOf="@id/play_pause_layout"
+                                android:paddingTop="5dp"
+                                android:paddingRight="5dp"
+                                android:paddingBottom="5dp">
+
+                                <SeekBar
+                                    android:id="@+id/media_seekbar"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right|top"
+                                    android:orientation="horizontal"
+                                    android:paddingTop="5dp"
+                                    android:paddingRight="10dp"
+                                    android:paddingBottom="5dp">
+
+                                    <TextView
+                                        android:id="@+id/run_time"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:ellipsize="end"
+                                        android:inputType="text"
+                                        android:text="00:00"
+                                        android:textColor="@android:color/darker_gray"
+                                        android:textSize="11sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:ellipsize="end"
+                                        android:inputType="text"
+                                        android:text=" / "
+                                        android:textColor="@color/white"
+                                        android:textSize="11sp" />
+
+                                    <TextView
+                                        android:id="@+id/total_time"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:ellipsize="end"
+                                        android:inputType="text"
+                                        android:text="00:00"
+                                        android:textColor="@color/white"
+                                        android:textSize="11sp" />
+
+                                    <ImageView
+                                        android:visibility="gone"
+                                        android:paddingLeft="2dp"
+                                        android:layout_gravity="center"
+                                        android:id="@+id/delete"
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:src="@drawable/ic_baseline_delete_24" />
+                                </LinearLayout>
+                            </FrameLayout>
+                        </RelativeLayout>
+                    </LinearLayout>-->
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

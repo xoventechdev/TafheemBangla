@@ -1,0 +1,158 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <PreferenceCategory
+        android:layout="@layout/preferences_category"
+        app:title="ফন্ট সাইজ">
+
+
+
+
+
+        <ListPreference
+            app:defaultValue="26"
+            app:entries="@array/items_nameAr"
+            app:entryValues="@array/items_valueAr"
+            app:key="ARABICFONT"
+            app:title="আরাবিক ফন্ট সাইজ"/>
+        <ListPreference
+            app:defaultValue="22"
+            app:entries="@array/items_nameBD"
+            app:entryValues="@array/items_valueBD"
+            app:key="ProFONT"
+            app:title="বাংলা ফন্ট সাইজ"/>
+        <!--
+
+
+
+        <ListPreference
+            android:defaultValue="THEME_WHITE_BLUE"
+            android:dialogTitle="@string/theme_preference_dialog_title"
+            android:entries="@array/entries_theme_list_preference"
+            android:entryValues="@array/entryvalues_theme_list_preference"
+            android:key="THEME_PREFERENCE"
+            android:title="@string/theme_preference_title"
+            app:useSimpleSummaryProvider="true" />
+
+
+
+
+
+          <PreferenceCategory
+        android:layout="@layout/preferences_category"
+        app:title="নাইট মোড">
+        <CheckBoxPreference
+            app:defaultValue="false"
+            app:key="NIGHT"
+            app:summaryOff="নাইট মোড ডিএক্টিভ হয়েছে"
+            app:summaryOn="নাইট মোড এক্টিভ হয়েছে"
+            app:title="নাইট মোড"/>
+    </PreferenceCategory>
+
+
+
+    <ListPreference
+            app:defaultValue="20"
+            app:entries="@array/items_nameTika"
+            app:entryValues="@array/items_valueTika"
+            app:key="TransFONT"
+            app:title="টীকা ফন্ট সাইজ"/>
+        <ListPreference
+            app:defaultValue="20"
+            app:entries="@array/items_nameAo"
+            app:entryValues="@array/items_valueAo"
+            app:key="AnotherFONT"
+            app:title="অন্যান্য ফন্ট সাইজ"/>
+-->
+
+
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preferences_category"
+        app:title="ফন্ট ফ্যামিলি">
+        <ListPreference
+            app:defaultValue="lipi"
+            app:entries="@array/font_bangla_fonts"
+            app:entryValues="@array/font_bangla_fonts_values"
+            app:key="font_bangla"
+            app:title="বাংলা ফন্ট"/>
+        <ListPreference
+            app:defaultValue="me_quran"
+            app:entries="@array/font_arabi_fonts"
+            app:entryValues="@array/font_arabi_fonts_values"
+            app:key="font_arabi"
+            app:title="আরবি ফন্ট"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preferences_category"
+        app:title="শো / হাইড">
+        <ListPreference
+            app:defaultValue="on"
+            app:entries="@array/name_Taf"
+            app:entryValues="@array/value_Taf"
+            app:key="tafheem"
+            app:title="বাংলা উচ্চারণ"/>
+
+        <ListPreference
+            app:defaultValue="on"
+            app:entries="@array/name_Tai"
+            app:entryValues="@array/value_Tai"
+            app:key="banglaOnubadh"
+            app:title="বাংলা অনুবাদ"/>
+
+
+        <ListPreference
+            app:defaultValue="on"
+            app:entries="@array/name_Tai"
+            app:entryValues="@array/value_Tai"
+            app:key="taisirul"
+            app:title="ইংরেজি অনুবাদ"/>
+
+        <ListPreference
+            app:defaultValue="on"
+            app:entries="@array/name_Taf"
+            app:entryValues="@array/value_Taf"
+            app:key="tika"
+            app:title="অনুবাদ টিকা"/>
+
+        <ListPreference
+            app:defaultValue="on"
+            app:entries="@array/name_Taf"
+            app:entryValues="@array/value_Taf"
+            app:key="audioHide"
+            app:title="অডিও লেআউট"/>
+
+        <ListPreference
+            app:defaultValue="on"
+            app:entries="@array/name_Taf"
+            app:entryValues="@array/value_Taf"
+            app:key="scollingHide"
+            app:title="আয়াত স্কোলিং লেআউট"/>
+
+
+
+
+  <!--
+
+  <ListPreference
+            app:defaultValue="on"
+            app:entries="@array/name_Taf"
+            app:entryValues="@array/value_Taf"
+            app:key="audioScolling"
+            app:title="অডিও ও স্কোলিং লেআউট"/>
+
+
+
+
+        <ListPreference
+            app:defaultValue="on"
+            app:entries="@array/name_Taf"
+            app:entryValues="@array/value_Taf"
+            app:key="Tajwid"
+            app:title="কালারফুল তাজবিদ"/>
+
+            -->
+    </PreferenceCategory>
+</PreferenceScreen>

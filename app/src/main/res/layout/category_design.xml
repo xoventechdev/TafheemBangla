@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:orientation="vertical"
+    android:id="@+id/list_itemId"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_marginStart="5dp"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <View
+                android:id="@+id/circle_View"
+                android:background="@drawable/round"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:textColor="@color/black"
+                android:id="@+id/cat_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:fontFamily="@font/kalpurush"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="১"
+                android:textSize="20sp" />
+        </RelativeLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:gravity="left|center_vertical|center_horizontal|center"
+                android:id="@+id/cat_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Allah Related"/>
+            <TextView
+                android:textSize="14dp"
+                android:gravity="left|center_vertical|center_horizontal|center"
+                android:id="@+id/cat_numberr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="সর্বমোট আয়াত সংখ্যা ১৭ টি"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:background="@android:color/darker_gray"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+</LinearLayout>

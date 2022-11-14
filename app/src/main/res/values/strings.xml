@@ -1,0 +1,203 @@
+<resources>
+    <string name="app_name">তাফহীমুল কুরআন</string>
+    <string name="copyrights">© কপিরাইট-২০২২ | XovenTech\nসকল স্বত্বাধিকার ডেভেলপার কর্তৃক সংরক্ষিত</string>
+    <string name="share_text">তাফহীমুল কুরআন অ্যাপসটি ডাউনলোড করার জন্য অনুরোধ করছি। এই অ্যাপস এর মাধ্যমে সম্পূর্ণ তাফসীরটি অফলাইনে পড়তে পারবেন। কোন প্রকার ইন্টারনেটের প্রযোজন হবে না। আশাকরি আপনারা এই অ্যাপসের মাধ্যমে উপকৃত হবেন...  </string>
+    <string name="more_apps">https://play.google.com/store/apps/dev?id=6812471568616278487</string>
+
+    <string name="main_bmark_btn_new_collection">নতুন কালেকশান</string>
+    <string name="main_bmark_zero_collections">কোনো বুকমার্ক কালেকশান নেই!</string>
+    <string name="main_bottom_nav_bmark">দারস</string>
+    <string name="main_bottom_nav_fav">ফেবারিট</string>
+    <string name="main_bottom_nav_home">হোম</string>
+    <string name="main_bottom_nav_store">স্টোর</string>
+    <string name="main_bottom_nav_subwise">বিষয় ভিত্তিক</string>
+    <string name="main_fav_zero_items">প্রিয়তে আপনার কোনো সুরা নেই!</string>
+    <string name="main_home_hint_search">সার্চ করুন..</string>
+    <string name="main_home_search_msg_zero_found">কোনো সুরা পাওয়া যায়নি!</string>
+    <string name="main_toolbar_audio">অডিও</string>
+    <string name="main_toolbar_donate">ডোনেট</string>
+    <string name="main_toolbar_lastread">লাস্ট রিড</string>
+    <string name="main_toolbar_search">সার্চ</string>
+    <string name="main_toolbar_setting">সেটিংস</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--
+
+    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="admob_interstitial_id">ca-app-pub-3940256099942544/1033173712</string>
+
+    <string name="admob_app_id">ca-app-pub-4404209167326577~5836822756</string>
+    <string name="admob_banner_id">ca-app-pub-4404209167326577/8079842714</string>
+    <string name="admob_interstitial_id">ca-app-pub-4404209167326577/7696699333</string>
+
+    -->
+    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="admob_interstitial_id">ca-app-pub-3940256099942544/1033173712</string>
+
+
+    <string name="downNotics">এই সুরাহ টি ডাউনলোড করা নেই।</string>
+    <string name="ssss">) :</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+
+    <!-- App Theme preferences -->
+    <string name="theme_preference_section">Appearance</string>
+    <string name="theme_preference_title">Theme</string>
+    <string name="theme_preference_dialog_title">Choose your preferred theme</string>
+    <string name="theme_preference_name_white_blue">Blue sky (Default)</string>
+    <string name="theme_preference_name_dark_orange">Orange night</string>
+    <string name="theme_preference_name_dark_Turquoise">Nightly aurore</string>
+    <string name="theme_preference_use_arabic_locale">Arabic mode (الوضع العربي)</string>
+    <string name="theme_preference_use_arabic_locale_summay">Use Arabic for application interface</string>
+    <string name="theme_preference_numerals_title">Numerals type</string>
+    <string name="theme_preference_numerals_dialog_title">Choose numerals type</string>
+    <string name="theme_preference_numerals_type_arabic_indic">Arabic–Indic numerals</string>
+    <string name="theme_preference_numerals_type_arabic">Arabic numerals</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="bn_ovidhan">তাফহীম অভিধান</string>
+    <string name="chapa_quran">ছাপা কুরআন</string>
+
+
+    <string-array name="surat_fr">
+        <item>     Al-Fatiha</item>
+        <item> Al-Baqarah</item>
+        <item>   Al-Imran</item>
+        <item> An-Nisa\'</item>
+        <item> Al-Maidah</item>
+        <item>Al-Anam</item>
+        <item> Al-Araf</item>
+        <item> Al-Anfal</item>
+        <item>At-Tawbah</item>
+        <item>Yunus</item>
+        <item> Hud</item>
+        <item>Yusuf</item>
+        <item>Ar-Raad</item>
+        <item>Ibrahim</item>
+        <item>Al-Hijr</item>
+        <item>An-Nahl</item>
+        <item>Al-Isra</item>
+        <item>Al-Kahf</item>
+        <item>Maryam</item>
+        <item>Ta-Ha</item>
+        <item>Al-Anbiya</item>
+        <item> Al-Hajj</item>
+        <item>Al-Muminune</item>
+        <item>An-Nur</item>
+        <item>Al Furqane</item>
+        <item> As-Shuaraa</item>
+        <item>An-Naml</item>
+        <item> Al-Qasas</item>
+        <item>Al-Ankabut  </item>
+        <item>Ar-Rum</item>
+        <item>Luqman  </item>
+        <item> As-Sajda</item>
+        <item>Al-Ahzab</item>
+        <item>Saba   </item>
+        <item> Fatir </item>
+        <item>Ya-Sin </item>
+        <item>As-Saffat</item>
+        <item> Sad  </item>
+        <item>Az-Zumar</item>
+        <item> Gafir</item>
+        <item> Fussilat</item>
+        <item>Achoura</item>
+        <item>Azzukhruf</item>
+        <item>Ad-Dukhan</item>
+        <item>Al-Jathya</item>
+        <item>Al-Ahqaf</item>
+        <item>Muhammad</item>
+        <item>Al-Fath</item>
+        <item>Al-Hujurat</item>
+        <item>Qaf</item>
+        <item>Ad-Dariyat</item>
+        <item>At-Tur</item>
+        <item>An-Najm</item>
+        <item> Al-Qamar</item>
+        <item>Ar-Rahman</item>
+        <item>Al-Waqi\'a</item>
+        <item>Al-Hadid</item>
+        <item>Al-Mujadalah</item>
+        <item>Al-Hasr</item>
+        <item>Al-Mumtahanah</item>
+
+        <item>As-Saff</item>
+        <item>Al-Jumua</item>
+        <item>Al-Munafiqun</item>
+        <item> At-Tagabun</item>
+        <item>At-Talaq</item>
+        <item>At-Tahrim</item>
+        <item>Al-Mulk</item>
+        <item>Al-Qalam</item>
+        <item>Al- Haqqah</item>
+        <item>Al- Maarij </item>
+        <item> Nuh </item>
+        <item>Al-Jinn</item>
+        <item> Al-Muzzamil</item>
+        <item>Al-Muddattir </item>
+
+        <item>Al-Qiyamah</item>
+
+        <item>Al-Insan</item>
+        <item>Al-Mursalate</item>
+        <item>An-Naba</item>
+        <item>An-Naziate</item>
+        <item>Abasa</item>
+
+        <item> At-Takwir</item>
+
+        <item> Al-Infitar</item>
+        <item>Al-Mutaffifune</item>
+        <item>Al-Insiqaq</item>
+        <item>Al-Buruj</item>
+        <item>At-Tariq</item>
+        <item>Al-Ala</item>
+        <item>Al-Gasiyah</item>
+        <item>Al-Fajr</item>
+        <item>Al-Balad</item>
+        <item>Ach-Chams</item>
+        <item>Al-Layl</item>
+        <item>Ad-Duha</item>
+        <item>As-Sarh</item>
+        <item>At-Tin</item>
+        <item>Al-Alaq</item>
+        <item>Al-Qadr</item>
+        <item>Al-Bayyinah</item>
+        <item>Az-Zalzalah</item>
+        <item>Al-Adiyate</item>
+        <item>Al-Qariah</item>
+        <item>At-Takatur</item>
+        <item>Al-Asr</item>
+        <item> Al-Humazah</item>
+        <item>Al-Fil</item>
+        <item>Qoraïsh</item>
+        <item>Al-Maun</item>
+        <item>Al-Kawtar </item>
+        <item>Al-Kafirune</item>
+        <item>An-Nasr</item>
+        <item>Al-Masad</item>
+        <item> Al-Ihlas</item>
+        <item>Al-Falaq</item>
+        <item> An-Nas </item>
+    </string-array>
+
+
+</resources>

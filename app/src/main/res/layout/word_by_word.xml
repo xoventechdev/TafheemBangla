@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="11dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp">
+    <TextView
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:fontFamily="@font/saleem_quran"
+        android:gravity="center"
+        android:text="gfgf"
+        android:id="@+id/word_arabic_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:textColor="@color/common"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:id="@+id/word_trans_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <View
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="0.3dp"
+        android:background="@color/black"/>
+</LinearLayout>

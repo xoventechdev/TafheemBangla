@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:max="http://schemas.applovin.com/android/1.0">
+    <item
+        android:id="@+id/main_item"
+        android:title="@string/app_name">
+        <menu>
+            <item
+                android:icon="@drawable/quran_chapa"
+                android:id="@+id/chapaQuran"
+                android:title="@string/chapa_quran"
+                android:checkable="true"
+                app:showAsAction="ifRoom"/>
+            <item
+                android:icon="@drawable/ic_nav_book_open"
+                android:id="@+id/banglaOvidan"
+                android:title="@string/bn_ovidhan"
+                android:checkable="true"
+                app:showAsAction="ifRoom"/>
+            <item
+                android:icon="@drawable/ic_baseline_mail_outline_24"
+                android:id="@+id/drawer_request_submit"
+                android:title="Request Submit"
+                android:checkable="true"
+                app:showAsAction="ifRoom"/>
+
+        </menu>
+    </item>
+    <item
+        android:id="@+id/labels_item"
+        android:title="Other">
+        <menu>
+        <item
+                android:icon="@drawable/ic_home_mm_settings"
+                android:id="@+id/drawer_setting"
+                android:title="Setting"
+                android:checkable="true"
+                app:showAsAction="ifRoom"/>
+            <item
+                android:icon="@drawable/ic_baseline_rate_review_24"
+                android:id="@+id/drawer_rate"
+                android:title="Rate"
+                android:checkable="true"
+                app:showAsAction="ifRoom"/>
+            <item
+                android:icon="@drawable/ic_baseline_update_24"
+                android:id="@+id/drawer_update"
+                android:title="Update"
+                android:checkable="true"
+                app:showAsAction="ifRoom"/>
+            <item
+                android:icon="@drawable/ic_baseline_share_24"
+                android:id="@+id/drawer_share"
+                android:title="Share"
+                android:checkable="true"
+                app:showAsAction="ifRoom"/>
+
+            <item
+                android:icon="@drawable/ic_info_outline_white_24dp"
+                android:id="@+id/drawer_about"
+                android:title="About"
+                android:checkable="true"
+                app:showAsAction="ifRoom"/>
+            <item
+                android:icon="@drawable/ic_baseline_exit_to_app_24"
+                android:id="@+id/drawer_exit_app"
+                android:title="Exit"
+                android:checkable="true"
+                app:showAsAction="ifRoom"/>
+        </menu>
+    </item>
+</menu>

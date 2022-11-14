@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:padding="5dp"
+    android:background="#3F51B5"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:background="@color/white"
+        android:padding="5dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:padding="5dp"
+                android:src="@drawable/logo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+            <TextView
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/purple_500"
+                android:padding="5dp"
+                android:text="@string/downNotics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <TextView
+            android:textSize="16dp"
+            android:text="অডিও সুরাহ প্লে করতে হলে আপনাকে অবশ্যই তা আগে ডাউনলোড করতে হবে। আপনি নিচ থেকে আপনার পছন্দের অডিও ডাউনলোড করতে পারেন"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatButton
+
+                android:id="@+id/bt_sds"
+                android:backgroundTint="#00673AB7"
+                android:drawableLeft="@drawable/ic_baseline_cloud_download_24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="আব্দুর রহমান আল-সুদাইস"
+                android:textColor="@color/black"
+                android:textSize="14sp"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_basit"
+                android:backgroundTint="#00673AB7"
+                android:drawableLeft="@drawable/ic_baseline_cloud_download_24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="কারী আব্দুল বাসিত"
+                android:textColor="@color/black"
+                android:textSize="14sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_mishary"
+                android:backgroundTint="#00673AB7"
+                android:drawableLeft="@drawable/ic_baseline_cloud_download_24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="শাইখ মিশারী বিন রশিদ আল-আফাসি"
+                android:textColor="@color/black"
+                android:textSize="14sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_misharyBn"
+                android:backgroundTint="#00673AB7"
+                android:drawableLeft="@drawable/ic_baseline_cloud_download_24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="শাইখ মিশারী আল-আফাসি (বাংলা অনুবাদ)"
+                android:textColor="@color/black"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/popEnd"
+            android:layout_gravity="end"
+            android:text="Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>

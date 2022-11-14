@@ -1,0 +1,12 @@
+<TextView
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="30dp"
+    android:id="@android:id/title"
+    android:textColor="@color/common"
+    android:layout_width="match_parent"
+    android:fontFamily="@font/kalpurush"
+    android:layout_height="wrap_content"
+    android:textSize="16sp"
+    android:textStyle="bold"
+    android:textAllCaps="true"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

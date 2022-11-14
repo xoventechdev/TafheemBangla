@@ -1,0 +1,176 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
+
+
+
+
+
+
+    <string-array name="font_arabi_fonts">
+        <item>নূরে হুদা</item>
+        <item>নূর-ই-হিদায়াত</item>
+        <item>মি কুরআন</item>
+        <item>সালিম কুরআন</item>
+    </string-array>
+    <string-array name="font_arabi_fonts_values">
+        <item>noorehuda</item>
+        <item>noorehira</item>
+        <item>me_quran</item>
+        <item>scheherazade</item>
+    </string-array>
+    <string-array name="font_bangla_fonts">
+        <item>সুলাইমান লিপি</item>
+        <item>চারুকলা</item>
+        <item>কাল্পনা</item>
+    </string-array>
+    <string-array name="font_bangla_fonts_values">
+        <item>lipi</item>
+        <item>charu</item>
+        <item>kal</item>
+    </string-array>
+    <string-array name="items_nameAo">
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+        <item>26</item>
+        <item>28</item>
+        <item>30</item>
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>38</item>
+    </string-array>
+    <string-array name="items_nameAr">
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+        <item>26</item>
+        <item>28</item>
+        <item>30</item>
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>38</item>
+    </string-array>
+    <string-array name="items_nameBD">
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+        <item>26</item>
+        <item>28</item>
+        <item>30</item>
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>38</item>
+    </string-array>
+    <string-array name="items_nameTika">
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+        <item>26</item>
+        <item>28</item>
+        <item>30</item>
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>38</item>
+    </string-array>
+    <string-array name="items_valueAo">
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+        <item>26</item>
+        <item>28</item>
+        <item>30</item>
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>38</item>
+    </string-array>
+    <string-array name="items_valueAr">
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+        <item>26</item>
+        <item>28</item>
+        <item>30</item>
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>38</item>
+    </string-array>
+    <string-array name="items_valueBD">
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+        <item>26</item>
+        <item>28</item>
+        <item>30</item>
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>38</item>
+    </string-array>
+    <string-array name="items_valueTika">
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+        <item>26</item>
+        <item>28</item>
+        <item>30</item>
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>38</item>
+    </string-array>
+    <string-array name="name_Taf">
+        <item>অন</item>
+        <item>অফ</item>
+    </string-array>
+    <string-array name="name_Tai">
+        <item>অন</item>
+        <item>অফ</item>
+    </string-array>
+    <string-array name="value_Taf">
+        <item>on</item>
+        <item>off</item>
+    </string-array>
+    <string-array name="value_Tai">
+        <item>on</item>
+        <item>off</item>
+    </string-array>
+
+
+
+
+
+
+
+
+
+
+</resources>
