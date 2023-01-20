@@ -116,10 +116,11 @@ public class VerseFragment extends Fragment {
         String s = idSurah+"="+idVerse;
 
 
-        if (idSurah==1 || idSurah==9){
-            if(idVerse==1){
-                ((LinearLayout) view.findViewById(R.id.bishmillah)).setVisibility(View.GONE);
-            }
+        if (idSurah==9){
+            ((LinearLayout) view.findViewById(R.id.bishmillah)).setVisibility(View.GONE);
+//            if(idVerse==1){
+//                ((LinearLayout) view.findViewById(R.id.bishmillah)).setVisibility(View.GONE);
+//            }
         }
 
 

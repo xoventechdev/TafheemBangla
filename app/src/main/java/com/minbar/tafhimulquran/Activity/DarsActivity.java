@@ -4,17 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.preference.PreferenceManager;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.minbar.tafhimulquran.R;
+import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.FontFamily;
 import com.minbar.tafhimulquran.Utils.FontSize;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
 import com.minbar.tafhimulquran.databinding.ActivityDarsBinding;
+
+import es.dmoral.toasty.Toasty;
 
 public class DarsActivity extends AppCompatActivity {
 
@@ -35,6 +42,7 @@ public class DarsActivity extends AppCompatActivity {
         binding.content.setText(Html.fromHtml(dbHelper.getDarsContent(Integer.parseInt(is.getStringExtra("id")))));
         binding.content.setTypeface(FontFamily.getBangla(this));
         binding.content.setTextSize(2,Float.valueOf(FontSize.getBangla(this)));
+        binding.copyDars.setOnClickListener(v -> ForcopyDars());
 
         /*
         SharedPreferences ads = PreferenceManager.getDefaultSharedPreferences(this);
@@ -65,5 +73,12 @@ public class DarsActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void ForcopyDars(){
+        ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("দারসুল কুরআন", "দারসুল কুরআন : "+ "\n" + binding.title.getText().toString() + "\n" + binding.author.getText().toString() + "\n" + binding.content.getText().toString() +"\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + this.getPackageName()));
+        //Toast.makeText(VerseAdapter.mcontext, "This verse has been copied", Toast.LENGTH_SHORT).show();
+        Toasty.success(this, "দারসুল কুরআন কপি হয়েছে", Toast.LENGTH_SHORT, true).show();
+
+
     }
 }

@@ -173,12 +173,12 @@ public class SubVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                  mvh.share.setOnClickListener(v -> {
                      Intent intent = new Intent("android.intent.action.SEND");
                      intent.setType("text/plain");
-                     intent.putExtra("android.intent.extra.TEXT", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + mvh.banglaAyat.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + SubVerseAdapter.mcontext.getPackageName());
+                     intent.putExtra("android.intent.extra.TEXT", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + model.getBangla() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + SubVerseAdapter.mcontext.getPackageName());
                      SubVerseAdapter.mcontext.startActivity(Intent.createChooser(intent, "Share the verse"));
                  });
                  mvh.copy_ayat.setOnClickListener(v -> {
                      Context context = SubVerseAdapter.mcontext;
-                     ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + mvh.banglaAyat.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + SubVerseAdapter.mcontext.getPackageName()));
+                     ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + model.getBangla() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + SubVerseAdapter.mcontext.getPackageName()));
                      //Toast.makeText(VerseAdapter.mcontext, "This verse has been copied", Toast.LENGTH_SHORT).show();
                      Toasty.success(SubVerseAdapter.mcontext, "The verse is copied.", Toast.LENGTH_SHORT, true).show();
 
@@ -243,11 +243,15 @@ public class SubVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         titleVerse.setText(strParts[0]+" : "+Config.ENtoBN(id_Parts[1]));
 
         ImageView clearLayout = (ImageView) dialog.findViewById(R.id.clearLayout);
-        clearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
+        clearLayout.setOnClickListener(v -> dialog.dismiss());
+
+        ((ImageView) dialog.findViewById(R.id.copyLayout)).setOnClickListener(v -> {
+
+            Context context = SubVerseAdapter.mcontext;
+            ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("শব্দে শন্দে তাফহীমুল কুরআন",
+                    "শব্দে শন্দে তাফহীমুল কুরআন \n"+strParts[0]+" : "+ Config.ENtoBN(id_Parts[1])+"\n"+
+                            copyWord(id) ));
+            Toasty.success(context, "আয়াতটি শব্দে শন্দে কপি হয়েছে", Toast.LENGTH_SHORT, true).show();
         });
 
         RecyclerView recycler = (RecyclerView) dialog.findViewById(R.id.wordListview);
@@ -263,6 +267,15 @@ public class SubVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         recycler.setAdapter(wordAdapter);
         dialog.show();
         dialog.getWindow().setAttributes(lp);
+    }
+    private String copyWord(String any){
+        StringBuilder query = new StringBuilder();
+        for (int i = 0; i <  dbHelper.getWord(any).size(); i++) {
+            String arabic = dbHelper.getWord(any).get(i).getArabic();
+            String bangla = dbHelper.getWord(any).get(i).getBangla();
+            query.append("আরাবিক - বাংলা : "+arabic+" - "+bangla).append("\n");
+        }
+        return query.toString();
     }
 
 

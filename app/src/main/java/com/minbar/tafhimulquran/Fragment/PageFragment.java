@@ -65,17 +65,20 @@ public class PageFragment extends Fragment {
             String verseId = null;
             String forOneNine;
 
-            if (pageVerseModals.get(i).getSurahID() == 1 || pageVerseModals.get(i).getSurahID() == 9){
-                if (pageVerseModals.get(i).getVerseId()==1){
-                    content = pageVerseModals.get(i).getContent();
-                    verseId = String.valueOf(pageVerseModals.get(i).getVerseId());
-                    forOneNine = "<br>"+dbHelper.getSurahName(pageVerseModals.get(i).getSurahID())+"<br>";
-                    query.append(forOneNine).append(content).append("(").append(Config.ENtoBN(verseId)).append(")");
-                }else {
-                    content = pageVerseModals.get(i).getContent();
-                    verseId = String.valueOf(pageVerseModals.get(i).getVerseId());
-                    query.append(content).append("("+ Config.ENtoBN(verseId)+")");
-                }
+            if (pageVerseModals.get(i).getSurahID() == 9){
+                content = pageVerseModals.get(i).getContent();
+                verseId = String.valueOf(pageVerseModals.get(i).getVerseId());
+                query.append(content).append("("+ Config.ENtoBN(verseId)+")");
+//                if (pageVerseModals.get(i).getVerseId()==1){
+//                    content = pageVerseModals.get(i).getContent();
+//                    verseId = String.valueOf(pageVerseModals.get(i).getVerseId());
+//                    forOneNine = "<br>"+dbHelper.getSurahName(pageVerseModals.get(i).getSurahID())+"<br>";
+//                    query.append(forOneNine).append(content).append("(").append(Config.ENtoBN(verseId)).append(")");
+//                }else {
+//                    content = pageVerseModals.get(i).getContent();
+//                    verseId = String.valueOf(pageVerseModals.get(i).getVerseId());
+//                    query.append(content).append("("+ Config.ENtoBN(verseId)+")");
+//                }
             }else {
                 if (pageVerseModals.get(i).getVerseId()==0){
                     content = "<br>"+dbHelper.getSurahName(pageVerseModals.get(i).getSurahID());

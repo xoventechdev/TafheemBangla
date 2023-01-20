@@ -21,15 +21,25 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
+                android:id="@+id/title_verse"
+                android:layout_width="374dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:fontFamily="@font/kalpurush"
                 android:paddingStart="5dp"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:id="@+id/title_verse"
                 android:text="@string/app_name"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+
+            <ImageView
+                android:src="@drawable/ic_baseline_content_copy_24"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/copyLayout"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <ImageView

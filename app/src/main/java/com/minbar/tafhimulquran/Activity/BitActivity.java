@@ -55,10 +55,6 @@ public class BitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_bit);
 
-
-
-
-
         Intent is = getIntent();
         int surah_id = Integer.parseInt(is.getStringExtra("surah_id"));
         dbHelper = new SqlLiteDbHelper(this);
@@ -68,22 +64,15 @@ public class BitActivity extends AppCompatActivity {
 
         fileName = "xoventech_s"+is.getStringExtra("surah_id")+"_v"+is.getStringExtra("verse_en")+".png";
 
-
         binding.arabic.setText(is.getStringExtra("arabicTxt"));
 
-
-        String getbangla = is.getStringExtra("banglaTxt").replace("০","").replace("১","").replace("২","").replace("৩","").replace("৪","").replace("৫","").replace("৬","").replace("৭","").replace("৮","").replace("৯","");
-
-
+        String getbangla = is.getStringExtra("banglaTxt").replace("০","").replace("১","").replace("২","").replace("৩","").replace("৪","").replace("৫","").replace("৬","").replace("৭","").replace("৮","").replace("৯","").replace(" - তাফহীমুল কুরআন","");
 
         binding.bangla.setText(getbangla);
         binding.ref.setText("-- "+dbHelper.getSurahName(surah_id)+", আয়াতঃ "+is.getStringExtra("verse_id")+" --");
 
         int arLength = is.getStringExtra("arabicTxt").length();
         int bnLength = is.getStringExtra("banglaTxt").length();
-
-        //Toasty.warning(getApplicationContext(), String.valueOf(arLength)+" = "+String.valueOf(bnLength), Toasty.LENGTH_LONG).show();
-
 
         if (arLength > 650) {
             binding.arabic.setTextSize(16);

@@ -61,7 +61,7 @@ public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.AudioItemsViewHol
 
         model= (VerseModel) recycleritems.get(position);
 
-        if(model.getSurahID()==1 || model.getSurahID()==9){
+        if(model.getSurahID()==9){
             vv  = String.format("%03d", model.getSurahID())+String.format("%03d", position+1);
         }else {
             vv  = String.format("%03d", model.getSurahID())+String.format("%03d", position);

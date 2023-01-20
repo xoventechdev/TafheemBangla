@@ -242,7 +242,7 @@ public class FavVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      public int getItemViewType(int position) {
          return item_data;
          /*
-         if(VerseActivity.surahid==1 || VerseActivity.surahid==9){
+         if(VerseActivity.surahid==9){
                  return item_data;
          } else {
              if(position == 0)

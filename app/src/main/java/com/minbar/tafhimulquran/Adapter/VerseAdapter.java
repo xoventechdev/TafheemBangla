@@ -56,7 +56,6 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
        private static final int item_data=1;
        private static final int item_banner=0;
-    String getBangla;
 
     SqlLiteDbHelper dbHelper;
     TextToSpeech  quranSpeech;
@@ -136,7 +135,7 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                  mvh.playSingle.setOnClickListener(v -> {
 
-                     if(model.getSurahID()==1 || model.getSurahID()==9){
+                     if(model.getSurahID()==9){
                          vv  = String.format("%03d", model.getSurahID())+String.format("%03d", position+1);
                      }else {
                          vv  = String.format("%03d", model.getSurahID())+String.format("%03d", position);
@@ -177,10 +176,6 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                          Toasty.warning(mcontext, "Please, Download File", Toasty.LENGTH_SHORT).show();
                      }
 
-
-
-                     //if (mediaPlayer != null)
-                        // updatePlayingView();
 
 
         /*
@@ -259,19 +254,19 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                  mvh.share.setOnClickListener(v -> {
                      Intent intent = new Intent("android.intent.action.SEND");
                      intent.setType("text/plain");
-                     intent.putExtra("android.intent.extra.TEXT", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + getBangla + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + VerseAdapter.mcontext.getPackageName());
+                     intent.putExtra("android.intent.extra.TEXT", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + model.getBangla() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + VerseAdapter.mcontext.getPackageName());
                      VerseAdapter.mcontext.startActivity(Intent.createChooser(intent, "আয়াতটি শেয়ার করুন"));
                  });
+
                  mvh.copy_ayat.setOnClickListener(v -> {
                      Context context = VerseAdapter.mcontext;
-                     ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + getBangla + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + VerseAdapter.mcontext.getPackageName()));
+                     ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + model.getBangla() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + VerseAdapter.mcontext.getPackageName()));
                      //Toast.makeText(VerseAdapter.mcontext, "This verse has been copied", Toast.LENGTH_SHORT).show();
                      Toasty.success(VerseAdapter.mcontext, "আয়াত কপি হয়েছে", Toast.LENGTH_SHORT, true).show();
 
                  });
 
                  mvh.relativeLayout.setOnClickListener(v -> {
-
                      Intent intent = new Intent(mcontext, SingleActivity.class);
                      //Intent intent = new Intent(mcontext, TafheemActivity.class);
                      intent.putExtra("surah_id",String.valueOf(model.getSurahID()));
@@ -282,26 +277,22 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                      mcontext.startActivity(intent);
                  });
 
-
                  mvh.bit.setOnClickListener(v -> {
-
                      Intent intent = new Intent(mcontext, BitActivity.class);
                      intent.putExtra("surah_id",String.valueOf(model.getSurahID()));
                      intent.putExtra("verse_id",mvh.ayat_no.getText().toString());
                      intent.putExtra("verse_en",verse_id);
-                     intent.putExtra("arabicTxt",model.getArabic());
-                     intent.putExtra("banglaTxt",model.getBangla());
+                     intent.putExtra("arabicTxt",mvh.arabic.getText().toString());
+                     intent.putExtra("banglaTxt",mvh.banglaAyat.getText().toString());
                      mcontext.startActivity(intent);
                  });
-
                  break;
-
              case item_banner:
+
+
              default:
                  banneraddviewholder bvh=(banneraddviewholder) holder;
          }
-
-
      }
 
     private static void updateNonPlayingView(VerseAdapter.myviewholder mvh) {
@@ -319,7 +310,7 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
      public int getItemViewType(int position) {
-         if(VerseActivity.surahid==1 || VerseActivity.surahid==9){
+         if(VerseActivity.surahid==9){
                  return item_data;
          } else {
              if(position == 0)
@@ -431,15 +422,13 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 case R.id.playSingle: {
 
 
-                    if(model.getSurahID()==1 || model.getSurahID()==9){
+                    if(model.getSurahID()==9){
                         vv  = String.format("%03d", model.getSurahID())+String.format("%03d", model.getVerseID()-1);
                     }else {
                         vv  = String.format("%03d", model.getSurahID())+String.format("%03d", model.getVerseID());
                     }
                     singleMp3 = "https://www.everyayah.com/data/Alafasy_64kbps/"+vv+".mp3";
-
                     Toasty.success(mcontext, singleMp3, Toasty.LENGTH_SHORT).show();
-
                     if (getAdapterPosition() == currentPlayingPosition) {
                         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                             mediaPlayer.pause();
@@ -456,11 +445,7 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             mediaPlayer.release();
                         }
                         playingHolder = this;
-
-                        //PlaySound(singleMp3);//put your audio file
                     }
-
-
                     if (mediaPlayer != null){
                         if (mediaPlayer.isPlaying()) {
                             playingHolder.playSingle.setImageResource(com.arges.sepan.argmusicplayer.R.drawable.arg_pause);
@@ -471,7 +456,6 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
                 break;
             }
-
         }
     }
 
@@ -480,7 +464,6 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
              super(itemView);
          }
      }
-
 
     private static void PlaySound(String filesound, ImageView imageView) {
         mediaPlayer = MediaPlayer.create(mcontext, Uri.parse(filesound));
@@ -492,7 +475,6 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
         });
         mediaPlayer.start();
-
     }
 
 

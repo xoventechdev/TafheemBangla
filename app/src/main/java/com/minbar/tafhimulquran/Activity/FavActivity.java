@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.minbar.tafhimulquran.Adapter.FavVerseAdapter;
 import com.minbar.tafhimulquran.Adapter.WordAdapter;
@@ -110,27 +114,33 @@ public class FavActivity extends AppCompatActivity {
         TextView titleVerse = (TextView) dialog.findViewById(R.id.title_verse);
         titleVerse.setText(strParts[0]+" : "+ Config.ENtoBN(id_Parts[1]));
 
-        ImageView clearLayout = (ImageView) dialog.findViewById(R.id.clearLayout);
-        clearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
+
+
+        ((ImageView) dialog.findViewById(R.id.clearLayout)).setOnClickListener(v -> dialog.dismiss());
+        ((ImageView) dialog.findViewById(R.id.copyLayout)).setOnClickListener(v -> {
+            ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("শব্দে শন্দে তাফহীমুল কুরআন",
+                    "শব্দে শন্দে তাফহীমুল কুরআন \n"+strParts[0]+" : "+ Config.ENtoBN(id_Parts[1])+"\n"+
+                            copyWord(id) ));
+            Toasty.success(getApplicationContext(), "আয়াতটি শব্দে শন্দে কপি হয়েছে", Toast.LENGTH_SHORT, true).show();
         });
 
         RecyclerView recycler = (RecyclerView) dialog.findViewById(R.id.wordListview);
-        //recycler = (RecyclerView) findViewById(R.id.wordListview);
         WordAdapter wordAdapter = new WordAdapter(this,dbHelper.getWord(id));
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(layoutManager);
-        //recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        //recycler.setReverseLayout(true);
-        //recycler.setLayoutManager(new GridLayoutManager(this, 3));
-        //recycler.setLayoutManager(layoutManager);
         recycler.setAdapter(wordAdapter);
         dialog.show();
         dialog.getWindow().setAttributes(lp);
+    }
+    private String copyWord(String any){
+        StringBuilder query = new StringBuilder();
+        for (int i = 0; i <  dbHelper.getWord(any).size(); i++) {
+            String arabic = dbHelper.getWord(any).get(i).getArabic();
+            String bangla = dbHelper.getWord(any).get(i).getBangla();
+            query.append("আরাবিক - বাংলা : ").append(arabic).append(" - ").append(bangla).append("\n");
+        }
+        return query.toString();
     }
 
 }

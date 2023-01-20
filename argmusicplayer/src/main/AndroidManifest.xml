@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.arges.sepan.argmusicplayer">
 
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
@@ -25,7 +25,8 @@
         <service android:name=".ArgMusicService"
             android:enabled="true"
             android:exported="true"
-            android:permission="android.permission.INTERNET">
+            android:permission="android.permission.INTERNET"
+            tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="com.arges.intent.service.PLAYPAUSE"/>
                 <action android:name="com.arges.intent.service.NEXT"/>

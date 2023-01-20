@@ -218,7 +218,7 @@ public class VerseActivity extends AppCompatActivity {
 
 
 
-        if(surahid==1 || surahid==9){
+        if(surahid==9){
             totalVerse = verseModels.size();
             binding.seekVerse.setMin(0);
             binding.seekVerse.setMax(verseModels.size()-1);
@@ -329,7 +329,7 @@ public class VerseActivity extends AppCompatActivity {
         binding.seekVerse.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(surahid==1 || surahid==9){
+                if( surahid==9){
                     binding.nowItem.setText(Config.ENtoBN(String.valueOf(progress+1)));
                 }else {
                     binding.nowItem.setText(Config.ENtoBN(String.valueOf(progress)));
@@ -485,10 +485,18 @@ public class VerseActivity extends AppCompatActivity {
         titleVerse.setText(surah_Name+" : "+Config.ENtoBN(verseBN));
 
 
-        ((ImageView) dialog.findViewById(R.id.clearLayout)).setOnClickListener(v -> dialog.dismiss());
+        ((ImageView) dialog.findViewById(R.id.clearLayout)).setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+        ((ImageView) dialog.findViewById(R.id.copyLayout)).setOnClickListener(v -> {
+            ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("শব্দে শন্দে তাফহীমুল কুরআন",
+                    "শব্দে শন্দে তাফহীমুল কুরআন \n"+surah_Name+" : "+Config.ENtoBN(verseBN)+"\n"+
+                    copyWord(anyValue) ));
+            Toasty.success(this, "আয়াতটি শব্দে শন্দে কপি হয়েছে", Toast.LENGTH_SHORT, true).show();
+
+        });
 
         RecyclerView recycler = (RecyclerView) dialog.findViewById(R.id.wordListview);
-        //recycler = (RecyclerView) findViewById(R.id.wordListview);
         wordAdapter = new WordAdapter(this,mDatabase.getWord(anyValue));
         layoutManager = new LinearLayoutManager(this);
         recycler.setHasFixedSize(true);
@@ -498,7 +506,15 @@ public class VerseActivity extends AppCompatActivity {
         dialog.getWindow().setAttributes(lp);
     }
 
-
+    private String copyWord(String any){
+        StringBuilder query = new StringBuilder();
+        for (int i = 0; i <  mDatabase.getWord(any).size(); i++) {
+            String arabic = mDatabase.getWord(any).get(i).getArabic();
+            String bangla = mDatabase.getWord(any).get(i).getBangla();
+            query.append("আরাবিক - বাংলা : ").append(arabic).append(" - ").append(bangla).append("\n");
+        }
+        return query.toString();
+    }
 
 
     @Override

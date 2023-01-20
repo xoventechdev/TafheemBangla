@@ -51,7 +51,7 @@ public class SingleActivity extends AppCompatActivity {
         banglaTxt = getIntent().getStringExtra("banglaTxt");
         //Toasty.success(getApplicationContext(), String.valueOf(verse_id), Toasty.LENGTH_LONG, false).show();
 
-        if (surahid==1 || surahid==9){
+        if ( surahid==9){
         }else {
             verse_id = verse_id-1;
         }

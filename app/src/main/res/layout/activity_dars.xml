@@ -12,6 +12,21 @@
         android:layout_height="match_parent"
         tools:context=".Activity.DarsActivity">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/copy_dars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_baseline_content_copy_24"
+            app:fabSize="normal"
+            app:tint="@color/white"
+            android:backgroundTint="@color/common"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -23,6 +38,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:fontFamily="@font/kalpurush"
                     android:gravity="center_horizontal"
                     android:id="@+id/title"
@@ -34,6 +50,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:fontFamily="@font/kalpurush"
                     android:gravity="center_horizontal"
                     android:text="author md kamal hosen"
@@ -50,6 +67,7 @@
                     android:background="@color/black" />
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:textColor="#B0000000"
                     android:fontFamily="@font/kalpurush"
                     android:id="@+id/content"
