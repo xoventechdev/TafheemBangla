@@ -463,6 +463,54 @@ public class VerseActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    @SuppressLint("SetTextI18n")
+    public void ShowSurah1by1() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(1);
+        dialog.setContentView(R.layout.word_meaning_layout);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = -2;
+        lp.height = -2;
+
+        TextView titleVerse = (TextView) dialog.findViewById(R.id.title_verse);
+        titleVerse.setText("সুরাহ ফাতিহা, আয়াত - ০");
+
+
+        ((ImageView) dialog.findViewById(R.id.clearLayout)).setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+        ((ImageView) dialog.findViewById(R.id.copyLayout)).setVisibility(View.GONE);
+        TextView viewOne = (TextView) dialog.findViewById(R.id.viewOne);
+        viewOne.setVisibility(View.VISIBLE);
+
+        String s = "1"+"="+"0";
+        //Toasty.success(getApplicationContext(), s, Toasty.LENGTH_LONG).show();
+        StringBuilder query = new StringBuilder();
+        for (int i = 0; i < mDatabase.getTafheem(s).size(); i++) {
+            //Toasty.success(getApplicationContext(), dbHelper.getTafheem(s).get(i).toString(), Toasty.LENGTH_LONG).show();
+            String sss = mDatabase.getTafheem(s).get(i).toString();
+            //String[] strParts = sss.split("@");
+            query.append(sss).append("<br>");
+        }
+        String main = query.toString().replace("\\n","<br>").replace("[[","").replace("]]","");
+        if (main.isEmpty()){
+            viewOne.setText("এই আয়াতের তাফসীর নেই।");
+        } else {
+            viewOne.setText(Html.fromHtml(main));
+        }
+
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+
+
     @SuppressLint("SetTextI18n")
     public void wordByword(String anyValue) {
         //Toasty.success(getApplicationContext(), anyValue , Toasty.LENGTH_LONG).show();

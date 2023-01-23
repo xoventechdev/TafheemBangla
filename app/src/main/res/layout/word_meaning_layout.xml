@@ -55,6 +55,14 @@
             android:layout_height="0.5dp"
             android:background="@color/common"/>
 
+        <TextView
+            android:padding="2dp"
+            android:visibility="gone"
+            android:id="@+id/viewOne"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
         <androidx.recyclerview.widget.RecyclerView
             android:layout_gravity="center"
             android:gravity="center_horizontal"

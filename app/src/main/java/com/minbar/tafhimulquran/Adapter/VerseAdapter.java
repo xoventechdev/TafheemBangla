@@ -288,10 +288,16 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                  });
                  break;
              case item_banner:
-
-
+                 banneraddviewholder bvh =(banneraddviewholder) holder;
+                 model= (VerseModel) recycleritems.get(position);
+                 if(model.getSurahID()==1){
+                     bvh.surah1.setVisibility(View.VISIBLE);
+                     bvh.surah1Out.setOnClickListener(v -> {
+                         ((VerseActivity) v.getContext()).ShowSurah1by1();
+                     });
+                 }
              default:
-                 banneraddviewholder bvh=(banneraddviewholder) holder;
+
          }
      }
 
@@ -369,8 +375,7 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
          public ImageView share, copy_ayat, fav, bit, playSingle;
 
 
-         public myviewholder(@NonNull View itemView)
-         {
+         public myviewholder(@NonNull View itemView){
              super(itemView);
              this.ayat_no = (TextView) itemView.findViewById(R.id.ayat_no);
              this.arabic = (TextView) itemView.findViewById(R.id.arabic);
@@ -460,8 +465,16 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
      public static class banneraddviewholder extends RecyclerView.ViewHolder{
+         LinearLayout surah1Out;
+         TextView surah1;
          public banneraddviewholder(@NonNull View itemView) {
              super(itemView);
+             surah1Out = (LinearLayout) itemView.findViewById(R.id.surah1Out);
+             surah1 = (TextView)  itemView.findViewById(R.id.surah1);
+
+             this.surah1.setTypeface(FontFamily.getArabic(mcontext));
+             this.surah1.setTextSize(2, Float.valueOf(FontSize.getArabic(mcontext)));
+
          }
      }
 
