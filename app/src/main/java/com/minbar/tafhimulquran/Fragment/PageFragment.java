@@ -1,6 +1,7 @@
 package com.minbar.tafhimulquran.Fragment;
 
 import android.annotation.SuppressLint;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,6 @@ public class PageFragment extends Fragment {
     public static final String idPage = "1";
     SqlLiteDbHelper dbHelper;
     ArrayList<PageVerseModal> pageVerseModals;
-    PageVerseAdapter adapter;
     int surahID;
 
     @Override
@@ -95,6 +95,7 @@ public class PageFragment extends Fragment {
         String arabicTxt = query.toString();
 
         TextView arabicView = (TextView) view.findViewById(R.id.txtVerse);
+//        arabicView.setText(Html.fromHtml(arabicTxt));
         arabicView.setText(Html.fromHtml(arabicTxt));
         arabicView.setTypeface(FontFamily.getArabic(getActivity()));
         arabicView.setTextSize(2, Float.valueOf(FontSize.getArabic(getActivity())));

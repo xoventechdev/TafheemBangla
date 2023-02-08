@@ -33,9 +33,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.minbar.tafhimulquran.BuildConfig;
+import com.minbar.tafhimulquran.Daily.DailyActivity;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Adapter.ViewPagerAdapter;
 import com.minbar.tafhimulquran.Utils.Constant;
@@ -196,6 +198,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
  */
 
+        ((FloatingActionButton) findViewById(R.id.daily_fab)).setOnClickListener(v -> startActivity(new Intent(this,DailyActivity.class)));
+
         navigation_view = (NavigationView) findViewById(R.id.navigation_view);
         navigation_view.setNavigationItemSelectedListener(this);
 
@@ -308,7 +312,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 startActivity(new Intent(MainActivity.this, PageMainActivity.class));
                 this.drawerLayout.closeDrawer((int) GravityCompat.START);
                 return true;
-
+            case R.id.menu_dailyQuran :
+                startActivity(new Intent(MainActivity.this, DailyActivity.class));
+                this.drawerLayout.closeDrawer((int) GravityCompat.START);
+                return true;
 
             case R.id.drawer_share :
                 Intent intent = new Intent();

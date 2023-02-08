@@ -9,6 +9,12 @@
         android:title="@string/app_name">
         <menu>
             <item
+                android:icon="@drawable/quran_one"
+                android:id="@+id/menu_dailyQuran"
+                android:title="প্রতিদিন কুরআন - হাদীস"
+                android:checkable="true"
+                app:showAsAction="ifRoom"/>
+            <item
                 android:icon="@drawable/quran_chapa"
                 android:id="@+id/chapaQuran"
                 android:title="@string/chapa_quran"
