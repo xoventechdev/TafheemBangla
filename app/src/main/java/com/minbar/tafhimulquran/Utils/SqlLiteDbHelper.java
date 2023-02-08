@@ -10,6 +10,7 @@ import android.os.CancellationSignal;
 import com.minbar.tafhimulquran.Model.CharacterModel;
 import com.minbar.tafhimulquran.Model.CharacterSubModel;
 import com.minbar.tafhimulquran.Model.DarsModel;
+import com.minbar.tafhimulquran.Model.HadithModel;
 import com.minbar.tafhimulquran.Model.MapsModel;
 import com.minbar.tafhimulquran.Model.PageVerseModal;
 import com.minbar.tafhimulquran.Model.SenModel;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 
 public class SqlLiteDbHelper extends SQLiteAssetHelper {
     private static final String DATABASE_NAME = "tafheemul_quran1.db";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
 
     public SqlLiteDbHelper(Context context) {
         super(context, DATABASE_NAME, (SQLiteDatabase.CursorFactory) null, DATABASE_VERSION);
@@ -545,11 +546,35 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
 
 
 
+    public ArrayList<VerseModel> getDailyQuran(int i) {
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+        ArrayList<VerseModel> arrayList = new ArrayList<>();
+        Cursor rawQuery = readableDatabase.rawQuery("SELECT * FROM alquran WHERE id=? ORDER BY id ASC", new String[]{i + ""});
+        if (rawQuery != null) {
+            while (rawQuery.moveToNext()) {
+                arrayList.add(new VerseModel(rawQuery.getInt(0), rawQuery.getInt(4), rawQuery.getInt(5), rawQuery.getString(6), rawQuery.getString(11), rawQuery.getString(7), rawQuery.getString(10)));
+            }
+            rawQuery.close();
+            readableDatabase.close();
+        }
+        return arrayList;
+    }
 
 
 
-
-
+    public ArrayList<HadithModel> getDailyHadith(int i) {
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+        ArrayList<HadithModel> arrayList = new ArrayList<>();
+        Cursor rawQuery = readableDatabase.rawQuery("SELECT * FROM hadithmain WHERE HadithNo=? ORDER BY HadithNo ASC", new String[]{i + ""});
+        if (rawQuery != null) {
+            while (rawQuery.moveToNext()) {
+                arrayList.add(new HadithModel(rawQuery.getInt(5), rawQuery.getString(6), rawQuery.getString(7), rawQuery.getString(8), rawQuery.getString(9), rawQuery.getInt(11)));
+            }
+            rawQuery.close();
+            readableDatabase.close();
+        }
+        return arrayList;
+    }
 
 
 

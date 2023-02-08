@@ -8,27 +8,25 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!--
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/pageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/> -->
-
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
+
                 android:textIsSelectable="true"
-                android:layout_margin="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:id="@+id/txtVerse"
+                android:paddingBottom="20dp"
                 android:text="@string/app_name"
                 android:fontFamily="@font/saleem_quran"
                 android:textSize="26sp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

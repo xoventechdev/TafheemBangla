@@ -16,12 +16,9 @@ import com.minbar.tafhimulquran.Adapter.VerseAdapter;
 
 import org.w3c.dom.Text;
 
-import javax.inject.Inject;
-
 public class Config {
 
     private static Context context;
-    @Inject
     public Config(Context context) {
         this.context = context;
     }
@@ -72,6 +69,10 @@ public class Config {
             linearLayout.setVisibility(View.VISIBLE);
         }
     }
+    
+    
+    
+    
 
 
 }
