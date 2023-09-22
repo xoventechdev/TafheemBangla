@@ -48,6 +48,21 @@ public class SettingsActivity extends AppCompatActivity {
             this.f159sp = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
 
+            ListPreference bayaanList = (ListPreference) findPreference("bayaan");
+            String bstring = this.f159sp.getString("bayaan", (String) null);
+            if ("on".equals(bstring)) {
+                bayaanList.setSummary(bayaanList.getEntry());
+            } else if ("off".equals(bstring)) {
+                bayaanList.setSummary(bayaanList.getEntry());
+            }
+            bayaanList.setOnPreferenceChangeListener((preference, obj) -> {
+                ListPreference listPreference = (ListPreference) preference;
+                listPreference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String) obj)]);
+                return true;
+            });
+
+
+
 /*
             ListPreference theme = (ListPreference) findPreference("THEME_PREFERENCE");
             String stringTheme = this.f159sp.getString("THEME_PREFERENCE", (String) null);

@@ -2,12 +2,15 @@ package com.minbar.tafhimulquran.Daily;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.preference.PreferenceManager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +32,7 @@ public class DailyActivity extends AppCompatActivity {
 
     SqlLiteDbHelper dbHelper;
     ArrayList<VerseModel> data;
+    SharedPreferences setting;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -37,6 +41,8 @@ public class DailyActivity extends AppCompatActivity {
         binding= DataBindingUtil.setContentView(this,R.layout.activity_daily);
         getSupportActionBar().setTitle("প্রতিদিন কুরআন - হাদীস");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setting = PreferenceManager.getDefaultSharedPreferences(this);
 
         dbHelper = new SqlLiteDbHelper(this);
         getQuran();
@@ -70,9 +76,28 @@ public class DailyActivity extends AppCompatActivity {
         data = dbHelper.getDailyQuran(randomNum);
 
         binding.arabic.setText(data.get(0).getArabic());
-        binding.trans.setText(data.get(0).getTrans());
-        binding.banglaAyat.setText(Html.fromHtml(new Config(this).HideNumber(data.get(0).getBangla())));
-        binding.english.setText(data.get(0).getEnglish());
+        if (setting.getString("tafheem", "on").equals("off")) {
+            binding.arabicMeana.setVisibility(View.GONE);
+        }else {
+            binding.arabicMeana.setVisibility(View.VISIBLE);
+            binding.trans.setText(data.get(0).getTrans());
+        }
+
+        if (setting.getString("banglaOnubadh", "on").equals("off")) {
+            binding.VerseTai.setVisibility(View.GONE);
+        }else {
+            binding.VerseTai.setVisibility(View.VISIBLE);
+            binding.banglaAyat.setText(Html.fromHtml(new Config(this).HideNumber(data.get(0).getBangla())));
+        }
+
+
+        if (setting.getString("taisirul", "on").equals("off")) {
+            binding.enLayout.setVisibility(View.GONE);
+        }else {
+            binding.enLayout.setVisibility(View.VISIBLE);
+            binding.english.setText(data.get(0).getEnglish());
+        }
+
         binding.dailyQuranTag.setText(Html.fromHtml(dbHelper.getSurahName(data.get(0).getSurahID())+" - "+ Config.ENtoBN(String.valueOf(data.get(0).getVerseID()))+"</small></i> "));
     }
     private void getHadith(){
@@ -82,8 +107,23 @@ public class DailyActivity extends AppCompatActivity {
         data = dbHelper.getDailyHadith(randomNum);
 
         binding.arabicH.setText(data.get(0).getHadith_arabic());
-        binding.transH.setText(Html.fromHtml(data.get(0).getHadith_bangla()));
-        binding.banglaAyatH.setText(data.get(0).getHadith_english());
+
+        if (setting.getString("banglaOnubadh", "on").equals("off")) {
+            binding.arabicMeanaH.setVisibility(View.GONE);
+        }else {
+            binding.arabicMeanaH.setVisibility(View.VISIBLE);
+            binding.transH.setText(Html.fromHtml(data.get(0).getHadith_bangla()));
+        }
+
+
+        if (setting.getString("taisirul", "on").equals("off")) {
+            binding.VerseTaiH.setVisibility(View.GONE);
+        }else {
+            binding.VerseTaiH.setVisibility(View.VISIBLE);
+            binding.banglaAyatH.setText(data.get(0).getHadith_english());
+        }
+
+
         binding.dailyHadithTag.setText(Html.fromHtml("রিয়াদুস সালেহীন - "+ Config.ENtoBN(String.valueOf(data.get(0).getHadith_no()))+"</small></i> "));
         if (!data.get(0).getHadith_note().isEmpty()){
             binding.hadithNote.setText("নোটঃ- "+data.get(0).getHadith_note());

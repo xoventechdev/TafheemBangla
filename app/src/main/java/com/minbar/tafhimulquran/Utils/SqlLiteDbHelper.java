@@ -26,10 +26,10 @@ import java.util.ArrayList;
 
 public class SqlLiteDbHelper extends SQLiteAssetHelper {
     private static final String DATABASE_NAME = "tafheemul_quran1.db";
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
 
     public SqlLiteDbHelper(Context context) {
-        super(context, DATABASE_NAME, (SQLiteDatabase.CursorFactory) null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         setForcedUpgrade(DATABASE_VERSION);
     }
 
@@ -202,6 +202,27 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         }
         return list;
     }
+
+
+    @SuppressLint("Range")
+    public ArrayList  getBayaan(String anyValue) {
+        String[] strParts = anyValue.split("=");
+        int surahid = Integer.parseInt(strParts[0]);
+        int verseid = Integer.parseInt(strParts[1]);
+
+        ArrayList list = new ArrayList<String>();
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+        Cursor cursor = readableDatabase.rawQuery("SELECT content FROM bayaan WHERE surah_id="+surahid+" AND ayah_id="+verseid+" ORDER BY id ASC", (String[]) null, (CancellationSignal) null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                list.add(cursor.getString(cursor.getColumnIndex("content")));
+            }
+            cursor.close();
+            readableDatabase.close();
+        }
+        return list;
+    }
+
 
 
     public ArrayList<VerseModel> getFav(String s) {

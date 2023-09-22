@@ -138,6 +138,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/tafheemLayout"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -165,6 +166,44 @@
                         android:textSize="18sp"
                         android:textColor="@color/black"
                         android:id="@+id/tafheem"
+                        android:paddingStart="7dp"
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/bayaanLayout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+                <LinearLayout
+                    android:background="#F50057"
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:fontFamily="@font/kalpurush"
+                        android:textColor="#E91E63"
+                        android:textSize="20sp"
+                        android:text="আহসানুল বায়ান :-"
+                        android:textStyle="italic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:fontFamily="@font/kalpurush"
+                        android:text="bayaan"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:id="@+id/bayaan"
                         android:paddingStart="7dp"
                         android:paddingEnd="10dp"
                         android:layout_width="wrap_content"
