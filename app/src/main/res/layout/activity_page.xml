@@ -19,6 +19,15 @@
             android:layout_height="?actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+            <com.google.android.material.appbar.MaterialToolbar
+                android:background="@color/purple_500"
+                android:id="@+id/toolBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:subtitleTextColor="@color/white"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                app:titleTextColor="@color/white" />
+
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/toolbarLayout"
                 android:layout_width="match_parent"

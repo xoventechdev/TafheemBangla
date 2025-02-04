@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.minbar.tafhimulquran.Adapter.FragmentAdapter;
@@ -42,7 +44,9 @@ public class PageActivity extends AppCompatActivity {
         dbHelper = new SqlLiteDbHelper(this);
         pageId = getIntent().getIntExtra("pageId", 1);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.chapa_quran);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) MaterialToolbar toolbar = findViewById(R.id.toolBar);
+        toolbar.setTitle(R.string.chapa_quran);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         pPage = dbHelper.getPageList();

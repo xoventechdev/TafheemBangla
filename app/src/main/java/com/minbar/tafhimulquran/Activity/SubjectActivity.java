@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.minbar.tafhimulquran.Adapter.SubVerseAdapter;
 import com.minbar.tafhimulquran.Adapter.WordAdapter;
 import com.minbar.tafhimulquran.R;
@@ -40,10 +41,12 @@ public class SubjectActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_subject);
 
         Intent is = getIntent();
-        getSupportActionBar().setTitle(is.getStringExtra("sub_title"));
-        getSupportActionBar().setSubtitle(is.getStringExtra("sub_sub"));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) MaterialToolbar toolbar = findViewById(R.id.toolBar);
+        toolbar.setTitle(is.getStringExtra("sub_title"));
+        toolbar.setSubtitle(is.getStringExtra("sub_sub"));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dbHelper = new SqlLiteDbHelper(this);
 

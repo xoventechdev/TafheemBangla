@@ -1,5 +1,6 @@
 package com.minbar.tafhimulquran.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
@@ -22,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -30,6 +33,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -73,6 +77,8 @@ public class VerseActivity extends AppCompatActivity {
     ImageView delete;
     String audioUrl, audio_mishary, audio_basit,audio_bangla ;
     private int EXTERNAL_STORAGE_PERMISSION_CODE = 23;
+    private static final int STORAGE_PERMISSION_CODE = 100;
+
     public DownloadManager downloadManager;
     String filrName;
 
@@ -83,30 +89,18 @@ public class VerseActivity extends AppCompatActivity {
     int jhhh = 0;
     SharedPreferences sp;
 
+//    BroadcastReceiver onComplete = new BroadcastReceiver() {
+//        @SuppressLint("SetTextI18n")
+//        public void onReceive(Context ctxt, Intent intent) {
+//            delete.setVisibility(View.VISIBLE);
+//        }
+//    };
+
     BroadcastReceiver onComplete = new BroadcastReceiver() {
         @SuppressLint("SetTextI18n")
+        @Override
         public void onReceive(Context ctxt, Intent intent) {
-            //progressDoalog.setProgress(1);
-
-
-
-/*
-            asa = sp.getInt("tttttt",0);
-            jhhh = asa+1;
-            sp.edit().putInt("tttttt", jhhh).apply();
-            progressDoalog.setProgress(jhhh);
-
-            if (jhhh==totalVerse){
-                Toast.makeText(getApplicationContext(), String.valueOf(jhhh),Toast.LENGTH_SHORT).show();
-                progressDoalog.cancel();
-            }
-
-
- */
-
             delete.setVisibility(View.VISIBLE);
-            //Toast.makeText(getApplicationContext(), surah_Name + " ডাউনলোড হয়েছে",Toast.LENGTH_SHORT).show();
-            //Toasty.success(getApplicationContext(), surah_Name + " download successfully", Toasty.LENGTH_SHORT, true).show();
         }
     };
 
@@ -208,7 +202,7 @@ public class VerseActivity extends AppCompatActivity {
         //https://podcasts.qurancentral.com/mishary-rashid-alafasy/mishary-rashid-alafasy-111-muslimcentral.com.mp3
         audio_mishary = "https://podcasts.qurancentral.com/mishary-rashid-alafasy/mishary-rashid-alafasy-"+playID+"-muslimcentral.com.mp3";
         //https://podcasts.qurancentral.com/abdul-basit/abdul-basit-64-surah-111.mp3
-        audio_basit = "https://podcasts.qurancentral.com/abdul-basit/abdul-basit-64-surah-"+playID+".mp3";
+        audio_basit = "https://podcasts.qurancentral.com/abdul-basit/\"+playID+\".mp3";
         //http://www.truemuslims.net/Quran/Bangla/111.mp3
         audio_bangla = "http://www.truemuslims.net/Quran/Bangla/"+playID+".mp3";
 
@@ -287,8 +281,6 @@ public class VerseActivity extends AppCompatActivity {
                         .setRuntimeView(mRunTime)
                         .setTotalTimeView(mTotalTime);
             }
-
-
         });
 
 
@@ -311,7 +303,7 @@ public class VerseActivity extends AppCompatActivity {
         }
         delete.setOnClickListener(v -> {
             deleteFile();
-            delete.setVisibility(View.GONE);
+//            delete.setVisibility(View.GONE);
             //if (filePath.exists()){   filePath.delete();   }
         });
 
@@ -354,15 +346,21 @@ public class VerseActivity extends AppCompatActivity {
 
 
     public void deleteFile(){
-
-        String fileNeme = null;
-        for (int i = 1; i < totalVerse+1; i++) {
-            fileNeme = playID + String.format("%03d", i) + ".mp3";
-            File filePath = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + File.separator + playID + File.separator + fileNeme);
-            if (filePath.exists()){
-                filePath.delete();
-            }
+        File filePath = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + File.separator + filrName);
+        if (filePath.exists()){
+            filePath.delete();
+            delete.setVisibility(View.GONE);
         }
+
+//        String fileNeme = null;
+//        for (int i = 1; i < totalVerse+1; i++) {
+//            fileNeme = playID + String.format("%03d", i) + ".mp3";
+//            File filePath = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + File.separator + playID + File.separator + fileNeme);
+//            if (filePath.exists()){
+//                filePath.delete();
+//                delete.setVisibility(View.GONE);
+//            }
+//        }
     }
 
     public void askFile(){
@@ -398,13 +396,19 @@ public class VerseActivity extends AppCompatActivity {
                             request.setTitle(surah_Name).setDescription("File is downloading...").setDestinationInExternalFilesDir(VerseActivity.this, Environment.DIRECTORY_DOWNLOADS,  playID + File.separator +fileNeme).setNotificationVisibility(1);
                             VerseActivity.this.downloadManager.enqueue(request);
                             VerseActivity bookDetails = VerseActivity.this;
-                            bookDetails.registerReceiver(bookDetails.onComplete, new IntentFilter("android.intent.action.DOWNLOAD_COMPLETE"));
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // API level 26 and above
+                                bookDetails.registerReceiver(onComplete, new IntentFilter("android.intent.action.DOWNLOAD_COMPLETE"),
+                                        Context.RECEIVER_NOT_EXPORTED);  // Explicitly specify export status
+                            } else {
+                                bookDetails.registerReceiver(onComplete, new IntentFilter("android.intent.action.DOWNLOAD_COMPLETE"));
+                            }
                         }
                     }
                     return;
                 }
             }
-            requestPermission();
+//            requestPermission();
         }
 
 
@@ -440,9 +444,6 @@ public class VerseActivity extends AppCompatActivity {
          */
 
     }
-
-
-
 
     private void viewGoneAnimator(final View view) {
         view.animate()
@@ -621,7 +622,7 @@ public class VerseActivity extends AppCompatActivity {
         aboutContent.setTextSize(2, Float.valueOf(FontSize.getArabic(this)));
 
         ((ImageView) dialog.findViewById(R.id.copyLayout)).setOnClickListener(v -> {
-            ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText(mDatabase.getSurahName(surahid)+" এর ভূমিকা", mDatabase.getSurahName(surahid) +"  এর ভূমিকা"+"\n" + aboutContent.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + this.getPackageName()));
+            ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText(mDatabase.getSurahName(surahid)+" এর ভূমিকা", mDatabase.getSurahName(surahid) +"  এর ভূমিকা"+"\n" + aboutContent.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + this.getPackageName()));
             //Toast.makeText(VerseAdapter.mcontext, "This verse has been copied", Toast.LENGTH_SHORT).show();
             Toasty.success(this, "ভূমিকা কপি হয়েছে", Toast.LENGTH_SHORT, true).show();
         });
@@ -636,19 +637,97 @@ public class VerseActivity extends AppCompatActivity {
     }
 
     public boolean checkPermission() {
-        if (ContextCompat.checkSelfPermission(this, "android.permission.WRITE_EXTERNAL_STORAGE") == 0) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) { // Android 14 (API 34+)
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{
+                                android.Manifest.permission.READ_MEDIA_IMAGES,
+                                android.Manifest.permission.READ_MEDIA_VIDEO,
+                                android.Manifest.permission.READ_MEDIA_AUDIO
+                        }, STORAGE_PERMISSION_CODE);
+            } else {
+                return true;
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13 (API 33)
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{
+                                android.Manifest.permission.READ_MEDIA_IMAGES,
+                                android.Manifest.permission.READ_MEDIA_VIDEO,
+                                android.Manifest.permission.READ_MEDIA_AUDIO
+                        }, STORAGE_PERMISSION_CODE);
+            } else {
+                return true;
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { // Android 10-12 (API 29-32)
             return true;
+        } else { // Android 6-9 (API 23-28)
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{
+                                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        }, STORAGE_PERMISSION_CODE);
+            } else {
+                return true;
+            }
         }
         return false;
     }
 
-    public void requestPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE"}, this.EXTERNAL_STORAGE_PERMISSION_CODE);
-        //ActivityCompat.requestPermissions(this, new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 100);
+//    public void requestPermission() {
+//        ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE"}, this.EXTERNAL_STORAGE_PERMISSION_CODE);
+//    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+            } else {
+                boolean showRationale = false;
+                for (String permission : permissions) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+                        showRationale = true;
+                        break;
+                    }
+                }
+
+                if (showRationale) {
+                    // User denied permission but did NOT select "Don't ask again" → Ask again
+                    Toast.makeText(this, "Permission Required!", Toast.LENGTH_SHORT).show();
+                    checkPermission(); // Request permission again
+                } else {
+                    // User denied permission and selected "Don't ask again" → Redirect to settings
+                    showSettingsDialog();
+                }
+            }
+        }
     }
 
-
-
+    // Show dialog to go to app settings
+    private void showSettingsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Permission Required")
+                .setMessage("Storage permission is needed. Please enable it in settings.")
+                .setPositiveButton("Go to Settings", (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            Uri.fromParts("package", getPackageName(), null));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
 
 
     public void showdOWNLOAD() {
@@ -693,22 +772,34 @@ public class VerseActivity extends AppCompatActivity {
     }
 
     public void dowbloadFile(String url){
+
         if (checkPermission()) {
+
+            Toasty.info(getApplicationContext(), "হচ্ছে.... PP", Toast.LENGTH_SHORT, true).show();
+
             if (!Config.isConnected(this)) {
                 Toasty.warning(getApplicationContext(), "আপনার ইন্টারনেট বদ্ধ থাকায় ডাউনলোড সম্ভব না।", Toast.LENGTH_SHORT, true).show();
                 //Toast.makeText(getApplicationContext(),"আপনার ইন্টারনেট বদ্ধ থাকায় ডাউনলোড সম্ভব না।",Toast.LENGTH_SHORT).show();
             } else {
+
                 DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
                 request.setTitle(surah_Name).setDescription("File is downloading...").setDestinationInExternalFilesDir(VerseActivity.this, Environment.DIRECTORY_DOWNLOADS, VerseActivity.this.filrName).setNotificationVisibility(1);
                 VerseActivity.this.downloadManager.enqueue(request);
                 Toasty.info(getApplicationContext(), surah_Name+ " ডাউনলোড হচ্ছে....", Toast.LENGTH_SHORT, true).show();
                 //Toast.makeText(VerseActivity.this.getApplicationContext(), surah_Name + "  ডাউনলোড হচ্ছে....", Toast.LENGTH_SHORT).show();
                 VerseActivity bookDetails = VerseActivity.this;
-                bookDetails.registerReceiver(bookDetails.onComplete, new IntentFilter("android.intent.action.DOWNLOAD_COMPLETE"));
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // API level 26 and above
+                    bookDetails.registerReceiver(onComplete, new IntentFilter("android.intent.action.DOWNLOAD_COMPLETE"),
+                            Context.RECEIVER_NOT_EXPORTED);  // Explicitly specify export status
+                } else {
+                    bookDetails.registerReceiver(onComplete, new IntentFilter("android.intent.action.DOWNLOAD_COMPLETE"));
+                }
                 return;
             }
         }
-        requestPermission();
+
+//        requestPermission();
     }
 
 

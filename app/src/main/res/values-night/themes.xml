@@ -37,6 +37,11 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
         <item name="android:background">#722196F3</item>
     </style>
+  <!-- Base application theme. -->
+    <style name="Base.Theme.KitabTafheem" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    </style>
 
 
 

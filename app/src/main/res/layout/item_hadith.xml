@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:orientation="vertical"
+    android:id="@+id/ayat_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="16dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/ayat_header_background"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <TextView
+            android:text="111"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:id="@+id/hadithNumber"
+            android:background="@drawable/count_background"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingHorizontal="5dp"
+            android:layout_marginStart="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+
+        <ImageView
+            android:visibility="invisible"
+            android:id="@+id/hadithFav"
+            android:background="@drawable/about_background"
+            android:paddingStart="5dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="6dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="12dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:src="@drawable/ic_baseline_favorite_border_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/hadithShare"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/hadithShare"
+            android:background="@drawable/about_background"
+            android:paddingStart="5dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="7dp"
+            android:paddingBottom="6dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="12dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:src="@drawable/ic_baseline_share_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/hadithCopy"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/hadithCopy"
+            android:background="@drawable/about_background"
+            android:padding="6dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="12dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:src="@drawable/ic_baseline_content_copy_black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:layout_margin="3dp">
+
+
+        <!-- Arabic Hadith -->
+        <TextView
+            android:id="@+id/tv_arabic_hadith"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="22sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Bangla Translation -->
+        <TextView
+            android:id="@+id/tv_bangla_hadith"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dialog_title"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_arabic_hadith"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Narrator -->
+        <TextView
+            android:id="@+id/tv_narrator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/tv_bangla_hadith"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Grade -->
+        <TextView
+            android:id="@+id/tv_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_green_light"
+            android:textSize="16sp"
+            android:fontFamily="@font/kalpurush"
+            app:layout_constraintTop_toBottomOf="@id/tv_bangla_hadith"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

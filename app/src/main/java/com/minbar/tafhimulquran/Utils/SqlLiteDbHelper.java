@@ -26,13 +26,12 @@ import java.util.ArrayList;
 
 public class SqlLiteDbHelper extends SQLiteAssetHelper {
     private static final String DATABASE_NAME = "tafheemul_quran1.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
 
     public SqlLiteDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         setForcedUpgrade(DATABASE_VERSION);
     }
-
 
     public ArrayList<SurahModel> getSurah() {
         SQLiteDatabase writableDatabase = getReadableDatabase();
@@ -48,7 +47,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         return arrayList;
     }
 
-
     public ArrayList<SubModel> getSub() {
         SQLiteDatabase readableDatabase = getReadableDatabase();
         ArrayList<SubModel> arrayList = new ArrayList<>();
@@ -62,8 +60,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         }
         return arrayList;
     }
-
-
 
     public ArrayList<DarsModel> getDars() {
         SQLiteDatabase readableDatabase = getReadableDatabase();
@@ -79,7 +75,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         return arrayList;
     }
 
-
     public ArrayList<VerseModel> getAyat(int i) {
         SQLiteDatabase readableDatabase = getReadableDatabase();
         ArrayList<VerseModel> arrayList = new ArrayList<>();
@@ -93,8 +88,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         }
         return arrayList;
     }
-
-
 
     public ArrayList<WordModel> getWord(String anyValue) {
 
@@ -132,9 +125,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         }
     }
 
-
-
-
     public ArrayList<VerseModel> getSubVerse(int i) {
         SQLiteDatabase readableDatabase = getReadableDatabase();
         ArrayList<VerseModel> arrayList = new ArrayList<>();
@@ -166,7 +156,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         }
     }
 
-
     @SuppressLint("Range")
     public ArrayList  getAboutContent(int i) {
         ArrayList list = new ArrayList<String>();
@@ -181,8 +170,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         }
         return list;
     }
-
-
 
     @SuppressLint("Range")
     public ArrayList  getTafheem(String anyValue) {
@@ -203,7 +190,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         return list;
     }
 
-
     @SuppressLint("Range")
     public ArrayList  getBayaan(String anyValue) {
         String[] strParts = anyValue.split("=");
@@ -223,8 +209,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         return list;
     }
 
-
-
     public ArrayList<VerseModel> getFav(String s) {
         SQLiteDatabase readableDatabase = getReadableDatabase();
         ArrayList<VerseModel> arrayList = new ArrayList<>();
@@ -238,8 +222,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         }
         return arrayList;
     }
-
-
     public ArrayList<VumikaModel> getVumika() {
         SQLiteDatabase readableDatabase = getReadableDatabase();
         ArrayList<VumikaModel> arrayList = new ArrayList<>();
@@ -253,7 +235,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         }
         return arrayList;
     }
-
 
     public ArrayList<VerseModel> getAyatSearchBn(String any) {
         SQLiteDatabase readableDatabase = getReadableDatabase();
@@ -269,7 +250,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         return arrayList;
     }
 
-
     public ArrayList<VerseModel> getAyatSearchEn(String any) {
         SQLiteDatabase readableDatabase = getReadableDatabase();
         ArrayList<VerseModel> arrayList = new ArrayList<>();
@@ -283,8 +263,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         }
         return arrayList;
     }
-
-
 
     public ArrayList<SurahModel> getSurahSerach(String any) {
         SQLiteDatabase writableDatabase = getReadableDatabase();
@@ -300,9 +278,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         return arrayList;
     }
 
-
-
-
     public ArrayList<MapsModel> getMaps() {
         SQLiteDatabase readableDatabase = getReadableDatabase();
         ArrayList<MapsModel> arrayList = new ArrayList<>();
@@ -316,8 +291,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         }
         return arrayList;
     }
-
-
 
     public ArrayList<CharacterModel> getChara() {
         SQLiteDatabase readableDatabase = getReadableDatabase();
@@ -333,7 +306,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         return arrayList;
     }
 
-
     public ArrayList<CharacterSubModel> getCharaSub(int i) {
         SQLiteDatabase readableDatabase = getReadableDatabase();
         ArrayList<CharacterSubModel> arrayList = new ArrayList<>();
@@ -347,8 +319,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         }
         return arrayList;
     }
-
-
 
     public ArrayList<SenModel> getSen(String anyValue) {
         String[] strParts = anyValue.split("=");
@@ -366,7 +336,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         return arrayList;
     }
 
-
     public ArrayList<SenSubModel> getSenSub(String anyValue) {
         String[] strParts = anyValue.split("=");
 
@@ -383,8 +352,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         return arrayList;
     }
 
-
-
     public ArrayList<VerseModel> getAyatOvidan(String i) {
         String[] strParts = i.split("=");
         SQLiteDatabase readableDatabase = getReadableDatabase();
@@ -400,15 +367,10 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
         return arrayList;
     }
 
-
-
     @SuppressLint("Range")
     public String[] getVerseList(int aa) {
-
-
         SQLiteDatabase readableDatabase = getReadableDatabase();
         Cursor cursor = readableDatabase.rawQuery("SELECT * FROM alquran WHERE sura_id="+aa+" AND NOT id=0 ORDER BY id ASC ", (String[]) null, (CancellationSignal) null);
-
         String[] array = new String[cursor.getCount()];
 
         int q = 0;
@@ -420,9 +382,7 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
 
         return array;
     }
-
-
-
+    
     @SuppressLint("Range")
     public String getTestBangla(String anyValue) {
         String[] strParts = anyValue.split("=");

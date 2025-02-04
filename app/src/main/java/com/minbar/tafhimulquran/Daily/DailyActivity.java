@@ -5,6 +5,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.preference.PreferenceManager;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,17 +17,24 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.minbar.tafhimulquran.Activity.SingleActivity;
 import com.minbar.tafhimulquran.Model.HadithModel;
 import com.minbar.tafhimulquran.Model.VerseModel;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.Config;
+import com.minbar.tafhimulquran.Utils.FontFamily;
+import com.minbar.tafhimulquran.Utils.FontSize;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
 import com.minbar.tafhimulquran.databinding.ActivityDailyBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
+
+import es.dmoral.toasty.Toasty;
 
 public class DailyActivity extends AppCompatActivity {
 
@@ -39,8 +49,17 @@ public class DailyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding= DataBindingUtil.setContentView(this,R.layout.activity_daily);
+
+        MaterialToolbar toolbar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("প্রতিদিন কুরআন - হাদীস");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        binding.copyDaily.setOnClickListener(v -> {
+            ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("আয়াত ও হাদিস", "আল কুরআন : "+binding.dailyQuranTag.getText().toString()+"\n"+ binding.arabic.getText().toString() + "\n" + binding.banglaAyat.getText().toString()+"\n\n"+"আল হাদিস : "+binding.dailyHadithTag.getText().toString()+"\n"+ binding.arabicH.getText().toString() + "\n" + binding.transH.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + this.getPackageName()));
+            Toasty.success(this, "আয়াত ও হাদিস কপি হয়েছে", Toast.LENGTH_SHORT, true).show();
+        });
 
         setting = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -59,8 +78,17 @@ public class DailyActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        binding.arabic.setTypeface(FontFamily.getArabic(this));
+        binding.arabicH.setTypeface(FontFamily.getArabic(this));
+        binding.banglaAyat.setTypeface(FontFamily.getBangla(this));
+        binding.trans.setTypeface(FontFamily.getBangla(this));
+        binding.transH.setTypeface(FontFamily.getBangla(this));
 
-
+        binding.arabic.setTextSize(2, Float.valueOf(FontSize.getArabic(this)));
+        binding.arabicH.setTextSize(2, Float.valueOf(FontSize.getArabic(this)));
+        binding.banglaAyat.setTextSize(2, Float.valueOf(FontSize.getBangla(this)));
+        binding.trans.setTextSize(2, Float.valueOf(FontSize.getBangla(this)));
+        binding.transH.setTextSize(2, Float.valueOf(FontSize.getBangla(this)));
 
     }
     @Override

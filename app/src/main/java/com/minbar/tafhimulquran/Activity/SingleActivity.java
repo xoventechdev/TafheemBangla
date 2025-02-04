@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.minbar.tafhimulquran.Adapter.FragmentAdapter;
@@ -56,12 +58,17 @@ public class SingleActivity extends AppCompatActivity {
             verse_id = verse_id-1;
         }
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(dbHelper.getSurahName(surahid));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        Objects.requireNonNull(getSupportActionBar()).setTitle(dbHelper.getSurahName(surahid));
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         //jcontent = arabicTxt+"="+transTxt+"@"+banglaTxt;
 
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) MaterialToolbar toolbar = findViewById(R.id.toolBar);
+        toolbar.setTitle(dbHelper.getSurahName(surahid));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TabLayout tabLayout = findViewById(R.id.toolbarLayout);
         ViewPager2 viewPager2 = findViewById(R.id.viewpager);

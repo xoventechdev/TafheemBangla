@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.minbar.tafhimulquran.Adapter.StarkAdapter;
 import com.minbar.tafhimulquran.Adapter.VerseAdapter;
 import com.minbar.tafhimulquran.Adapter.WordAdapter;
@@ -44,7 +45,10 @@ public class StarkActivity extends AppCompatActivity {
         String v = getIntent().getStringExtra("idSurah");
         String vv = getIntent().getStringExtra("idAyat");
         surah_Name = mDatabase.getSurahName(Integer.parseInt(v));
-        Objects.requireNonNull(getSupportActionBar()).setTitle(surah_Name);
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) MaterialToolbar toolbar = findViewById(R.id.toolBar);
+        toolbar.setTitle(surah_Name);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         verseModels = mDatabase.getAyatOvidan(v+"="+vv);

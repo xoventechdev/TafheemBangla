@@ -7,33 +7,49 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Activity.SubjectActivity">
+        android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:background="@color/purple_500"
+            android:id="@+id/toolBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            app:subtitleTextColor="@color/white"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            app:titleTextColor="@color/white" />
 
-            <LinearLayout
-                android:orientation="vertical"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_below="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".Activity.SubjectActivity">
+
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/subVerse"
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fadeScrollbars="true"
-                    app:fastScrollEnabled="true"
-                    app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
-                    app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
-                    app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
-                    app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+                    android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/subVerse"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fadeScrollbars="true"
+                        app:fastScrollEnabled="true"
+                        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+                        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+                        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+                        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+
 </layout>

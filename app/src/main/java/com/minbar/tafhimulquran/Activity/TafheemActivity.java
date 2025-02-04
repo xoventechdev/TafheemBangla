@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.preference.PreferenceManager;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.minbar.tafhimulquran.Adapter.VerseAdapter;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.Config;
@@ -50,7 +52,9 @@ public class TafheemActivity extends AppCompatActivity {
         dbHelper = new SqlLiteDbHelper(this);
         surahName = dbHelper.getSurahName(surah_id);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(surahName+" : "+Config.ENtoBN(is.getStringExtra("verse_id")));
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) MaterialToolbar toolbar = findViewById(R.id.toolBar);
+        toolbar.setTitle(surahName+" : "+Config.ENtoBN(is.getStringExtra("verse_id")));
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -118,7 +122,7 @@ public class TafheemActivity extends AppCompatActivity {
     }
 
     private void copyFatheem(){
-        ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", surahName +" : "+is.getStringExtra("verse_id")+"\n" + binding.arabic.getText().toString() + "\n" + binding.banglaAyat.getText().toString() + "\n\n" + "তাফহীমুল কুরআন - আল্লামা সাইয়েদ আবুল আলা মওদূদী রহঃ :-\n"+binding.tafheem.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + this.getPackageName()));
+        ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", surahName +" : "+is.getStringExtra("verse_id")+"\n" + binding.arabic.getText().toString() + "\n" + binding.banglaAyat.getText().toString() + "\n\n" + "তাফহীমুল কুরআন - আল্লামা সাইয়েদ আবুল আলা মওদূদী রহঃ :-\n"+binding.tafheem.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + this.getPackageName()));
         //Toast.makeText(VerseAdapter.mcontext, "This verse has been copied", Toast.LENGTH_SHORT).show();
         Toasty.success(getApplicationContext(), "The verse is copied.", Toast.LENGTH_SHORT, true).show();
 

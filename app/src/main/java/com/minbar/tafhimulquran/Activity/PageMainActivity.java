@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.minbar.tafhimulquran.Adapter.PageParaAdapter;
 import com.minbar.tafhimulquran.Adapter.PageSurahAdapter;
 import com.minbar.tafhimulquran.R;
@@ -25,7 +27,9 @@ public class PageMainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_page_main);
 
         //binding.pageItemList.
-        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.chapa_quran);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) MaterialToolbar toolbar = findViewById(R.id.toolBar);
+        toolbar.setTitle(R.string.chapa_quran);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         SqlLiteDbHelper dbHelper = new SqlLiteDbHelper(this);

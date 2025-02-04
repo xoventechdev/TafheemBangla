@@ -26,6 +26,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+
         <TextView
             android:textSize="18sp"
             android:id="@+id/surah_name_ayat"
@@ -36,6 +37,23 @@
             app:layout_constraintStart_toEndOf="@+id/ayat_no"
             app:layout_constraintTop_toTopOf="parent"/>
 
+        <ImageView
+            android:id="@+id/vNote"
+            android:background="@drawable/about_background"
+            android:paddingStart="5dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="6dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="12dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:src="@drawable/writing"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/bit"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/bit"

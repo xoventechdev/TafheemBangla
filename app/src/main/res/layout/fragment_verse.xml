@@ -194,7 +194,7 @@
                         android:fontFamily="@font/kalpurush"
                         android:textColor="#E91E63"
                         android:textSize="20sp"
-                        android:text="আহসানুল বায়ান :-"
+                        android:text="তাফসীরে ইবনে কাসীর :-"
                         android:textStyle="italic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -211,6 +211,43 @@
                         android:layout_marginStart="2dp" />
                 </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+            android:id="@+id/fezilalilLayout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
+            <LinearLayout
+                android:background="#FF5722"
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:fontFamily="@font/kalpurush"
+                    android:textColor="#FF5722"
+                    android:textSize="20sp"
+                    android:text="তাফসীর ফী যিলালিল কোরআন :-"
+                    android:textStyle="italic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:fontFamily="@font/kalpurush"
+                    android:text="fezilalil"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:id="@+id/fezilalil"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp" />
+            </LinearLayout>
+        </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -190,12 +190,12 @@
 
 
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:animateLayoutChanges="true"
                 android:id="@+id/lowerOut"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:layout_marginBottom="10dp">
 
                 <RelativeLayout
@@ -271,10 +271,13 @@
 
                                     <androidx.appcompat.widget.AppCompatSeekBar
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="10dp"
                                         android:id="@+id/seekVerse"
+                                        android:maxHeight="10dp"
+                                        android:minHeight="10dp"
                                         android:layout_gravity="center_horizontal"
                                         android:layout_below="@+id/koi" />
+
                                 </RelativeLayout>
                             </LinearLayout>
                         </LinearLayout>

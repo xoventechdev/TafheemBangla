@@ -29,6 +29,7 @@ import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.FontFamily;
 import com.minbar.tafhimulquran.Utils.FontSize;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
+import com.minbar.tafhimulquran.Utils.fezilalilDatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -59,7 +60,7 @@ public class VerseFragment extends Fragment {
     static TextView arabic;
     TextView trans;
     static TextView banglaAyat;
-    static TextView tafheem, bayaan ;
+    static TextView tafheem, bayaan, fezilalil ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,6 +105,7 @@ public class VerseFragment extends Fragment {
         banglaAyat = view.findViewById(R.id.banglaAyat);
         tafheem = view.findViewById(R.id.tafheem);
         bayaan = view.findViewById(R.id.bayaan);
+        fezilalil = view.findViewById(R.id.fezilalil);
 
 
         Config.BanglaOnubadh(view.findViewById(R.id.VerseTai), getActivity());
@@ -132,6 +134,7 @@ public class VerseFragment extends Fragment {
 
         arabic.setText(dbHelper.getTestArabic(s));
         trans.setText(dbHelper.getTestTras(s));
+
         banglaAyat.setText(Html.fromHtml(getBangla));
 
 
@@ -140,12 +143,14 @@ public class VerseFragment extends Fragment {
         banglaAyat.setTypeface(FontFamily.getBangla(getActivity()));
         tafheem.setTypeface(FontFamily.getBangla(getActivity()));
         bayaan.setTypeface(FontFamily.getBangla(getActivity()));
+        fezilalil.setTypeface(FontFamily.getBangla(getActivity()));
 
         arabic.setTextSize(2, Float.parseFloat(FontSize.getArabic(getActivity())));
         trans.setTextSize(2, Float.parseFloat(FontSize.getBangla(getActivity())));
         banglaAyat.setTextSize(2, Float.parseFloat(FontSize.getBangla(getActivity())));
         tafheem.setTextSize(2, Float.parseFloat(FontSize.getBangla(getActivity())));
         bayaan.setTextSize(2, Float.parseFloat(FontSize.getBangla(getActivity())));
+        fezilalil.setTextSize(2, Float.parseFloat(FontSize.getBangla(getActivity())));
 
 
 
@@ -186,14 +191,31 @@ public class VerseFragment extends Fragment {
         }
 
 
+        if (setting.getString("fezilalil", "off").equals("off")) {
+            view.findViewById(R.id.fezilalilLayout).setVisibility(View.GONE);
+        }else {
+            view.findViewById(R.id.fezilalilLayout).setVisibility(View.VISIBLE);
+            fezilalilDatabaseHelper fezilalilDatabaseHelper = new fezilalilDatabaseHelper(getActivity());
+            StringBuilder fezilalilquery = new StringBuilder();
+            for (int i = 0; i < fezilalilDatabaseHelper.getFezilalil(Config.ENtoBN(s)).size(); i++) {
+                String sss = fezilalilDatabaseHelper.getFezilalil(Config.ENtoBN(s)).get(i).toString();
+                fezilalilquery.append(sss).append("<br>");
+            }
+            
+            String fezilalilmain = fezilalilquery.toString().replace("[১]","<br><br><b>তাফসীরঃ-</b><br>[১]").replaceFirst(Pattern.quote("<br><br><b>তাফসীরঃ-</b><br>[১]"),"[১]").replace("[২]","<br><br>[২]").replaceFirst(Pattern.quote("<br><br>[২]"),"[২]").replace("[৩]","<br><br>[৩]").replaceFirst(Pattern.quote("<br><br>[৩]"),"[৩]").replace("[৪]","<br><br>[৪]").replaceFirst(Pattern.quote("<br><br>[৪]"),"[৪]");
+
+            if (fezilalilmain.isEmpty()){
+                fezilalil.setText("এই আয়াতের তাফসীর নেই।");
+            } else {
+                fezilalil.setText(Html.fromHtml(fezilalilmain));
+            }
+        }
     }
 
     public void ForcopyFatheem(){
-        ((ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("আয়াত", dbHelper.getSurahName(idSurah) +" : "+Config.ENtoBN(String.valueOf(idVerse))+"\n" + arabic.getText().toString() + "\n" + banglaAyat.getText().toString() + "\n\n" + "তাফহীমুল কুরআন - আল্লামা সাইয়েদ আবুল আলা মওদূদী রহঃ :-\n"+tafheem.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + getActivity().getPackageName()));
+        ((ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("আয়াত", dbHelper.getSurahName(idSurah) +" : "+Config.ENtoBN(String.valueOf(idVerse))+"\n" + arabic.getText().toString() + "\n" + banglaAyat.getText().toString() + "\n\n" + "তাফহীমুল কুরআন - আল্লামা সাইয়েদ আবুল আলা মওদূদী রহঃ :-\n"+tafheem.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + getActivity().getPackageName()));
         //Toast.makeText(VerseAdapter.mcontext, "This verse has been copied", Toast.LENGTH_SHORT).show();
         Toasty.success(getActivity(), "তাফসীর-সহ আয়াতটি কপি হয়েছে", Toast.LENGTH_SHORT, true).show();
-
-
     }
 
 

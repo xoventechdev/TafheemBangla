@@ -22,6 +22,7 @@ import android.os.StrictMode;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
 import com.minbar.tafhimulquran.databinding.ActivityBitBinding;
@@ -59,7 +60,9 @@ public class BitActivity extends AppCompatActivity {
         int surah_id = Integer.parseInt(is.getStringExtra("surah_id"));
         dbHelper = new SqlLiteDbHelper(this);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(dbHelper.getSurahName(surah_id)+" : "+is.getStringExtra("verse_id"));
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) MaterialToolbar toolbar = findViewById(R.id.toolBar);
+        toolbar.setTitle(dbHelper.getSurahName(surah_id)+" : "+is.getStringExtra("verse_id"));
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fileName = "xoventech_s"+is.getStringExtra("surah_id")+"_v"+is.getStringExtra("verse_en")+".png";

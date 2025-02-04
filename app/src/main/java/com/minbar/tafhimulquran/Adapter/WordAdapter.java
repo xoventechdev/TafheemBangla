@@ -43,7 +43,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder> {
         vh.bangla.setText(this.mDataFiltered.get(i).getBangla());
         vh.wordView.setOnClickListener(v -> {
             Context context = WordAdapter.mContext;
-            ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("শব্দে শন্দে তাফহীমুল কুরআন",  "আরাবিক : "+vh.arabic.getText().toString() + "\n"+"বাংলা : " + vh.bangla.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + WordAdapter.mContext.getPackageName()));
+            ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("শব্দে শন্দে তাফহীমুল কুরআন",  "আরাবিক : "+vh.arabic.getText().toString() + "\n"+"বাংলা : " + vh.bangla.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + WordAdapter.mContext.getPackageName()));
             //Toast.makeText(WordAdapter.mcontext, "This verse has been copied", Toast.LENGTH_SHORT).show();
             Toasty.success(WordAdapter.mContext, "শব্দটি কপি হয়েছে", Toast.LENGTH_SHORT, true).show();
         });

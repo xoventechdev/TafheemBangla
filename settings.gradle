@@ -15,7 +15,7 @@ dependencyResolutionManagement {
         maven { url = "https://repo.maven.apache.org/maven2" }
     }
 }
-rootProject.name = "Kitab Tafheem"
+rootProject.name = "Tafhimul Quran"
 include ':app'
 include ':AudioBox'
 include ':argmusicplayer'

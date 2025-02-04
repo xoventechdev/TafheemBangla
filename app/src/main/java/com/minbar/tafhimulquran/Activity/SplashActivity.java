@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 
+import com.minbar.tafhimulquran.Hadith.HadithChapterActivity;
 import com.minbar.tafhimulquran.R;
 
 public class SplashActivity extends AppCompatActivity {

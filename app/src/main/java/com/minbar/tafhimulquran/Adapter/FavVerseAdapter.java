@@ -175,7 +175,7 @@ public class FavVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                      public void onClick(View v) {
                          Intent intent = new Intent("android.intent.action.SEND");
                          intent.setType("text/plain");
-                         intent.putExtra("android.intent.extra.TEXT", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + mvh.banglaAyat.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + FavVerseAdapter.mcontext.getPackageName());
+                         intent.putExtra("android.intent.extra.TEXT", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + mvh.banglaAyat.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + FavVerseAdapter.mcontext.getPackageName());
                          FavVerseAdapter.mcontext.startActivity(Intent.createChooser(intent, "Share the verse"));
                      }
                  });
@@ -183,7 +183,7 @@ public class FavVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                      @Override
                      public void onClick(View v) {
                          Context context = FavVerseAdapter.mcontext;
-                         ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + mvh.banglaAyat.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + FavVerseAdapter.mcontext.getPackageName()));
+                         ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + mvh.banglaAyat.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + FavVerseAdapter.mcontext.getPackageName()));
                          //Toast.makeText(VerseAdapter.mcontext, "This verse has been copied", Toast.LENGTH_SHORT).show();
                          Toasty.success(FavVerseAdapter.mcontext, "The verse is copied.", Toast.LENGTH_SHORT, true).show();
 

@@ -20,9 +20,6 @@
             app:key="ProFONT"
             app:title="বাংলা ফন্ট সাইজ" />
         <!--
-
-
-
         <ListPreference
             android:defaultValue="THEME_WHITE_BLUE"
             android:dialogTitle="@string/theme_preference_dialog_title"
@@ -31,11 +28,6 @@
             android:key="THEME_PREFERENCE"
             android:title="@string/theme_preference_title"
             app:useSimpleSummaryProvider="true" />
-
-
-
-
-
           <PreferenceCategory
         android:layout="@layout/preferences_category"
         app:title="নাইট মোড">
@@ -46,9 +38,6 @@
             app:summaryOn="নাইট মোড এক্টিভ হয়েছে"
             app:title="নাইট মোড"/>
     </PreferenceCategory>
-
-
-
     <ListPreference
             app:defaultValue="20"
             app:entries="@array/items_nameTika"
@@ -62,8 +51,6 @@
             app:key="AnotherFONT"
             app:title="অন্যান্য ফন্ট সাইজ"/>
 -->
-
-
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preferences_category"
@@ -90,7 +77,14 @@
             app:entries="@array/name_Taf"
             app:entryValues="@array/value_Taf"
             app:key="bayaan"
-            app:title="আহসানুল বায়ান তাফসীর" />
+            app:title="তাফসীরে ইবনে কাসীর" />
+
+        <ListPreference
+        app:defaultValue="off"
+        app:entries="@array/name_Taf"
+        app:entryValues="@array/value_Taf"
+        app:key="fezilalil"
+        app:title="তাফসীর ফী যিলালিল কোরআন" />
 
         <ListPreference
             app:defaultValue="on"
@@ -105,7 +99,6 @@
             app:entryValues="@array/value_Tai"
             app:key="banglaOnubadh"
             app:title="বাংলা অনুবাদ" />
-
 
         <ListPreference
             app:defaultValue="on"
@@ -134,7 +127,6 @@
             app:entryValues="@array/value_Taf"
             app:key="scollingHide"
             app:title="আয়াত স্কোলিং লেআউট" />
-
 
         <!--
 

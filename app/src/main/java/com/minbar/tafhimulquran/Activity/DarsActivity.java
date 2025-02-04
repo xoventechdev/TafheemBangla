@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.preference.PreferenceManager;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.FontFamily;
@@ -32,7 +34,9 @@ public class DarsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_dars);
 
-        getSupportActionBar().setTitle("দারসুল কুরআন");
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) MaterialToolbar toolbar = findViewById(R.id.toolBar);
+        toolbar.setTitle("দারসুল কুরআন");
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent is = getIntent();
@@ -75,7 +79,7 @@ public class DarsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public void ForcopyDars(){
-        ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("দারসুল কুরআন", "দারসুল কুরআন : "+ "\n" + binding.title.getText().toString() + "\n" + binding.author.getText().toString() + "\n" + binding.content.getText().toString() +"\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + this.getPackageName()));
+        ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("দারসুল কুরআন", "দারসুল কুরআন : "+ "\n" + binding.title.getText().toString() + "\n" + binding.author.getText().toString() + "\n" + binding.content.getText().toString() +"\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + this.getPackageName()));
         //Toast.makeText(VerseAdapter.mcontext, "This verse has been copied", Toast.LENGTH_SHORT).show();
         Toasty.success(this, "দারসুল কুরআন কপি হয়েছে", Toast.LENGTH_SHORT, true).show();
 

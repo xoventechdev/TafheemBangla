@@ -38,10 +38,13 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.minbar.tafhimulquran.BuildConfig;
 import com.minbar.tafhimulquran.Daily.DailyActivity;
+import com.minbar.tafhimulquran.Hadith.HadithChapterActivity;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Adapter.ViewPagerAdapter;
 import com.minbar.tafhimulquran.Utils.Constant;
 import com.minbar.tafhimulquran.Utils.CustomDrawerButton;
+import com.minbar.tafhimulquran.Utils.DatabaseHelper;
+import com.minbar.tafhimulquran.Utils.DatabaseInitializer;
 import com.minbar.tafhimulquran.Utils.FontFamily;
 import com.minbar.tafhimulquran.Utils.Methods;
 import com.onesignal.OneSignal;
@@ -63,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     String ayatCount;
     String location;
 
+    private static final String PREFS_NAME = "HadithAppPrefs";
+    private static final String KEY_FIRST_LAUNCH = "first_launch";
 
 
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -124,6 +129,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
 
 
+
+//        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+//        boolean isFirstLaunch = prefs.getBoolean(KEY_FIRST_LAUNCH, true);
+//        DatabaseHelper dbHelper = new DatabaseHelper(this);
+//
+//        if (isFirstLaunch) {
+//            DatabaseInitializer.initializeDatabase(this, dbHelper);
+//
+//            SharedPreferences.Editor editor = prefs.edit();
+//            editor.putBoolean(KEY_FIRST_LAUNCH, false);
+//            editor.apply();
+//        }
+
+
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -135,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         customDrawerButton.setDrawerLayout( drawerLayout );
         customDrawerButton.getDrawerLayout().addDrawerListener( customDrawerButton );
         customDrawerButton.setOnClickListener(v -> customDrawerButton.changeState());
-
 
 
 
@@ -290,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 try {
                     startActivity(new Intent("android.intent.action.VIEW", Uri.parse("market://details?id=" + getPackageName())));
                 } catch (ActivityNotFoundException e) {
-                    startActivity(new Intent("android.intent.action.VIEW", Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+                    startActivity(new Intent("android.intent.action.VIEW", Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
                 }
                 this.drawerLayout.closeDrawer((int) GravityCompat.START);
                 return true;
@@ -314,6 +332,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 return true;
             case R.id.menu_dailyQuran :
                 startActivity(new Intent(MainActivity.this, DailyActivity.class));
+                this.drawerLayout.closeDrawer((int) GravityCompat.START);
+                return true;
+
+            case R.id.menu_riadus :
+                startActivity(new Intent(MainActivity.this, HadithChapterActivity.class));
                 this.drawerLayout.closeDrawer((int) GravityCompat.START);
                 return true;
 
@@ -365,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             try {
                 MainActivity.this.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("market://details?id=" + MainActivity.this.getPackageName())));
             } catch (ActivityNotFoundException e) {
-                MainActivity.this.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("http://play.google.com/store/apps/details?id=" + MainActivity.this.getPackageName())));
+                MainActivity.this.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("https://play.google.com/store/apps/details?id=" + MainActivity.this.getPackageName())));
             }
         });
         dialog.findViewById(R.id.bt_close).setOnClickListener(v -> dialog.dismiss());
@@ -402,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         builder.setPositiveButton((CharSequence) "হ্যাঁ", (dialogInterface, i) -> MainActivity.this.finish());
         builder.setNegativeButton((CharSequence) "না", (dialogInterface, i) -> dialogInterface.cancel());
         builder.setNeutralButton((CharSequence) "৫ স্টার দিন", (dialogInterface, i) -> {
-            Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("http://play.google.com/store/apps/details?id=" + MainActivity.this.getPackageName()));
+            Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("https://play.google.com/store/apps/details?id=" + MainActivity.this.getPackageName()));
             startActivity(intent);
         });
         builder.create().show();

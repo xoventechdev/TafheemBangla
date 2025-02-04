@@ -6,321 +6,364 @@
     <data>
 
     </data>
-
-    <androidx.core.widget.NestedScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <LinearLayout
-            android:orientation="vertical"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbarlayout"
+            android:fitsSystemWindows="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".Daily.DailyActivity">
+            android:layout_height="wrap_content"
+            app:liftOnScroll="true">
 
-            <LinearLayout
-                android:id="@+id/daily_quran"
-                android:orientation="vertical"
-                android:layout_margin="10dp"
-                android:background="@drawable/round_daily"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:background="@color/purple_500"
+                android:id="@+id/toolBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="?attr/actionBarSize"
+                app:subtitleTextColor="@color/white"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                app:titleTextColor="@color/white" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-                <TextView
-                    android:textColor="@color/black"
-                    android:gravity="center"
-                    android:textSize="24sp"
-                    android:padding="5dp"
-                    android:text="আল কুরআন"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_gravity="center"
-                    android:id="@+id/daily_quranTag"
-                    android:textSize="16sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-
-                <LinearLayout
-                    android:id="@+id/arabicLayout"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="3dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/arabic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginTop="6dp"
-                            android:layout_marginRight="12dp"
-                            android:fontFamily="@font/noorehuda"
-                            android:textColor="@color/black"
-                            android:textSize="30sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:background="#3F51B5"
-                        android:layout_width="3dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:id="@+id/arabicMeana"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp">
-
-                    <LinearLayout
-                        android:background="#3F51B5"
-                        android:layout_width="3dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp" />
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/trans"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp"
-                            android:gravity="start"
-                            android:fontFamily="@font/kalpurush"
-                            android:paddingStart="7dp"
-                            android:paddingEnd="10dp"
-                            android:textColor="#9C27B0"
-                            android:textSize="20sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:id="@+id/VerseTai"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp">
-
-                    <LinearLayout
-                        android:background="#E91E63"
-                        android:layout_width="3dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp" />
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:fontFamily="@font/kalpurush"
-                            android:textColor="@color/black"
-                            android:textSize="20sp"
-                            android:gravity="start"
-                            android:id="@+id/banglaAyat"
-                            android:paddingStart="7dp"
-                            android:paddingEnd="10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/enLayout"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp">
-
-                    <LinearLayout
-                        android:background="#3F51B5"
-                        android:layout_width="3dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp" />
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:textSize="20sp"
-                            android:gravity="start"
-                            android:fontFamily="@font/kalpurush"
-                            android:textColor="@color/black"
-                            android:id="@+id/english"
-                            android:paddingStart="7dp"
-                            android:paddingEnd="10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-            </LinearLayout>
+        <androidx.core.widget.NestedScrollView
+            android:layout_below="@+id/appbarlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_margin="10dp"
-                android:background="@drawable/round_daily"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:textColor="@color/black"
-                    android:gravity="center"
-                    android:textSize="24sp"
-                    android:padding="5dp"
-                    android:text="আল হাদীস"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_gravity="center"
-                    android:id="@+id/daily_hadithTag"
-                    android:textSize="16sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-
+                android:layout_height="match_parent"
+                tools:context=".Daily.DailyActivity">
 
                 <LinearLayout
-                    android:id="@+id/arabicHLayout"
-                    android:orientation="horizontal"
+                    android:id="@+id/daily_quran"
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/round_daily"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp">
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:padding="5dp"
+                        android:text="আল কুরআন"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:id="@+id/daily_quranTag"
+                        android:textSize="16sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
 
                     <LinearLayout
+                        android:id="@+id/arabicLayout"
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="3dp"
-                        android:orientation="vertical">
+                        android:layout_marginBottom="5dp">
 
-                        <TextView
-                            android:id="@+id/arabicH"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginTop="6dp"
-                            android:layout_marginRight="12dp"
-                            android:fontFamily="@font/noorehuda"
-                            android:textColor="@color/black"
-                            android:textSize="30sp" />
+                            android:layout_marginEnd="3dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/arabic"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="6dp"
+                                android:layout_marginRight="12dp"
+                                android:fontFamily="@font/noorehuda"
+                                android:textColor="@color/black"
+                                android:textSize="30sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:background="#3F51B5"
+                            android:layout_width="3dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:background="#3F51B5"
-                        android:layout_width="3dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp" />
+                        android:orientation="horizontal"
+                        android:id="@+id/arabicMeana"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp">
+
+                        <LinearLayout
+                            android:background="#3F51B5"
+                            android:layout_width="3dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp" />
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/trans"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="2dp"
+                                android:gravity="start"
+                                android:fontFamily="@font/kalpurush"
+                                android:paddingStart="7dp"
+                                android:paddingEnd="10dp"
+                                android:textColor="#9C27B0"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:id="@+id/VerseTai"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp">
+
+                        <LinearLayout
+                            android:background="#E91E63"
+                            android:layout_width="3dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp" />
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:fontFamily="@font/kalpurush"
+                                android:textColor="@color/black"
+                                android:textSize="20sp"
+                                android:gravity="start"
+                                android:id="@+id/banglaAyat"
+                                android:paddingStart="7dp"
+                                android:paddingEnd="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="2dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/enLayout"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp">
+
+                        <LinearLayout
+                            android:background="#3F51B5"
+                            android:layout_width="3dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp" />
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textSize="20sp"
+                                android:gravity="start"
+                                android:fontFamily="@font/kalpurush"
+                                android:textColor="@color/black"
+                                android:id="@+id/english"
+                                android:paddingStart="7dp"
+                                android:paddingEnd="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="2dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:id="@+id/arabicMeanaH"
+                    android:orientation="vertical"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/round_daily"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp">
+                    android:layout_height="wrap_content">
 
-                    <LinearLayout
-                        android:background="#3F51B5"
-                        android:layout_width="3dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp" />
-
-                    <LinearLayout
-                        android:orientation="vertical"
+                    <TextView
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:padding="5dp"
+                        android:text="আল হাদীস"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content" />
 
-                        <TextView
-                            android:id="@+id/transH"
+                    <TextView
+                        android:layout_gravity="center"
+                        android:id="@+id/daily_hadithTag"
+                        android:textSize="16sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+
+                    <LinearLayout
+                        android:id="@+id/arabicHLayout"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp">
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp"
-                            android:gravity="start"
-                            android:fontFamily="@font/kalpurush"
-                            android:paddingStart="7dp"
-                            android:paddingEnd="10dp"
-                            android:textColor="#9C27B0"
-                            android:textSize="20sp" />
+                            android:layout_marginEnd="3dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/arabicH"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginTop="6dp"
+                                android:layout_marginRight="12dp"
+                                android:fontFamily="@font/noorehuda"
+                                android:textColor="@color/black"
+                                android:textSize="30sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:background="#3F51B5"
+                            android:layout_width="3dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp" />
                     </LinearLayout>
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:id="@+id/VerseTaiH"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp">
 
                     <LinearLayout
-                        android:background="#E91E63"
-                        android:layout_width="3dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp" />
-
-                    <LinearLayout
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
+                        android:id="@+id/arabicMeanaH"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp">
 
-                        <TextView
-                            android:fontFamily="@font/kalpurush"
-                            android:textColor="@color/black"
-                            android:textSize="20sp"
-                            android:gravity="start"
-                            android:id="@+id/banglaAyatH"
-                            android:paddingStart="7dp"
-                            android:paddingEnd="10dp"
+                        <LinearLayout
+                            android:background="#3F51B5"
+                            android:layout_width="3dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp" />
+
+                        <LinearLayout
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp" />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/transH"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="2dp"
+                                android:gravity="start"
+                                android:fontFamily="@font/kalpurush"
+                                android:paddingStart="7dp"
+                                android:paddingEnd="10dp"
+                                android:textColor="#9C27B0"
+                                android:textSize="20sp" />
+                        </LinearLayout>
                     </LinearLayout>
+
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:id="@+id/VerseTaiH"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp">
+
+                        <LinearLayout
+                            android:background="#E91E63"
+                            android:layout_width="3dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp" />
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:fontFamily="@font/kalpurush"
+                                android:textColor="@color/black"
+                                android:textSize="20sp"
+                                android:gravity="start"
+                                android:id="@+id/banglaAyatH"
+                                android:paddingStart="7dp"
+                                android:paddingEnd="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="2dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:textColor="@color/black"
+                        android:padding="15dp"
+                        android:id="@+id/hadithStatus"
+                        android:textSize="20sp"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:textColor="@color/black"
+                        android:padding="15dp"
+                        android:id="@+id/hadithNote"
+                        android:textSize="20sp"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
                 </LinearLayout>
 
-
-                <TextView
-                    android:textColor="@color/black"
-                    android:padding="15dp"
-                    android:id="@+id/hadithStatus"
-                    android:textSize="20sp"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:textColor="@color/black"
-                    android:padding="15dp"
-                    android:id="@+id/hadithNote"
-                    android:textSize="20sp"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
+        </androidx.core.widget.NestedScrollView>
 
-        </LinearLayout>
+    </RelativeLayout>
 
-    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/copyDaily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="TODO"
+        android:src="@drawable/ic_baseline_content_copy_24"
+        app:fabSize="normal"
+        app:tint="@color/white"
+        android:backgroundTint="@color/common"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

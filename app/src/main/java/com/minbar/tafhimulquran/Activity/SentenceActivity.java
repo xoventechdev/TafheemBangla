@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.minbar.tafhimulquran.Adapter.CharacterAdapter;
 import com.minbar.tafhimulquran.Adapter.SenAdapter;
 import com.minbar.tafhimulquran.R;
@@ -33,7 +34,9 @@ public class SentenceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sentence);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(getIntent().getStringExtra("title"));
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) MaterialToolbar toolbar = findViewById(R.id.toolBar);
+        toolbar.setTitle(getIntent().getStringExtra("title"));
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dbHelper = new SqlLiteDbHelper(this);

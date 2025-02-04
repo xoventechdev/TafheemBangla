@@ -7,75 +7,91 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Activity.DarsActivity">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/copy_dars"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_baseline_content_copy_24"
-            app:fabSize="normal"
-            app:tint="@color/white"
-            android:backgroundTint="@color/common"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-        <androidx.core.widget.NestedScrollView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:background="@color/purple_500"
+            android:id="@+id/toolBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            app:subtitleTextColor="@color/white"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            app:titleTextColor="@color/white" />
 
-            <LinearLayout
-                android:padding="5dp"
-                android:orientation="vertical"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_below="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".Activity.DarsActivity">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/copy_dars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/ic_baseline_content_copy_24"
+                app:fabSize="normal"
+                app:tint="@color/white"
+                android:backgroundTint="@color/common"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:textIsSelectable="true"
-                    android:fontFamily="@font/kalpurush"
-                    android:gravity="center_horizontal"
-                    android:id="@+id/title"
-                    android:text="@string/app_name"
-                    android:textColor="@color/black"
+                <LinearLayout
                     android:padding="5dp"
-                    android:textSize="22sp"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:textIsSelectable="true"
-                    android:fontFamily="@font/kalpurush"
-                    android:gravity="center_horizontal"
-                    android:text="author md kamal hosen"
-                    android:id="@+id/author"
-                    android:textSize="20sp"
-                    android:padding="2dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:textIsSelectable="true"
+                        android:fontFamily="@font/kalpurush"
+                        android:gravity="center_horizontal"
+                        android:id="@+id/title"
+                        android:text="@string/app_name"
+                        android:textColor="@color/black"
+                        android:padding="5dp"
+                        android:textSize="22sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-                <View
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.3dp"
-                    android:background="@color/black" />
+                    <TextView
+                        android:textIsSelectable="true"
+                        android:fontFamily="@font/kalpurush"
+                        android:gravity="center_horizontal"
+                        android:text="author md kamal hosen"
+                        android:id="@+id/author"
+                        android:textSize="20sp"
+                        android:padding="2dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-                <TextView
-                    android:textIsSelectable="true"
-                    android:textColor="#B0000000"
-                    android:fontFamily="@font/kalpurush"
-                    android:id="@+id/content"
-                    android:textSize="20sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+                    <View
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.3dp"
+                        android:background="@color/black" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:textIsSelectable="true"
+                        android:textColor="#B0000000"
+                        android:fontFamily="@font/kalpurush"
+                        android:id="@+id/content"
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+
 </layout>

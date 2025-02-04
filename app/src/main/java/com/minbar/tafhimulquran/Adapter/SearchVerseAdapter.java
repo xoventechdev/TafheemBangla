@@ -179,12 +179,12 @@ public class SearchVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                  mvh.share.setOnClickListener(v -> {
                      Intent intent = new Intent("android.intent.action.SEND");
                      intent.setType("text/plain");
-                     intent.putExtra("android.intent.extra.TEXT", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + mvh.banglaAyat.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + SearchVerseAdapter.mcontext.getPackageName());
+                     intent.putExtra("android.intent.extra.TEXT", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + mvh.banglaAyat.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + SearchVerseAdapter.mcontext.getPackageName());
                      SearchVerseAdapter.mcontext.startActivity(Intent.createChooser(intent, "Share the verse"));
                  });
                  mvh.copy_ayat.setOnClickListener(v -> {
                      Context context = SearchVerseAdapter.mcontext;
-                     ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + mvh.banglaAyat.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttp://play.google.com/store/apps/details?id=" + SearchVerseAdapter.mcontext.getPackageName()));
+                     ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + mvh.banglaAyat.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + SearchVerseAdapter.mcontext.getPackageName()));
                      //Toast.makeText(VerseAdapter.mcontext, "This verse has been copied", Toast.LENGTH_SHORT).show();
                      Toasty.success(SearchVerseAdapter.mcontext, "The verse is copied.", Toast.LENGTH_SHORT, true).show();
 

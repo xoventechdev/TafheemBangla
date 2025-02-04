@@ -3,10 +3,12 @@ package com.minbar.tafhimulquran.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.LoadAds;
 
@@ -19,7 +21,9 @@ public class TajwidActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tajwid);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("তাজবিদ");
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) MaterialToolbar toolbar = findViewById(R.id.toolBar);
+        toolbar.setTitle("তাজবিদ");
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 

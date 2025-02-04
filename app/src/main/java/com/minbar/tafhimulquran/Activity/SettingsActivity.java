@@ -1,8 +1,19 @@
 package com.minbar.tafhimulquran.Activity;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,27 +22,45 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.minbar.tafhimulquran.R;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private static final String FILE_NAME = "fezilalilquran.db";
+//    private static final String FILE_URL = "https://archive.org/download/fezilalilquran/fezilalilquran.db";
+    private static final String FILE_URL = "https://drive.google.com/uc?export=download&id=1RcOX7KHAib10l8i0yBAuZ4Es2-PwJlDQ";
+    public static Context settingContext;
+    public static  ProgressDialog progressDialog;
+    public static AtomicBoolean isDownloadCancelled = new AtomicBoolean(false);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+
+        settingContext = SettingsActivity.this;
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) MaterialToolbar toolbar = findViewById(R.id.toolBarS);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle(R.string.main_toolbar_setting);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
-        ActionBar actionBar = getSupportActionBar();
 
-        actionBar.setTitle(R.string.main_toolbar_setting);
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
@@ -46,6 +75,54 @@ public class SettingsActivity extends AppCompatActivity {
 
 
             this.f159sp = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+
+
+
+
+            ListPreference fezilalilList = (ListPreference) findPreference("fezilalil");
+            String fztring = this.f159sp.getString("fezilalil", (String) null);
+            if ("on".equals(fztring)) {
+                fezilalilList.setSummary(fezilalilList.getEntry());
+            } else if ("off".equals(fztring)) {
+                fezilalilList.setSummary(fezilalilList.getEntry());
+            }
+
+            fezilalilList.setOnPreferenceChangeListener((preference, newValue) -> {
+                String newValueStr = (String) newValue;
+
+                if ("on".equals(newValueStr)) {
+                    // Check if the file exists
+                    File databaseFile = getActivity().getDatabasePath(FILE_NAME);
+
+
+//                    File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+//                    File outputFile = new File(storageDir, FILE_NAME);
+//                    Toast.makeText(settingContext, String.valueOf(databaseFile), Toast.LENGTH_LONG).show();
+
+                    if (!isDatabaseComplete(settingContext, "6352")) {
+                        // Show download popup
+                        showDownloadPopup(preference);
+                        return false; // Don't update the preference until the download is complete
+                    } else {
+                        // File exists, allow the preference to be updated
+                        ListPreference listPreference = (ListPreference) preference;
+                        listPreference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue(newValueStr)]);
+                        return true;
+                    }
+                } else {
+                    // If turning off, just update the summary
+                    ListPreference listPreference = (ListPreference) preference;
+                    listPreference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue(newValueStr)]);
+                    return true;
+                }
+            });
+
+
+//            fezilalilList.setOnPreferenceChangeListener((preference, obj) -> {
+//                ListPreference listPreference = (ListPreference) preference;
+//                listPreference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue((String) obj)]);
+//                return true;
+//            });
 
 
             ListPreference bayaanList = (ListPreference) findPreference("bayaan");
@@ -427,4 +504,174 @@ public class SettingsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+    public static void showDownloadPopup(Preference preference) {
+        new AlertDialog.Builder(settingContext)
+                .setTitle("তাফসীর ফী যিলালিল কোরআন")
+                .setMessage("তাফসীর ফী যিলালিল কোরআন এর ডাটাবেস আপনার মোবাইলে ডাউনলোড করা নেই। আপনি কি এটা ডাউনলোড করতে চাচ্ছেন? ফাইল সাইজ প্রায় ৪৩ এমবি।")
+                .setPositiveButton("ডাউনলোড", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Start the download
+                        isDownloadCancelled.set(false); // Reset the cancellation flag
+                        new DownloadTask(preference).execute(FILE_URL);
+                    }
+                })
+                .setNegativeButton("বাদ দিন", null)
+                .show();
+    }
+
+    public static  class DownloadTask extends AsyncTask<String, Integer, File> {
+        private Preference preference;
+
+        public DownloadTask(Preference preference) {
+            this.preference = preference;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // Show a ProgressDialog with a Cancel button
+            progressDialog = new ProgressDialog(settingContext);
+            progressDialog.setTitle("ডাটাবেস ডাউনলোড হচ্ছে");
+            progressDialog.setMessage("অনুগ্রহ করে অপেক্ষা করুন...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setCancelable(false);
+            progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "বাদ দিন", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    isDownloadCancelled.set(true); // Set the cancellation flag
+                    progressDialog.dismiss();
+                }
+            });
+            progressDialog.show();
+        }
+
+        @Override
+        protected File doInBackground(String... urls) {
+            try {
+                URL url = new URL(urls[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.connect();
+
+                // Get the file length for progress calculation
+                int fileLength = connection.getContentLength();
+
+                // Create a file in the app's database directory
+                File databaseFile = settingContext.getDatabasePath(FILE_NAME);
+                File parentDir = databaseFile.getParentFile();
+                if (!parentDir.exists()) {
+                    parentDir.mkdirs(); // Create the databases directory if it doesn't exist
+                }
+
+                InputStream inputStream = connection.getInputStream();
+                FileOutputStream outputStream = new FileOutputStream(databaseFile);
+
+                byte[] buffer = new byte[1024];
+                int total = 0;
+                int length;
+                while ((length = inputStream.read(buffer)) != -1) {
+                    if (isDownloadCancelled.get()) {
+                        // Stop the download if cancelled
+                        inputStream.close();
+                        outputStream.close();
+                        databaseFile.delete(); // Delete the partially downloaded file
+                        return null;
+                    }
+
+                    outputStream.write(buffer, 0, length);
+                    total += length;
+
+                    // Publish progress as a percentage
+                    if (fileLength > 0) { // Only if file length is known
+                        int progress = (int) (total * 100 / fileLength);
+                        publishProgress(progress);
+                    }
+                }
+
+                outputStream.close();
+                inputStream.close();
+
+                return databaseFile;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            if (progressDialog != null) {
+                progressDialog.setProgress(values[0]); // Update the progress bar
+            }
+        }
+
+        @Override
+        protected void onPostExecute(File file) {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+
+            if (file != null) {
+                // File downloaded successfully, update the preference
+                ListPreference listPreference = (ListPreference) preference;
+                listPreference.setValue("on");
+                listPreference.setSummary(listPreference.getEntry());
+                Toast.makeText(settingContext, "ডাউনলোড সম্পূর্ণ হয়েছে", Toast.LENGTH_SHORT).show();
+            } else {
+                if (isDownloadCancelled.get()) {
+                    Toast.makeText(settingContext, "ডাউনলোড বাদ দেওয়া হয়েছে", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(settingContext, "ডাউনলোড ব্যর্থ হয়েছে", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    public static boolean isDatabaseComplete(Context context, String expectedRowCount) {
+
+        boolean isComplete = false;
+        File databaseFile = settingContext.getDatabasePath(FILE_NAME);
+        if(!databaseFile.exists()){
+            return isComplete;
+        }
+
+        // Open the database
+        String dbPath = context.getDatabasePath("fezilalilquran.db").getAbsolutePath();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
+
+        // Query to count the rows in the table
+        String tableName = "expl";
+
+        try {
+            Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + tableName, null);
+
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int rowCount = cursor.getInt(0);  // Get the row count from the query
+                Log.d("RowCount", "Total rows in " + tableName + ": " + rowCount);
+
+                // Check if the row count matches the expected value
+                if (String.valueOf(rowCount).equals(expectedRowCount)) {
+                    isComplete = true;
+                }
+                cursor.close();
+            }
+
+            // Close the database
+            db.close();
+        }catch (Exception e){
+            databaseFile.delete();
+            isComplete = false;
+        }
+
+
+
+        return isComplete;
+    }
+
 }

@@ -9,28 +9,42 @@
     android:padding="5dp"
     tools:context=".Activity.TajwidActivity">
 
-<androidx.core.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:background="@color/color_ikhfa"
-            android:text="ইখফা"
-            android:textSize="22dp"
-            android:fontFamily="@font/kalpurush"
-            android:textColor="@color/white"
-            android:padding="5dp"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:background="@color/purple_500"
+            android:id="@+id/toolBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:padding="2dp"
-            android:textSize="20dp"
-            android:fontFamily="@font/kalpurush"
-            android:text="ইখফা অর্থ গোপন করে পড়া। ইখফার হরফ ১৫-টি, যথাঃ—
+            android:layout_height="?attr/actionBarSize"
+            app:subtitleTextColor="@color/white"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            app:titleTextColor="@color/white" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_below="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:background="@color/color_ikhfa"
+                    android:text="ইখফা"
+                    android:textSize="22dp"
+                    android:fontFamily="@font/kalpurush"
+                    android:textColor="@color/white"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:padding="2dp"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/kalpurush"
+                    android:text="ইখফা অর্থ গোপন করে পড়া। ইখফার হরফ ১৫-টি, যথাঃ—
 ‎   ت ث ج د ذ ز     س ش ص ض ط ظ    ف ق ك
 মুখস্থ করার জন্য এরূপ পড়া যায়, যথাঃ— তায়ো ছায়ো জীমো দালো যালো ঝা — সীন শীন ছ্বোয়াদ, দ্বোয়াদ ত্বোয়া জোয়া ফা ক্ব কা।
 নূনসাকিন বা তানবীনের পর ইখফার ১৫ হরফ থেকে যেকোনো একটি হরফ এলে উক্ত নূনসাকিন বা তানবীনকে এক আলিফ সময় পরিমাণ দীর্ঘ গুন্নাহ করে পড়াকে ইখফা বলে।
@@ -47,138 +61,141 @@
 ‎وَلَا أَنْتُمْ عَابِدُونَ مَا أَعْبُدُ  [সূরা কাফিরুন]
 \n\n
 যদি নূন সাকিন (نّ) বা তানবীন ( ً ٍ ُ ) এর পর এই ১৫টি হরফ [ت ث ج د ذ ز س ش ص ض ط ظ ف ق ك] থেকে কোন একটি হরফ আসে তাহলে গুন্নাহ সহকারে পড়তে হয়।"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-        <TextView
-            android:background="@color/color_ghunna"
-            android:text="গুন্নাহ"
-            android:textSize="22dp"
-            android:fontFamily="@font/kalpurush"
-            android:textColor="@color/white"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/kalpurush"
-            android:padding="2dp"
-            android:text="গুন্নাহর হরফ হচ্ছে দুইটি।যথা-  মীম(م) ও  নূন(ن) । এই দুইটি হরফের উপর তাশদীদ আসলে মীম(م) এবং  নূন(ن)  কে গুন্নাহ করে পড়তে হয়। যেমনঃ  اَنَّ-اِنّ-اُنَّ / اَمَّ- اَمِّ-اَمُّ গুন্নাহ এক আলিফ পরিমাণ লম্বা  করতে হয়।"
-            android:textSize="18dp" />
+                <TextView
+                    android:background="@color/color_ghunna"
+                    android:text="গুন্নাহ"
+                    android:textSize="22dp"
+                    android:fontFamily="@font/kalpurush"
+                    android:textColor="@color/white"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/kalpurush"
+                    android:padding="2dp"
+                    android:text="গুন্নাহর হরফ হচ্ছে দুইটি।যথা-  মীম(م) ও  নূন(ن) । এই দুইটি হরফের উপর তাশদীদ আসলে মীম(م) এবং  নূন(ن)  কে গুন্নাহ করে পড়তে হয়। যেমনঃ  اَنَّ-اِنّ-اُنَّ / اَمَّ- اَمِّ-اَمُّ গুন্নাহ এক আলিফ পরিমাণ লম্বা  করতে হয়।"
+                    android:textSize="18dp" />
 
 
 
-        <TextView
-            android:background="@color/color_iqlab"
-            android:text="ইকফায়ে মীম সাকিন"
-            android:textSize="22dp"
-            android:fontFamily="@font/kalpurush"
-            android:textColor="@color/white"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/kalpurush"
-            android:padding="2dp"
-            android:text="মীম সাকিনের বামে যদি ﺏ  অক্ষর থাকে, তাহলে মীম সাকিন গুন্নাহ করে পড়াকে মীম সাকিনের ইখফা বলা হয়। নীচের উদাহরণটি দেখুন। যেমনঃ\n
+                <TextView
+                    android:background="@color/color_iqlab"
+                    android:text="ইকফায়ে মীম সাকিন"
+                    android:textSize="22dp"
+                    android:fontFamily="@font/kalpurush"
+                    android:textColor="@color/white"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/kalpurush"
+                    android:padding="2dp"
+                    android:text="মীম সাকিনের বামে যদি ﺏ  অক্ষর থাকে, তাহলে মীম সাকিন গুন্নাহ করে পড়াকে মীম সাকিনের ইখফা বলা হয়। নীচের উদাহরণটি দেখুন। যেমনঃ\n
  وماهمٗ بِمُمنین"
-            android:textSize="18dp" />
+                    android:textSize="18dp" />
 
 
 
 
-        <TextView
-            android:background="@color/color_qalqala"
-            android:text="ক্বলক্বলা"
-            android:textSize="22dp"
-            android:fontFamily="@font/kalpurush"
-            android:textColor="@color/white"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/kalpurush"
-            android:padding="2dp"
-            android:text="ক্বলক্বলা মানে ড্রফ ব প্রতিধ্বনি করে পড়া৷
+                <TextView
+                    android:background="@color/color_qalqala"
+                    android:text="ক্বলক্বলা"
+                    android:textSize="22dp"
+                    android:fontFamily="@font/kalpurush"
+                    android:textColor="@color/white"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/kalpurush"
+                    android:padding="2dp"
+                    android:text="ক্বলক্বলা মানে ড্রফ ব প্রতিধ্বনি করে পড়া৷
 ক্বলক্বলার হরফ পাঁচ টি - ق ط ب ج د
 
       #নিয়মঃ  ক্বলক্বলার হরফে সাকিন বা তাসদীদ হলে - এর পর ওকাকফ হলে ক্বলক্বলা করে পড়তে                        হয়৷
 যেমনঃ
             *  قُلۡ هُوَ اللّٰهُ اَحَدٌ
              * قُلۡ أَعُوذُ بِرَبِّ ٱلۡفَلَقِ"
-            android:textSize="18dp" />
+                    android:textSize="18dp" />
 
 
 
 
 
-        <TextView
-            android:background="@color/color_idgham"
-            android:text="ইদগামে বাগুন্নাহ"
-            android:textSize="22dp"
-            android:fontFamily="@font/kalpurush"
-            android:textColor="@color/white"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/kalpurush"
-            android:padding="2dp"
-            android:text="নূনসাকিন বা তানবীনের পরে [ي و م ن ] [ইয়াওয়ামিন] এই চারটি হরফের যেকোন একটি- আসলে নূন সাকিন বা তানবীনকে ঐ হরফের সাথে মিলিয়ে এক আলিফ সময় পরিমাণ গুন্নাহ করে পড়তে হয়। একে  ইদগামে বাগুন্নাহ বলে। যেমনঃ—\n
+                <TextView
+                    android:background="@color/color_idgham"
+                    android:text="ইদগামে বাগুন্নাহ"
+                    android:textSize="22dp"
+                    android:fontFamily="@font/kalpurush"
+                    android:textColor="@color/white"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/kalpurush"
+                    android:padding="2dp"
+                    android:text="নূনসাকিন বা তানবীনের পরে [ي و م ن ] [ইয়াওয়ামিন] এই চারটি হরফের যেকোন একটি- আসলে নূন সাকিন বা তানবীনকে ঐ হরফের সাথে মিলিয়ে এক আলিফ সময় পরিমাণ গুন্নাহ করে পড়তে হয়। একে  ইদগামে বাগুন্নাহ বলে। যেমনঃ—\n
 ‎‫مَنْ يَّشَۤاءُ‬ - [ ي ]  \n  ‫نَفْسٍ وَّمَا‬- [ و ]‫ ‬  \n  ‫رَسُوْلٌ ‬مِّنْ -[ م ]   \n مِنْ نِّسَۤاءِ - [ن]‫O‬
 \n* তবে শব্দের মাঝে ‫نْ‬  [নূন সাকিন] হলে এই নিয়ম প্রযোজ্য হবে না। যেমন— \n ‫دُنْيَا‬  ‫~‬ [দুনইয়া ] ,  ‫قِنْوَانٌ‬  [ ক্বিনওয়া~নূন]।     "
-            android:textSize="18dp" />
+                    android:textSize="18dp" />
 
 
 
-        <TextView
-            android:background="@color/color_idghamwo"
-            android:text="ইদগামে বেগুন্নাহ"
-            android:textSize="22dp"
-            android:fontFamily="@font/kalpurush"
-            android:textColor="@color/black"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:textDirection="ltr"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/kalpurush"
-            android:padding="2dp"
-            android:text="ل - ر ['লাম' ও 'র'] এ দুটি হরফ নূন সাকিন ও তানবীনের পরে আসলে - সেই নূন সাকিন ও তানবীনকে গুন্নাহ ছাড়া শুধু ইদগাম করে [মিলিয়ে] পড়তে হয়। এটাকে ইদগামে বেগুন্নাহ বলে। যেমন—\n
+                <TextView
+                    android:background="@color/color_idghamwo"
+                    android:text="ইদগামে বেগুন্নাহ"
+                    android:textSize="22dp"
+                    android:fontFamily="@font/kalpurush"
+                    android:textColor="@color/black"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textDirection="ltr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/kalpurush"
+                    android:padding="2dp"
+                    android:text="ل - ر ['লাম' ও 'র'] এ দুটি হরফ নূন সাকিন ও তানবীনের পরে আসলে - সেই নূন সাকিন ও তানবীনকে গুন্নাহ ছাড়া শুধু ইদগাম করে [মিলিয়ে] পড়তে হয়। এটাকে ইদগামে বেগুন্নাহ বলে। যেমন—\n
  [১] বেগুন্নাহ  ر - এর উদাহরণঃ  \n
                          غَفُورٌ رَّحِيمٌ  -  مِّنْ رَّبٍّ رَّحِيمٍ
 \n [২] বেগুন্নাহ   ل - এর উদাহরণঃ  \n
 ‎ يَوْمَئِذٍ لِّلَّهِ  -   ‫كُنْ لَّهُ‬  - مِنْ لَّدُنكَ"
-            android:textSize="18dp" />
+                    android:textSize="18dp" />
 
 
 
-<!--      <TextView
-            android:text="
-        color_ikhfa = ইখফাঃ \n
-        color_idgham = ইদগামে বা'গুন্নাহঃ \n
-        color_idghamwo =      ইদগামে বেলা'গুন্নাহ   \n
-        color_ghunna =        গুন্নাহ    \n
-        color_qalqala =      কলক্বলা  \n
-        color_iqlab =     ইখফা মিমে সাকিন \n"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>  -->
+                <!--      <TextView
+                            android:text="
+                        color_ikhfa = ইখফাঃ \n
+                        color_idgham = ইদগামে বা'গুন্নাহঃ \n
+                        color_idghamwo =      ইদগামে বেলা'গুন্নাহ   \n
+                        color_ghunna =        গুন্নাহ    \n
+                        color_qalqala =      কলক্বলা  \n
+                        color_iqlab =     ইখফা মিমে সাকিন \n"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>  -->
 
 
 
 
 
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+    </RelativeLayout>
 
 
 </LinearLayout>

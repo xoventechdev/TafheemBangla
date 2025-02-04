@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.minbar.tafhimulquran.Adapter.FavVerseAdapter;
 import com.minbar.tafhimulquran.Adapter.WordAdapter;
 import com.minbar.tafhimulquran.R;
@@ -44,9 +45,11 @@ public class FavActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fav);
 
-
-        getSupportActionBar().setTitle(getString(R.string.main_bottom_nav_fav)+" আয়াত");
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) MaterialToolbar toolbar = findViewById(R.id.toolBar);
+        toolbar.setTitle(getString(R.string.main_bottom_nav_fav)+" আয়াত");
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         hideLayout = findViewById(R.id.hideLayout);
 
         list = new XovenHandler(this).getAllFav();

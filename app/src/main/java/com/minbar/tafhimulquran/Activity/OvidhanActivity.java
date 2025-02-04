@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.minbar.tafhimulquran.Adapter.CharacterAdapter;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
@@ -23,8 +24,9 @@ public class OvidhanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_ovidhan);
 
-
-        Objects.requireNonNull(getSupportActionBar()).setTitle(string.bn_ovidhan);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) MaterialToolbar toolbar = findViewById(R.id.toolBar);
+        toolbar.setTitle(string.bn_ovidhan);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) RecyclerView recyclerView = findViewById(id.recyclerCharacter);
