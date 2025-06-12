@@ -285,13 +285,13 @@ public class SettingsActivity extends AppCompatActivity {
              */
             ListPreference listPreference4 = (ListPreference) findPreference("font_arabi");
             String string4 = this.f159sp.getString("font_arabi", (String) null);
-            if ("noorehuda".equals(string4)) {
-                listPreference4.setSummary(listPreference4.getEntry());
-            } else if ("noorehira".equals(string4)) {
+            if ("hafs".equals(string4)) {
                 listPreference4.setSummary(listPreference4.getEntry());
             } else if ("me_quran".equals(string4)) {
                 listPreference4.setSummary(listPreference4.getEntry());
-            } else if ("scheherazade".equals(string4)) {
+            } else if ("kitab".equals(string4)) {
+                listPreference4.setSummary(listPreference4.getEntry());
+            } else if ("noorehidayat".equals(string4)) {
                 listPreference4.setSummary(listPreference4.getEntry());
             }
             listPreference4.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -463,7 +463,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
-            /*
+
             ListPreference listTajwid = (ListPreference) findPreference("Tajwid");
             String stringTajwid = this.f159sp.getString("Tajwid", (String) null);
             if ("on".equals(stringTajwid)) {
@@ -482,7 +482,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
-             */
+
 
 
 

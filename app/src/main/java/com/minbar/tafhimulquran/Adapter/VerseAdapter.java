@@ -9,12 +9,14 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
 import android.speech.tts.TextToSpeech;
 import android.text.Html;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -121,7 +124,7 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                  mvh.ayat_no.setText(Config.ENtoBN(verse_id));
                  mvh.arabic.setText(model.getArabic());
                  mvh.trans.setText(Html.fromHtml(model.getTrans()));
-                 mvh.banglaAyat.setText(Html.fromHtml(Config.HideNumber(model.getBangla())+"<i><small> - তাফহীমুল কুরআন</small></i>"));
+                 mvh.banglaAyat.setText(Html.fromHtml(Config.TagColor(model.getBangla())+"<i><small> - তাফহীমুল কুরআন</small></i>"));
                  mvh.english.setText(Html.fromHtml(model.getEnglish()+"<i><small> - Sahih International</small></i>"));
 
 
@@ -131,8 +134,6 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                  } else {
                      updateNonPlayingView(mvh);
                  }
-
-
  */
 
                  mvh.vNote.setOnClickListener(v ->{
@@ -327,19 +328,29 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
      }
 
-    private void openNoteDialog(String SurahName,String VerseNumber) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mcontext);
-        builder.setTitle("আয়াত নোট : "+Config.ENtoBN(SurahName) + " - " + VerseNumber);
+    private void openNoteDialog(String SurahName, String VerseNumber) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mcontext, R.style.FullScreenDialogStyle);
 
+        // Inflate the custom note layout
         View view = LayoutInflater.from(mcontext).inflate(R.layout.dialog_note, null);
         EditText etNote = view.findViewById(R.id.etNote);
         Button btnSave = view.findViewById(R.id.btnSaveNote);
 
+        // Inflate custom title view
+        View customTitle = LayoutInflater.from(mcontext).inflate(R.layout.dialog_note_title, null);
+        TextView tvTitle = customTitle.findViewById(R.id.tvTitle);
+        ImageButton btnCancel = customTitle.findViewById(R.id.btnCancel);
+
+        tvTitle.setText("আয়াত নোট : " + Config.ENtoBN(SurahName) + " - " + VerseNumber);
+
+        builder.setCustomTitle(customTitle);
+        builder.setView(view);
+
+        // Load and set existing note
         noteDatabaseHelper = new NoteDatabaseHelper(mcontext);
         String existingNote = noteDatabaseHelper.getNote(SurahName, VerseNumber);
         etNote.setText(existingNote);
 
-        builder.setView(view);
         AlertDialog dialog = builder.create();
 
         btnSave.setOnClickListener(v -> {
@@ -348,11 +359,15 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             dialog.dismiss();
         });
 
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
         dialog.show();
+
+        // Make it full-screen
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
 
-    //U
     @Override
     public Filter getFilter() {
         return filter;

@@ -8,7 +8,7 @@
 
 
         <ListPreference
-            app:defaultValue="26"
+            app:defaultValue="30"
             app:entries="@array/items_nameAr"
             app:entryValues="@array/items_valueAr"
             app:key="ARABICFONT"
@@ -62,7 +62,7 @@
             app:key="font_bangla"
             app:title="বাংলা ফন্ট" />
         <ListPreference
-            app:defaultValue="me_quran"
+            app:defaultValue="hafs"
             app:entries="@array/font_arabi_fonts"
             app:entryValues="@array/font_arabi_fonts_values"
             app:key="font_arabi"
@@ -70,7 +70,7 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preferences_category"
-        app:title="শো / হাইড">
+        app:title="অ্যাপ ফিচারস">
 
         <ListPreference
             app:defaultValue="on"
@@ -128,6 +128,14 @@
             app:key="scollingHide"
             app:title="আয়াত স্কোলিং লেআউট" />
 
+
+        <ListPreference
+            app:defaultValue="on"
+            app:entries="@array/name_Taf"
+            app:entryValues="@array/value_Taf"
+            app:key="Tajwid"
+            app:title="কালারফুল তাজবিদ"/>
+
         <!--
 
         <ListPreference
@@ -140,12 +148,7 @@
 
 
 
-              <ListPreference
-                  app:defaultValue="on"
-                  app:entries="@array/name_Taf"
-                  app:entryValues="@array/value_Taf"
-                  app:key="Tajwid"
-                  app:title="কালারফুল তাজবিদ"/>
+
 
                   -->
     </PreferenceCategory>

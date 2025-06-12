@@ -775,7 +775,7 @@ public class VerseActivity extends AppCompatActivity {
 
         if (checkPermission()) {
 
-            Toasty.info(getApplicationContext(), "হচ্ছে.... PP", Toast.LENGTH_SHORT, true).show();
+//            Toasty.info(getApplicationContext(), "হচ্ছে.... PP", Toast.LENGTH_SHORT, true).show();
 
             if (!Config.isConnected(this)) {
                 Toasty.warning(getApplicationContext(), "আপনার ইন্টারনেট বদ্ধ থাকায় ডাউনলোড সম্ভব না।", Toast.LENGTH_SHORT, true).show();

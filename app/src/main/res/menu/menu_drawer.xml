@@ -33,6 +33,18 @@
                 android:checkable="true"
                 app:showAsAction="ifRoom"/>
             <item
+                android:icon="@drawable/ic_nav_book_open"
+                android:id="@+id/tajwid"
+                android:title="তাজবিদ"
+                android:checkable="true"
+                app:showAsAction="ifRoom"/>
+            <item
+            android:icon="@drawable/baseline_aod_24"
+            android:id="@+id/donation"
+            android:title="ডোনেশন করুন"
+            android:checkable="true"
+            app:showAsAction="ifRoom"/>
+            <item
                 android:icon="@drawable/ic_baseline_mail_outline_24"
                 android:id="@+id/drawer_request_submit"
                 android:title="Request Submit"

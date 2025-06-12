@@ -12,12 +12,11 @@ import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -39,21 +38,25 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.minbar.tafhimulquran.BuildConfig;
 import com.minbar.tafhimulquran.Daily.DailyActivity;
 import com.minbar.tafhimulquran.Hadith.HadithChapterActivity;
+import com.minbar.tafhimulquran.Prayer.PrayerActivity;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Adapter.ViewPagerAdapter;
 import com.minbar.tafhimulquran.Utils.Constant;
 import com.minbar.tafhimulquran.Utils.CustomDrawerButton;
-import com.minbar.tafhimulquran.Utils.DatabaseHelper;
-import com.minbar.tafhimulquran.Utils.DatabaseInitializer;
-import com.minbar.tafhimulquran.Utils.FontFamily;
 import com.minbar.tafhimulquran.Utils.Methods;
 import com.onesignal.OneSignal;
 
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,  NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String PREFS_NAME_Donation = "MonthlyPrefs";
+    private static final String LAST_RUN_KEY = "lastMonthlyRun";
 
     private BottomNavigationView mBottomNavigation;
     private ViewPager viewPager;
@@ -130,6 +133,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
+
+
+
 //        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 //        boolean isFirstLaunch = prefs.getBoolean(KEY_FIRST_LAUNCH, true);
 //        DatabaseHelper dbHelper = new DatabaseHelper(this);
@@ -174,6 +180,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
         OneSignal.initWithContext(this);
         OneSignal.setAppId(ONESIGNAL_APP_ID);
+        OneSignal.addTrigger("current_app_version", BuildConfig.VERSION_CODE);
+
 
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -206,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         FrameLayout mm_audio = findViewById(R.id.mm_audio);
         mm_audio.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, TajwidActivity.class));
+            startActivity(new Intent(MainActivity.this, PrayerActivity.class));
         });
 /*
         findViewById(R.id.mm_setting).setOnClickListener(v -> {
@@ -216,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
  */
 
-        ((FloatingActionButton) findViewById(R.id.daily_fab)).setOnClickListener(v -> startActivity(new Intent(this,DailyActivity.class)));
+        ((FloatingActionButton) findViewById(R.id.daily_fab)).setOnClickListener(v -> startActivity(new Intent(this, DailyActivity.class)));
 
         navigation_view = (NavigationView) findViewById(R.id.navigation_view);
         navigation_view.setNavigationItemSelectedListener(this);
@@ -272,8 +280,38 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             }
         });
+
+        checkAndRunMonthlyTask(this);
     }
 
+
+    public void checkAndRunMonthlyTask(Context context) {
+        Calendar today = Calendar.getInstance();
+        int day = today.get(Calendar.DAY_OF_MONTH);
+
+        if (day == 1) {
+            SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME_Donation, Context.MODE_PRIVATE);
+            String lastRun = prefs.getString(LAST_RUN_KEY, "");
+
+            String todayDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(today.getTime());
+
+            if (!todayDate.equals(lastRun)) {
+
+                new AlertDialog.Builder(this)
+                        .setTitle("📖 কুরআন অ্যাপকে সহায়তা করুন")
+                        .setMessage("আপনার সামান্য সহযোগিতাও এই অ্যাপকে আরও উন্নত ও সবার জন্য উপকারী করে তুলতে সাহায্য করবে।\n\nআল্লাহ তাআলা আপনার সদকা কবুল করুন এবং আপনাকে উত্তম প্রতিদান দিন। 🤲")
+                        .setPositiveButton("ডোনেট করুন", (dialog, which) -> {
+                            Intent intent = new Intent(MainActivity.this, DonationActivity.class);
+                            startActivity(intent);
+                        })
+                        .setNegativeButton("পরে", null)
+                        .show();
+
+
+                prefs.edit().putString(LAST_RUN_KEY, todayDate).apply();
+            }
+        }
+    }
 
     @SuppressLint("NonConstantResourceId")
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -314,6 +352,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 return true;
             case R.id.banglaOvidan :
                 startActivity(new Intent(this, OvidhanActivity.class));
+                this.drawerLayout.closeDrawer((int) GravityCompat.START);
+                return true;
+            case R.id.tajwid :
+                startActivity(new Intent(this, TajwidActivity.class));
+                this.drawerLayout.closeDrawer((int) GravityCompat.START);
+                return true;
+            case R.id.donation :
+                startActivity(new Intent(this, DonationActivity.class));
                 this.drawerLayout.closeDrawer((int) GravityCompat.START);
                 return true;
             case R.id.drawer_request_submit :

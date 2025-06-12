@@ -16,16 +16,16 @@
 
 
     <string-array name="font_arabi_fonts">
-        <item>নূরে হুদা</item>
-        <item>নূর-ই-হিদায়াত</item>
-        <item>মি কুরআন</item>
-        <item>সালিম কুরআন</item>
+        <item>KFGQPC Hafs</item>
+        <item>Me_Quran</item>
+        <item>Kitab</item>
+        <item>Noore Hidayat</item>
     </string-array>
     <string-array name="font_arabi_fonts_values">
-        <item>noorehuda</item>
-        <item>noorehira</item>
+        <item>hafs</item>
         <item>me_quran</item>
-        <item>scheherazade</item>
+        <item>kitab</item>
+        <item>noorehidayat</item>
     </string-array>
     <string-array name="font_bangla_fonts">
         <item>সুলাইমান লিপি</item>

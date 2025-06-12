@@ -68,15 +68,19 @@ public class DailyActivity extends AppCompatActivity {
         getHadith();
 
         binding.dailyQuran.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SingleActivity.class);
-            //Intent intent = new Intent(mcontext, TafheemActivity.class);
-            intent.putExtra("surah_id",String.valueOf(data.get(0).getSurahID()));
-            intent.putExtra("verse_id",data.get(0).getVerseID());
-            intent.putExtra("arabicTxt",data.get(0).getArabic());
-            intent.putExtra("transTxt",data.get(0).getTrans());
-            intent.putExtra("banglaTxt",data.get(0).getBangla());
-            startActivity(intent);
+            if (data != null && !data.isEmpty()) {
+                Intent intent = new Intent(this, SingleActivity.class);
+                intent.putExtra("surah_id", String.valueOf(data.get(0).getSurahID()));
+                intent.putExtra("verse_id", data.get(0).getVerseID());
+                intent.putExtra("arabicTxt", data.get(0).getArabic());
+                intent.putExtra("transTxt", data.get(0).getTrans());
+                intent.putExtra("banglaTxt", data.get(0).getBangla());
+                startActivity(intent);
+            } else {
+                Toasty.warning(this, "এই মুহূর্তে আয়াত দেখানো সম্ভব নয়।", Toast.LENGTH_SHORT, true).show();
+            }
         });
+
 
         binding.arabic.setTypeface(FontFamily.getArabic(this));
         binding.arabicH.setTypeface(FontFamily.getArabic(this));
@@ -97,37 +101,45 @@ public class DailyActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void getQuran(){
 
+    private void getQuran(){
         Random rand = new Random();
         int randomNum = rand.nextInt((6348 - 1) + 1) + 1;
         data = dbHelper.getDailyQuran(randomNum);
 
-        binding.arabic.setText(data.get(0).getArabic());
-        if (setting.getString("tafheem", "on").equals("off")) {
-            binding.arabicMeana.setVisibility(View.GONE);
-        }else {
-            binding.arabicMeana.setVisibility(View.VISIBLE);
-            binding.trans.setText(data.get(0).getTrans());
+        if (data != null && !data.isEmpty()) {
+            binding.arabic.setText(data.get(0).getArabic());
+
+            if (setting.getString("tafheem", "on").equals("off")) {
+                binding.arabicMeana.setVisibility(View.GONE);
+            } else {
+                binding.arabicMeana.setVisibility(View.VISIBLE);
+                binding.trans.setText(data.get(0).getTrans());
+            }
+
+            if (setting.getString("banglaOnubadh", "on").equals("off")) {
+                binding.VerseTai.setVisibility(View.GONE);
+            } else {
+                binding.VerseTai.setVisibility(View.VISIBLE);
+                binding.banglaAyat.setText(Html.fromHtml(new Config(this).HideNumber(data.get(0).getBangla())));
+            }
+
+            if (setting.getString("taisirul", "on").equals("off")) {
+                binding.enLayout.setVisibility(View.GONE);
+            } else {
+                binding.enLayout.setVisibility(View.VISIBLE);
+                binding.english.setText(data.get(0).getEnglish());
+            }
+
+            binding.dailyQuranTag.setText(Html.fromHtml(
+                    dbHelper.getSurahName(data.get(0).getSurahID()) + " - " +
+                            Config.ENtoBN(String.valueOf(data.get(0).getVerseID())) + "</small></i> "
+            ));
+        } else {
+            Toasty.error(this, "দুঃখিত, কুরআনের আয়াত পাওয়া যায়নি।", Toast.LENGTH_LONG, true).show();
         }
-
-        if (setting.getString("banglaOnubadh", "on").equals("off")) {
-            binding.VerseTai.setVisibility(View.GONE);
-        }else {
-            binding.VerseTai.setVisibility(View.VISIBLE);
-            binding.banglaAyat.setText(Html.fromHtml(new Config(this).HideNumber(data.get(0).getBangla())));
-        }
-
-
-        if (setting.getString("taisirul", "on").equals("off")) {
-            binding.enLayout.setVisibility(View.GONE);
-        }else {
-            binding.enLayout.setVisibility(View.VISIBLE);
-            binding.english.setText(data.get(0).getEnglish());
-        }
-
-        binding.dailyQuranTag.setText(Html.fromHtml(dbHelper.getSurahName(data.get(0).getSurahID())+" - "+ Config.ENtoBN(String.valueOf(data.get(0).getVerseID()))+"</small></i> "));
     }
+
     private void getHadith(){
         ArrayList<HadithModel> data;
         Random rand = new Random();

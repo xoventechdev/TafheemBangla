@@ -112,7 +112,7 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/mm_menu"
-                        app:layout_constraintRight_toLeftOf="@+id/mm_audio"
+                        app:layout_constraintRight_toLeftOf="@+id/mm_store"
                         app:layout_constraintTop_toTopOf="parent">
                         <LinearLayout
                             android:gravity="center"
@@ -134,36 +134,7 @@
                                 android:fontFamily="@font/banglaquran"/>
                         </LinearLayout>
                     </FrameLayout>
-                    <FrameLayout
-                        android:gravity="center"
-                        android:id="@+id/mm_audio"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:focusable="true"
-                        android:clickable="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toRightOf="@+id/mm_search"
-                        app:layout_constraintRight_toLeftOf="@+id/mm_store"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <LinearLayout android:gravity="center"
-                            android:orientation="vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-                            <ImageView android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@drawable/ic_baseline_grass_24"
-                                android:scaleType="centerInside" />
-                            <TextView
-                                android:textColor="@color/white"
-                                android:textSize="12dp"
-                                android:textStyle="bold"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="তাজবিদ"
-                                android:fontFamily="@font/banglaquran"/>
-                        </LinearLayout>
-                    </FrameLayout>
+
                     <FrameLayout
                         android:gravity="center"
                         android:id="@+id/mm_store"
@@ -173,8 +144,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toRightOf="@+id/mm_audio"
-                        app:layout_constraintRight_toLeftOf="@+id/mm_lastread"
+                        app:layout_constraintLeft_toRightOf="@+id/mm_search"
+                        app:layout_constraintRight_toLeftOf="@+id/mm_audio"
                         app:layout_constraintTop_toTopOf="parent">
                         <LinearLayout
                             android:gravity="center"
@@ -198,7 +169,7 @@
                     </FrameLayout>
                     <FrameLayout
                         android:gravity="center"
-                        android:id="@+id/mm_lastread"
+                        android:id="@+id/mm_audio"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:focusable="true"
                         android:clickable="true"
@@ -206,6 +177,36 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/mm_store"
+                        app:layout_constraintRight_toLeftOf="@+id/mm_lastread"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <LinearLayout android:gravity="center"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageView android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:src="@drawable/ic_namaz"
+                                android:scaleType="centerInside" />
+                            <TextView
+                                android:textColor="@color/white"
+                                android:textSize="12dp"
+                                android:textStyle="bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="নামাজ"
+                                android:fontFamily="@font/banglaquran"/>
+                        </LinearLayout>
+                    </FrameLayout>
+                    <FrameLayout
+                        android:gravity="center"
+                        android:id="@+id/mm_lastread"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@+id/mm_audio"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
                         <LinearLayout

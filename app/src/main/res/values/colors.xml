@@ -14,8 +14,7 @@
     <color name="tYoll">#fabd03</color>
     <color name="common">#673AB7</color>
 
-
-
+    <color name="light_gray">#D3E8E6</color>
 
     <color name="colorSettings">#40000000</color>
     <color name="colorClick">#abcdef</color>

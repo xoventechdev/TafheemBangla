@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "845830433247",
+    "project_id": "tahfimu-ul-quram-bn",
+    "storage_bucket": "tahfimu-ul-quram-bn.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845830433247:android:ccc8d9fd71be7508803c6a",
+        "android_client_info": {
+          "package_name": "com.minbar.tafhimulquran"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1u_wWD0yB6Pa87kD33YmOZMq4vqB4-vQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

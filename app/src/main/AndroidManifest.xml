@@ -4,14 +4,15 @@
     package="com.minbar.tafhimulquran">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:ignore="CoarseFineLocation" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
-
-
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -23,6 +24,35 @@
         android:theme="@style/Theme.KitabTafheem"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+
+        </provider>
+
+        <receiver android:name=".Prayer.PrayerAlarmReceiver" android:exported="false"/>
+        <receiver android:name=".Prayer.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".Prayer.PrayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.DonationActivity"
+            android:exported="false" />
         <activity
             android:name=".Hadith.HadithListActivity"
             android:exported="false" />
@@ -38,6 +68,7 @@
             android:exported="false" />
         <activity
             android:name=".Daily.DailyActivity"
+            android:theme="@style/Theme.KitabTafheemNo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -59,6 +90,7 @@
         </activity>
         <activity
             android:name=".Activity.SingleActivity"
+            android:theme="@style/Theme.KitabTafheemNo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -87,6 +119,7 @@
         </activity>
         <activity
             android:name=".Activity.TajwidActivity"
+            android:theme="@style/Theme.KitabTafheemNo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -94,6 +127,7 @@
         </activity>
         <activity
             android:name=".Activity.SettingsActivity"
+            android:theme="@style/Theme.KitabTafheemNo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -116,9 +150,11 @@
         </activity>
         <activity
             android:name=".Activity.BitActivity"
+            android:theme="@style/Theme.KitabTafheemNo"
             android:exported="false" />
         <activity
             android:name=".Activity.FavActivity"
+            android:theme="@style/Theme.KitabTafheemNo"
             android:exported="false" />
         <activity
             android:name=".Activity.TafheemActivity"
@@ -135,9 +171,11 @@
         </activity>
         <activity
             android:name=".Activity.DarsActivity"
+            android:theme="@style/Theme.KitabTafheemNo"
             android:exported="false" />
         <activity
             android:name=".Activity.SubjectActivity"
+            android:theme="@style/Theme.KitabTafheemNo"
             android:exported="false" />
         <activity
             android:name=".Activity.VerseActivity"
