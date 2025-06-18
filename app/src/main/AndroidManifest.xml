@@ -49,7 +49,8 @@
 
         <activity
             android:name=".Prayer.PrayerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo"/>
         <activity
             android:name=".Activity.DonationActivity"
             android:exported="false" />
@@ -58,6 +59,7 @@
             android:exported="false" />
         <activity
             android:name=".Hadith.HadithChapterActivity"
+            android:theme="@style/Theme.KitabTafheemNo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

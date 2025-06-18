@@ -101,6 +101,7 @@ public class VerseActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context ctxt, Intent intent) {
             delete.setVisibility(View.VISIBLE);
+            Toasty.success(getApplicationContext(), surah_Name + " ডাউনলোড হয়েছে", Toast.LENGTH_SHORT, true).show();
         }
     };
 
@@ -197,14 +198,11 @@ public class VerseActivity extends AppCompatActivity {
 
 
         playID = String.format("%03d", surahid);
-        //https://server11.mp3quran.net/sds/111.mp3
+
         audioUrl = "https://server11.mp3quran.net/sds/"+playID+".mp3";
-        //https://podcasts.qurancentral.com/mishary-rashid-alafasy/mishary-rashid-alafasy-111-muslimcentral.com.mp3
         audio_mishary = "https://podcasts.qurancentral.com/mishary-rashid-alafasy/mishary-rashid-alafasy-"+playID+"-muslimcentral.com.mp3";
-        //https://podcasts.qurancentral.com/abdul-basit/abdul-basit-64-surah-111.mp3
-        audio_basit = "https://podcasts.qurancentral.com/abdul-basit/\"+playID+\".mp3";
-        //http://www.truemuslims.net/Quran/Bangla/111.mp3
-        audio_bangla = "http://www.truemuslims.net/Quran/Bangla/"+playID+".mp3";
+        audio_basit = "https://podcasts.qurancentral.com/abdul-basit/"+playID+".mp3";
+        audio_bangla = "https://www.truemuslims.net/Quran/Bangla/"+playID+".mp3";
 
 
         filrName = String.valueOf(surahid)+".mp3";
@@ -789,11 +787,12 @@ public class VerseActivity extends AppCompatActivity {
                 //Toast.makeText(VerseActivity.this.getApplicationContext(), surah_Name + "  ডাউনলোড হচ্ছে....", Toast.LENGTH_SHORT).show();
                 VerseActivity bookDetails = VerseActivity.this;
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // API level 26 and above
-                    bookDetails.registerReceiver(onComplete, new IntentFilter("android.intent.action.DOWNLOAD_COMPLETE"),
-                            Context.RECEIVER_NOT_EXPORTED);  // Explicitly specify export status
+                IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    bookDetails.registerReceiver(bookDetails.onComplete, filter, Context.RECEIVER_EXPORTED);
                 } else {
-                    bookDetails.registerReceiver(onComplete, new IntentFilter("android.intent.action.DOWNLOAD_COMPLETE"));
+                    bookDetails.registerReceiver(bookDetails.onComplete, filter);
                 }
                 return;
             }

@@ -48,7 +48,7 @@ public class DailyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= DataBindingUtil.setContentView(this,R.layout.activity_daily);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_daily);
 
         MaterialToolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
@@ -57,7 +57,7 @@ public class DailyActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("প্রতিদিন কুরআন - হাদীস");
 
         binding.copyDaily.setOnClickListener(v -> {
-            ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("আয়াত ও হাদিস", "আল কুরআন : "+binding.dailyQuranTag.getText().toString()+"\n"+ binding.arabic.getText().toString() + "\n" + binding.banglaAyat.getText().toString()+"\n\n"+"আল হাদিস : "+binding.dailyHadithTag.getText().toString()+"\n"+ binding.arabicH.getText().toString() + "\n" + binding.transH.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + this.getPackageName()));
+            ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("আয়াত ও হাদিস", "আল কুরআন : " + binding.dailyQuranTag.getText().toString() + "\n" + binding.arabic.getText().toString() + "\n" + binding.banglaAyat.getText().toString() + "\n\n" + "আল হাদিস : " + binding.dailyHadithTag.getText().toString() + "\n" + binding.arabicH.getText().toString() + "\n" + binding.transH.getText().toString() + "\n\n" + "তাফহীমুল কুরআন" + "\nhttps://play.google.com/store/apps/details?id=" + this.getPackageName()));
             Toasty.success(this, "আয়াত ও হাদিস কপি হয়েছে", Toast.LENGTH_SHORT, true).show();
         });
 
@@ -95,14 +95,17 @@ public class DailyActivity extends AppCompatActivity {
         binding.transH.setTextSize(2, Float.valueOf(FontSize.getBangla(this)));
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {finish();}
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
         return super.onOptionsItemSelected(item);
     }
 
 
-    private void getQuran(){
+    private void getQuran() {
         Random rand = new Random();
         int randomNum = rand.nextInt((6348 - 1) + 1) + 1;
         data = dbHelper.getDailyQuran(randomNum);
@@ -140,42 +143,58 @@ public class DailyActivity extends AppCompatActivity {
         }
     }
 
-    private void getHadith(){
+
+    private void getHadith() {
         ArrayList<HadithModel> data;
         Random rand = new Random();
         int randomNum = rand.nextInt((616 - 1) + 1) + 1;
         data = dbHelper.getDailyHadith(randomNum);
 
-        binding.arabicH.setText(data.get(0).getHadith_arabic());
+        if (data == null || data.isEmpty()) {
+            // Handle gracefully if no hadith found
+            binding.arabicH.setText("আজকের জন্য কোন হাদীস পাওয়া যায়নি।");
+            binding.arabicMeanaH.setVisibility(View.GONE);
+            binding.VerseTaiH.setVisibility(View.GONE);
+            binding.dailyHadithTag.setText("হাদীস পাওয়া যায়নি");
+            binding.hadithNote.setText("");
+            binding.hadithStatus.setText("");
+            return;
+        }
+
+        // Proceed safely
+        HadithModel hadith = data.get(0);
+
+        binding.arabicH.setText(hadith.getHadith_arabic());
 
         if (setting.getString("banglaOnubadh", "on").equals("off")) {
             binding.arabicMeanaH.setVisibility(View.GONE);
-        }else {
+        } else {
             binding.arabicMeanaH.setVisibility(View.VISIBLE);
-            binding.transH.setText(Html.fromHtml(data.get(0).getHadith_bangla()));
+            binding.transH.setText(Html.fromHtml(hadith.getHadith_bangla()));
         }
-
 
         if (setting.getString("taisirul", "on").equals("off")) {
             binding.VerseTaiH.setVisibility(View.GONE);
-        }else {
+        } else {
             binding.VerseTaiH.setVisibility(View.VISIBLE);
-            binding.banglaAyatH.setText(data.get(0).getHadith_english());
+            binding.banglaAyatH.setText(hadith.getHadith_english());
         }
 
+        binding.dailyHadithTag.setText(Html.fromHtml("রিয়াদুস সালেহীন - " + Config.ENtoBN(String.valueOf(hadith.getHadith_no())) + "</small></i> "));
 
-        binding.dailyHadithTag.setText(Html.fromHtml("রিয়াদুস সালেহীন - "+ Config.ENtoBN(String.valueOf(data.get(0).getHadith_no()))+"</small></i> "));
-        if (!data.get(0).getHadith_note().isEmpty()){
-            binding.hadithNote.setText("নোটঃ- "+data.get(0).getHadith_note());
-        }
-        if (data.get(0).getHadith_status() == 1){
-            binding.hadithStatus.setText("হাদীসের মান : সহিহ (Sahih)");
-        }else if (data.get(0).getHadith_status() == 2){
-            binding.hadithStatus.setText("হাদীসের মান : হাসান (Hasan)");
-        }else {
-            binding.hadithStatus.setText("হাদীসের মান : যঈফ (Dai'f)");
+        if (!hadith.getHadith_note().isEmpty()) {
+            binding.hadithNote.setText("নোটঃ- " + hadith.getHadith_note());
         }
 
+        switch (hadith.getHadith_status()) {
+            case 1:
+                binding.hadithStatus.setText("হাদীসের মান : সহিহ (Sahih)");
+                break;
+            case 2:
+                binding.hadithStatus.setText("হাদীসের মান : হাসান (Hasan)");
+                break;
+            default:
+                binding.hadithStatus.setText("হাদীসের মান : যঈফ (Dai'f)");
+        }
     }
-
 }

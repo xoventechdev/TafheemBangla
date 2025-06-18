@@ -1,5 +1,6 @@
 package com.minbar.tafhimulquran.Prayer;
 
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -138,19 +139,3 @@ public class PrayerNotificationManager {
     }
 }
 
-class PrayerAlarmReceiver extends BroadcastReceiver {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        String prayerName = intent.getStringExtra("prayerName");
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, PrayerNotificationManager.CHANNEL_ID)
-                .setSmallIcon(R.drawable.logo)
-                .setContentTitle("নামাজের সময়")
-                .setContentText(prayerName + " নামাজ শুরু হয়েছে!")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true);
-
-        notificationManager.notify(PrayerNotificationManager.NOTIFICATION_ID, builder.build());
-    }
-}

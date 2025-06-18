@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class SqlLiteDbHelper extends SQLiteAssetHelper {
     private static final String DATABASE_NAME = "tafheemul_quran1.db";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 12;
 
     public SqlLiteDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
