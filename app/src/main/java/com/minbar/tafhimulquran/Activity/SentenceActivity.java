@@ -23,6 +23,7 @@ import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.FontFamily;
 import com.minbar.tafhimulquran.Utils.FontSize;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
 
 import java.util.Objects;
 
@@ -31,6 +32,7 @@ public class SentenceActivity extends AppCompatActivity {
     SqlLiteDbHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sentence);
 
@@ -39,7 +41,7 @@ public class SentenceActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        dbHelper = new SqlLiteDbHelper(this);
+        dbHelper = SqlLiteDbHelper.getInstance(this);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) RecyclerView recyclerView = findViewById(R.id.viewSentence);
         SenAdapter adapter = new SenAdapter(this,dbHelper.getSen(getIntent().getStringExtra("ch_wd")));
         recyclerView.setHasFixedSize(true);

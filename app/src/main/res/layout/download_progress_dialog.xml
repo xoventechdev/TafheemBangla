@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorSurface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Icon and Title -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="24dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_baseline_cloud_download_24"
+                app:tint="?attr/colorPrimary"
+                android:layout_marginEnd="16dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ডাউনলোড হচ্ছে"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/kalpurush"/>
+
+                <TextView
+                    android:id="@+id/fileName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ফাইলের নাম"
+                    android:textColor="?attr/textColorSecondary"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/kalpurush"/>
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btnCancel"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_baseline_clear_24"
+                app:tint="?attr/colorSecondary"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginStart="8dp"/>
+
+        </LinearLayout>
+
+        <!-- Progress Bar -->
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginBottom="16dp"
+            android:progressTint="?attr/colorPrimary"
+            android:indeterminateTint="?attr/colorPrimary"
+            android:progressBackgroundTint="?attr/colorOnSurface"
+            android:max="100"/>
+
+        <!-- Progress Details -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/progressPercent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0%"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/kalpurush"/>
+
+            <TextView
+                android:id="@+id/progressSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 MB / 10 MB"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="14sp"
+                android:fontFamily="@font/kalpurush"/>
+
+        </LinearLayout>
+
+        <!-- Speed and ETA -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_baseline_cloud_download_24"
+                app:tint="?attr/colorSecondary"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/downloadSpeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="গতি: -- KB/s"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="12sp"
+                android:fontFamily="@font/kalpurush"/>
+
+            <TextView
+                android:id="@+id/eta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="অবশিষ্ট: -- মিনিট"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="12sp"
+                android:fontFamily="@font/kalpurush"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

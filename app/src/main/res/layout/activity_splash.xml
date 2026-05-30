@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@drawable/tafheem"
     tools:context=".Activity.SplashActivity">
 
@@ -20,7 +21,8 @@
             android:id="@+id/progressbarId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:indeterminateTint="?attr/colorPrimary"/>
     </LinearLayout>
     <LinearLayout
         android:gravity="center"
@@ -29,14 +31,13 @@
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true">
         <TextView
-            android:textSize="15dp"
-            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:textColor="?attr/colorOnPrimary"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/copyrights"
             android:fontFamily="@font/kalpurush"/>
     </LinearLayout>
-
 
 </RelativeLayout>

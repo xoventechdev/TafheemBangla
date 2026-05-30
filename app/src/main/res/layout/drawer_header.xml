@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="210dp"
+    android:background="@color/dark_green"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        app:cardCornerRadius="36dp"
+        app:cardElevation="4dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/white"
+        android:backgroundTint="@color/white">
+
+        <ImageView
+            android:id="@+id/drawer_logo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/logo" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/drawer_app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/kalpurush"
+        android:text="@string/app_name"
+        android:textSize="22sp"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_header_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/kalpurush"
+        android:text="তাফহীমুল কুরআন ও আধুনিক তাফসীর"
+        android:textColor="#B3FFFFFF"
+        android:textSize="13sp" />
+
+</LinearLayout>

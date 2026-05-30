@@ -7,7 +7,7 @@
     android:padding="12dp"
     android:layout_margin="3dp"
     android:id="@+id/hadithChapterLayout"
-    android:background="@drawable/ayat_header_background"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical">
 
     <!-- Hexagon-like Icon -->
@@ -15,9 +15,10 @@
         android:id="@+id/number"
         android:text="1"
         android:layout_width="40dp"
-        android:textColor="@color/white"
         android:layout_height="40dp"
+        android:textColor="?attr/colorOnPrimary"
         android:background="@drawable/ic_hexagon"
+        app:backgroundTint="?attr/colorPrimary"
         android:gravity="center"
         android:textAlignment="center"
     app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="রাসূলুল্লাহ "
-    android:textColor="@android:color/black"
+    android:textColor="?attr/textColorPrimary"
     android:textSize="18sp"
     android:textStyle="bold"
     app:layout_constraintStart_toEndOf="@id/number"
@@ -44,7 +45,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="হাদিসের রেঞ্জ: ১ - ৬৮৫"
-    android:textColor="@android:color/darker_gray"
+    android:textColor="?attr/textColorSecondary"
     android:textSize="14sp"
     app:layout_constraintStart_toStartOf="@id/tv_title"
     app:layout_constraintTop_toBottomOf="@id/tv_title"

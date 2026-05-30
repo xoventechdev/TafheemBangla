@@ -5,31 +5,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="?android:attr/colorBackground"
     tools:context=".Activity.SingleActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:background="?attr/colorPrimary"
+        app:liftOnScroll="true"
+        app:elevation="0dp">
+
         <com.google.android.material.appbar.MaterialToolbar
-            android:background="@color/purple_500"
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:subtitleTextColor="@color/white"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            app:titleTextColor="@color/white" />
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:titleTextColor="?attr/colorOnPrimary"
+            app:subtitleTextColor="#D9FFFFFF"
+            app:navigationIconTint="?attr/colorOnPrimary"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary" />
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/toolbarLayout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:tabBackground="@color/common"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/amaranth"
+            android:layout_height="48dp"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             app:tabMode="scrollable"
-            app:tabTextColor="@color/white" />
+            app:tabGravity="fill"
+            app:tabIndicatorColor="?attr/colorAccent"
+            app:tabIndicatorHeight="3dp"
+            app:tabIndicatorFullWidth="false"
+            app:tabSelectedTextColor="?attr/colorOnPrimary"
+            app:tabTextColor="#B3FFFFFF"
+            app:tabRippleColor="#26FFFFFF"
+            android:layoutDirection="rtl" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
@@ -38,10 +51,15 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layoutDirection="rtl"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+        android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_anchor="@id/appbarlayout"
+        app:layout_anchorGravity="bottom"
+        app:dividerColor="#1FFFFFFF" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

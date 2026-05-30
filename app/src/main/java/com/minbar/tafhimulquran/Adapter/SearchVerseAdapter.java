@@ -168,7 +168,9 @@ public class SearchVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                      if (favStatuss){
                          xovenHandler.deleteFav(ID);
                          mvh.fav.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-                         ((FavActivity) v.getContext()).checkList();
+                         if (v.getContext() instanceof FavActivity) {
+                             ((FavActivity) v.getContext()).checkList();
+                         }
                      }else {
                          xovenHandler.addFav(ID);
                          mvh.fav.setImageResource(R.drawable.ic_baseline_favorite_24);

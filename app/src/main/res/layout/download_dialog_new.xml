@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_baseline_cloud_download_24"
+                app:tint="?attr/colorPrimary"
+                android:layout_marginEnd="12dp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/download_audio_title"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/kalpurush"/>
+
+        </LinearLayout>
+
+        <!-- Description -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/download_audio_desc"
+            android:textColor="?attr/textColorSecondary"
+            android:textSize="14sp"
+            android:layout_marginBottom="24dp"
+            android:lineSpacingExtra="4dp"
+            android:fontFamily="@font/kalpurush"/>
+
+        <!-- Audio Options -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="কুরআন তিলাওয়াত"
+            android:textColor="?attr/textColorSecondary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/kalpurush"/>
+
+        <!-- Abdur Rahman Al-Sudais -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bt_sds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:strokeColor="?attr/colorPrimary"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_baseline_cloud_download_24"
+                    app:tint="?attr/colorPrimary"
+                    android:layout_marginEnd="16dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/abdur_rahman_sudais"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/kalpurush"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_baseline_play_circle_filled_24"
+                    app:tint="?attr/colorSecondary"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Abdul Basit -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bt_basit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:strokeColor="?attr/colorPrimary"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_baseline_cloud_download_24"
+                    app:tint="?attr/colorPrimary"
+                    android:layout_marginEnd="16dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/abdul_basit"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/kalpurush"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_baseline_play_circle_filled_24"
+                    app:tint="?attr/colorSecondary"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Mishary Rashid Al-Afasy -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bt_mishary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:strokeColor="?attr/colorPrimary"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_baseline_cloud_download_24"
+                    app:tint="?attr/colorPrimary"
+                    android:layout_marginEnd="16dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mishary_afasy"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/kalpurush"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_baseline_play_circle_filled_24"
+                    app:tint="?attr/colorSecondary"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Mishary Al-Afasy (Bangla) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bt_misharyBn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:strokeColor="?attr/colorPrimary"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_baseline_cloud_download_24"
+                    app:tint="?attr/colorPrimary"
+                    android:layout_marginEnd="16dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mishary_afasy_bn"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/kalpurush"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_baseline_play_circle_filled_24"
+                    app:tint="?attr/colorSecondary"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Close Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnClose"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/close"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="?attr/colorSecondary"
+            app:cornerRadius="28dp"
+            android:fontFamily="@font/kalpurush"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

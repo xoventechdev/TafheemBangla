@@ -1,117 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="340dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
-    android:padding="5dp"
-    android:background="#3F51B5"
-    android:layout_height="wrap_content">
+    app:cardBackgroundColor="?attr/colorSurface"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp"
+    app:cardUseCompatPadding="true"
+    app:strokeWidth="0dp">
+
     <LinearLayout
-        android:background="@color/white"
-        android:padding="5dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:padding="5dp"
-                android:src="@drawable/logo"
-                android:layout_width="40dp"
-                android:layout_height="40dp"/>
-            <TextView
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:textColor="@color/purple_500"
-                android:padding="5dp"
-                android:text="@string/downNotics"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/logo" />
+
         <TextView
-            android:textSize="16dp"
-            android:text="অডিও সুরাহ প্লে করতে হলে আপনাকে অবশ্যই তা আগে ডাউনলোড করতে হবে। আপনি নিচ থেকে আপনার পছন্দের অডিও ডাউনলোড করতে পারেন"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/kalpurush"
+            android:gravity="center"
+            android:text="@string/download_audio_title"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/kalpurush"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@string/download_audio_desc"
+            android:textColor="?attr/textColorSecondary"
+            android:textSize="14sp" />
+
         <LinearLayout
-            android:paddingBottom="2dp"
-            android:paddingTop="2dp"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatButton
-
+            <!-- Reciter 1: Primary Color (Highlighted) -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/bt_sds"
-                android:backgroundTint="#00673AB7"
-                android:drawableLeft="@drawable/ic_baseline_cloud_download_24"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="আব্দুর রহমান আল-সুদাইস"
-                android:textColor="@color/black"
-                android:textSize="14sp"/>
+                android:layout_height="54dp"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/kalpurush"
+                android:text="@string/abdur_rahman_sudais"
+                android:textAllCaps="false"
+                android:textColor="?attr/colorOnPrimary"
+                app:backgroundTint="?attr/colorPrimary"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/ic_baseline_cloud_download_24"
+                app:iconPadding="8dp"
+                app:iconTint="?attr/colorOnPrimary" />
 
-
-        </LinearLayout>
-        <LinearLayout
-            android:paddingBottom="2dp"
-            android:paddingTop="2dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.AppCompatButton
+            <!-- Reciter 2: Outlined for cleaner look -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/bt_basit"
-                android:backgroundTint="#00673AB7"
-                android:drawableLeft="@drawable/ic_baseline_cloud_download_24"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="কারী আব্দুল বাসিত"
-                android:textColor="@color/black"
-                android:textSize="14sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:paddingBottom="2dp"
-            android:paddingTop="2dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <androidx.appcompat.widget.AppCompatButton
+                android:layout_height="54dp"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/kalpurush"
+                android:text="@string/abdul_basit"
+                android:textAllCaps="false"
+                android:textColor="?attr/colorPrimary"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/ic_baseline_cloud_download_24"
+                app:iconPadding="8dp"
+                app:iconTint="?attr/colorPrimary"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp" />
+
+            <!-- Reciter 3 -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/bt_mishary"
-                android:backgroundTint="#00673AB7"
-                android:drawableLeft="@drawable/ic_baseline_cloud_download_24"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="শাইখ মিশারী বিন রশিদ আল-আফাসি"
-                android:textColor="@color/black"
-                android:textSize="14sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:paddingBottom="2dp"
-            android:paddingTop="2dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <androidx.appcompat.widget.AppCompatButton
+                android:layout_height="54dp"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/kalpurush"
+                android:text="@string/mishary_afasy"
+                android:textAllCaps="false"
+                android:textColor="?attr/colorPrimary"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/ic_baseline_cloud_download_24"
+                app:iconPadding="8dp"
+                app:iconTint="?attr/colorPrimary"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp" />
+
+            <!-- Reciter 4 -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/bt_misharyBn"
-                android:backgroundTint="#00673AB7"
-                android:drawableLeft="@drawable/ic_baseline_cloud_download_24"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="শাইখ মিশারী আল-আফাসি (বাংলা অনুবাদ)"
-                android:textColor="@color/black"
-                android:textSize="14sp"/>
+                android:layout_height="54dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/kalpurush"
+                android:text="@string/mishary_afasy_bn"
+                android:textAllCaps="false"
+                android:textColor="?attr/colorPrimary"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/ic_baseline_cloud_download_24"
+                app:iconPadding="8dp"
+                app:iconTint="?attr/colorPrimary"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp" />
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/popEnd"
-            android:layout_gravity="end"
-            android:text="Cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/kalpurush"
+            android:text="@string/cancel"
+            android:textColor="?attr/textColorSecondary" />
     </LinearLayout>
 
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

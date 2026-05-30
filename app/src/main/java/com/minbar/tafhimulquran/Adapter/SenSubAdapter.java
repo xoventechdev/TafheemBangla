@@ -47,13 +47,15 @@ public class SenSubAdapter extends RecyclerView.Adapter<SenSubAdapter.ViewHolder
         }
 
 
-        if (i== this.mDataFiltered.size()){
+        if (i == mDataFiltered.size() - 1) {
             vm.lastLine.setVisibility(View.GONE);
+        } else {
+            vm.lastLine.setVisibility(View.VISIBLE);
         }
+
         vm.senSubView.setOnClickListener(view -> {
             if(Objects.equals(cm.getIdAyat(), "0")){
                 ((SentenceActivity) view.getContext()).aboutShow(Integer.parseInt(cm.getIdSurah()));
-                //Toasty.success(mContext,"Coming Soon" , Toasty.LENGTH_SHORT).show();
             }else {
                 Intent intent = new Intent(mContext, StarkActivity.class);
                 intent.putExtra("idSurah", cm.getIdSurah());
@@ -70,7 +72,8 @@ public class SenSubAdapter extends RecyclerView.Adapter<SenSubAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView subNumber,subName, subAyat, subTika;
-        LinearLayout senSubView, lastLine;
+        LinearLayout senSubView;
+        View lastLine;
 
         public ViewHolder(View view) {
             super(view);
@@ -79,7 +82,7 @@ public class SenSubAdapter extends RecyclerView.Adapter<SenSubAdapter.ViewHolder
             this.subAyat = (TextView) view.findViewById(R.id.subAyat);
             this.subTika = (TextView) view.findViewById(R.id.subTika);
             this.senSubView = (LinearLayout) view.findViewById(R.id.senSubView);
-            this.lastLine = (LinearLayout) view.findViewById(R.id.lastLine);
+            this.lastLine = (View) view.findViewById(R.id.lastLine);
         }
     }
 }

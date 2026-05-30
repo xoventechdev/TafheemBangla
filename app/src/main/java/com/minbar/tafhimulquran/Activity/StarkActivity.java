@@ -23,6 +23,7 @@ import com.minbar.tafhimulquran.Model.VerseModel;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +38,7 @@ public class StarkActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stark);
 

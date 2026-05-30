@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <declare-styleable name="ArgPlayerView">
+        <attr name="arg_player_background_color" format="color" />
+        <attr name="arg_player_buttons_color" format="color" />
+        <attr name="arg_player_progress_color" format="color" />
+        <attr name="arg_player_text_color" format="color" />
+    </declare-styleable>
+</resources>

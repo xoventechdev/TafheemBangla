@@ -9,61 +9,72 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.minbar.tafhimulquran.Activity.DarsActivity;
 import com.minbar.tafhimulquran.Model.DarsModel;
 import com.minbar.tafhimulquran.R;
+import com.minbar.tafhimulquran.Utils.FontFamily;
 
 import java.util.List;
 
 public class DarsAdapter extends RecyclerView.Adapter<DarsAdapter.ViewHolder> {
-    public List<DarsModel> categoryListModels;
-    public Context mContext;
-    public List<DarsModel> mDataFiltered;
+    private final List<DarsModel> mDataFiltered;
+    private final Context mContext;
 
     public DarsAdapter(Context context, List<DarsModel> list) {
         this.mContext = context;
-        this.categoryListModels = list;
         this.mDataFiltered = list;
     }
 
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(this.mContext).inflate(R.layout.dars_design, viewGroup, false));
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.dars_design, parent, false);
+        return new ViewHolder(view);
     }
 
-    public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int i) {
-        viewHolder.title.setText(this.mDataFiltered.get(i).getTitle());
-        viewHolder.total.setText(this.mDataFiltered.get(i).getAuthor());
-        viewHolder.number.setText(this.mDataFiltered.get(i).getBnID());
-        viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(DarsAdapter.this.mContext, DarsActivity.class);
-                intent.putExtra("id", String.valueOf(DarsAdapter.this.mDataFiltered.get(i).getId()));
-                intent.putExtra("title", DarsAdapter.this.mDataFiltered.get(i).getTitle());
-                intent.putExtra("author", DarsAdapter.this.mDataFiltered.get(i).getAuthor());
-                intent.putExtra("ayat", DarsAdapter.this.mDataFiltered.get(i).getAyat());
-                DarsAdapter.this.mContext.startActivity(intent);
-            }
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        final DarsModel dars = mDataFiltered.get(position);
+        
+        holder.title.setText(dars.getTitle());
+        holder.total.setText(dars.getAuthor());
+        holder.number.setText(dars.getBnID());
+
+        // Apply dynamic fonts based on user settings
+        holder.title.setTypeface(FontFamily.getBangla(mContext));
+        holder.total.setTypeface(FontFamily.getBangla(mContext));
+        holder.number.setTypeface(FontFamily.getBangla(mContext));
+
+        holder.linearLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, DarsActivity.class);
+            intent.putExtra("id", String.valueOf(dars.getId()));
+            intent.putExtra("title", dars.getTitle());
+            intent.putExtra("author", dars.getAuthor());
+            intent.putExtra("ayat", dars.getAyat());
+            mContext.startActivity(intent);
         });
     }
 
+    @Override
     public int getItemCount() {
-        return this.mDataFiltered.size();
+        return mDataFiltered.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout linearLayout;
+        View linearLayout;
         TextView number;
         TextView title;
         TextView total;
 
-        public ViewHolder(View view) {
-            super(view);
-            this.number = (TextView) view.findViewById(R.id.cat_id);
-            this.title = (TextView) view.findViewById(R.id.cat_title);
-            this.total = (TextView) view.findViewById(R.id.cat_numberr);
-            this.linearLayout = (LinearLayout) view.findViewById(R.id.list_itemId);
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            number = itemView.findViewById(R.id.cat_id);
+            title = itemView.findViewById(R.id.cat_title);
+            total = itemView.findViewById(R.id.cat_numberr);
+            linearLayout = itemView.findViewById(R.id.list_itemId);
         }
     }
 }

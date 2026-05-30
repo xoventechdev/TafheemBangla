@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/downNoticss"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/kalpurush"/>
+
+        <!-- Subtitle -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ডাটাবেস ডাউনলোড হচ্ছে..."
+            android:textColor="?attr/textColorSecondary"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginBottom="32dp"
+            android:fontFamily="@font/kalpurush"/>
+
+        <!-- Progress Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="?attr/colorSurfaceVariant">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <!-- Progress Bar -->
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:progressTint="?attr/colorPrimary"
+                    android:indeterminateTint="?attr/colorPrimary"
+                    android:progressBackgroundTint="?attr/colorOnSurface"
+                    android:max="100"/>
+
+                <!-- Progress Info -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/progressText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0%"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/kalpurush"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="অপেক্ষা করুন"
+                        android:textColor="?attr/textColorSecondary"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/kalpurush"/>
+
+                </LinearLayout>
+
+                <!-- Download Speed -->
+                <TextView
+                    android:id="@+id/downloadSpeed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ডাউনলোড গতি: -- KB/s"
+                    android:textColor="?attr/textColorSecondary"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/kalpurush"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Storage Info -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_baseline_save_alt_24"
+                app:tint="?attr/colorSecondary"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ফাইল সংরক্ষিত হবে: Downloads/TafheemBangla/"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="12sp"
+                android:fontFamily="@font/kalpurush"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

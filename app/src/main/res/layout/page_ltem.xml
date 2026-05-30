@@ -3,26 +3,26 @@
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground">
     <TextView
         android:layout_margin="5dp"
         android:gravity="center"
-        android:textColor="@color/black"
+        android:textColor="?attr/textColorPrimary"
         android:id="@+id/txtVerse"
         android:text="@string/app_name"
-        android:fontFamily="@font/saleem_quran"
+        android:fontFamily="@font/noorehidayat"
         android:textSize="26sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <TextView
         android:layout_margin="5dp"
         android:gravity="center"
-        android:textColor="@color/black"
+        android:textColor="?attr/textColorSecondary"
         android:id="@+id/txtVerseId"
         android:text="22"
         android:fontFamily="@font/kalpurush"
         android:textSize="22sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 </LinearLayout>

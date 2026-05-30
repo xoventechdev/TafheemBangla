@@ -1,424 +1,537 @@
 package com.minbar.tafhimulquran.Prayer;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.os.Looper;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.preference.PreferenceManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
-import com.mikhaellopez.circularprogressbar.CircularProgressBar;
+import com.minbar.tafhimulquran.Activity.SettingsActivity;
 import com.minbar.tafhimulquran.R;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
+import com.minbar.tafhimulquran.databinding.ActivityPrayerBinding;
+import com.minbar.tafhimulquran.databinding.DialogCountrySelectionBinding;
+import com.minbar.tafhimulquran.databinding.DialogLocationSelectionBinding;
+import com.minbar.tafhimulquran.databinding.ItemPrayerTimeBinding;
+import com.minbar.tafhimulquran.databinding.ItemPrayerTomorrowBinding;
 
-import org.json.JSONObject;
-
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.TimeZone;
 
 public class PrayerActivity extends AppCompatActivity {
 
-    private TextView hijriDateText, locationWeatherText, currentTimeText, nextPrayerText, nextPrayerTimeText;
-    private TextView sunriseTimeText, sunsetTimeText, fajrTimeText, dhuhrTimeText;
-    private TextView asrTimeText, maghribTimeText, ishaTimeText;
-    private CircularProgressBar circularProgressBar;
+    private ActivityPrayerBinding binding;
     private RequestQueue requestQueue;
     private FusedLocationProviderClient fusedLocationClient;
+
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
-    private static final int EXACT_ALARM_PERMISSION_REQUEST_CODE = 1001;
     private String selectedDistrict = "ঢাকা";
     private boolean useCoordinates = false;
     private double latitude = 0.0;
     private double longitude = 0.0;
-    private Handler handler = new Handler();
-    private ImageView fajrClock, dhuhrClock, asrClock, maghribClock, ishaClock;
-    private Runnable countdownRunnable;
-    private static final String TAG = "PrayerActivity";
-    private boolean locationPermissionRequested = false;
 
+    private final Handler timeHandler = new Handler(Looper.getMainLooper());
+    private Runnable timeRunnable;
 
-    @SuppressLint("MissingInflatedId")
+    private PrayerTimesResponse.Data todayData;
+    private PrayerTimesResponse.Data tomorrowData;
+    private String currentMethod = "";
+    private String currentSchool = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_prayer);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_prayer);
 
+        setupToolbar();
+        initClients();
+        loadSavedLocation();
+        setupListeners();
+        startClock();
+        checkExactAlarmPermission();
+        
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        currentMethod = sp.getString("prayer_calculation_method", "3");
+        currentSchool = sp.getString("prayer_school", "1");
+        
+        checkPermissionsAndFetchData();
+    }
 
+    private void setupToolbar() {
+        setSupportActionBar(binding.toolBar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle("নামাজের সময় সূচী");
+        }
+    }
 
-        MaterialToolbar toolbar = findViewById(R.id.toolBar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("নামাজের সময় সূচী");
-
-        // Initialize views
-        hijriDateText = findViewById(R.id.hijri_date_text);
-        locationWeatherText = findViewById(R.id.location_weather_text);
-        currentTimeText = findViewById(R.id.current_time_text);
-        nextPrayerText = findViewById(R.id.next_prayer_text);
-        nextPrayerTimeText = findViewById(R.id.next_prayer_time_text);
-        circularProgressBar = findViewById(R.id.circularProgressBar);
-        sunriseTimeText = findViewById(R.id.sunrise_time_text);
-        sunsetTimeText = findViewById(R.id.sunset_time_text);
-        fajrTimeText = findViewById(R.id.fajr_time_text);
-        dhuhrTimeText = findViewById(R.id.dhuhr_time_text);
-        asrTimeText = findViewById(R.id.asr_time_text);
-        maghribTimeText = findViewById(R.id.maghrib_time_text);
-        ishaTimeText = findViewById(R.id.isha_time_text);
-        fajrClock = findViewById(R.id.fajr_clock);
-        dhuhrClock = findViewById(R.id.dhuhr_clock);
-        asrClock = findViewById(R.id.asr_clock);
-        maghribClock = findViewById(R.id.maghrib_clock);
-        ishaClock = findViewById(R.id.isha_clock);
-
-        // Initialize Volley and Location Client
+    private void initClients() {
         requestQueue = Volley.newRequestQueue(this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    }
 
-        // Load stored location
+    private void loadSavedLocation() {
         String[] savedLocation = LocationUtils.loadLocation(this);
         selectedDistrict = savedLocation[0];
-        locationWeatherText.setText(selectedDistrict);
+        String country = savedLocation.length > 1 ? savedLocation[1] : "Bangladesh";
 
-        // Check location permission and fetch device location if granted
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fetchDeviceLocation();
-        } else {
-            fetchPrayerTimes();
-            updateNextDayPrayerTimes();
+        useCoordinates = LocationUtils.shouldUseCoordinates(this);
+        if (useCoordinates) {
+            double[] coords = LocationUtils.getSavedCoordinates(this);
+            latitude = coords[0];
+            longitude = coords[1];
         }
 
-        // Update current time every second
-        updateCurrentTime();
-        locationWeatherText.setOnClickListener(v -> showLocationSelectionDialog());
-
-        // Start countdown
-//        startCountdown();
-
-        checkLocationPermission();
+        if (!"Bangladesh".equals(country)) {
+            binding.locationWeatherText.setText(selectedDistrict + ", " + country);
+        } else {
+            binding.locationWeatherText.setText(selectedDistrict);
+        }
     }
 
+    private void setupListeners() {
+        binding.locationWeatherText.setOnClickListener(v -> showLocationSelectionDialog());
+        binding.locationWeatherText.setOnLongClickListener(v -> {
+            LocationUtils.saveInternationalLocation(this, "Riyadh", "Saudi Arabia");
+            selectedDistrict = "Riyadh";
+            useCoordinates = false;
+            binding.locationWeatherText.setText("Riyadh, Saudi Arabia");
+            fetchAllPrayerData();
+            Toast.makeText(this, "Location set to Riyadh", Toast.LENGTH_SHORT).show();
+            return true;
+        });
+        binding.azanSoundSettings.setOnClickListener(v -> {
+            startActivity(new Intent(this, SettingsActivity.class));
+        });
 
-    private void checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (!locationPermissionRequested) {
-                locationPermissionRequested = true;
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        binding.azanSoundSettings.setOnLongClickListener(v -> {
+            PrayerNotificationManager.scheduleTestAlarm(this);
+            Toast.makeText(this, "Test Azan will ring in 10 seconds! Lock your phone.", Toast.LENGTH_LONG).show();
+            return true;
+        });
+    }
+
+    private void checkExactAlarmPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
+                new AlertDialog.Builder(this)
+                        .setTitle("অ্যালার্ম অনুমতি প্রয়োজন")
+                        .setMessage("সঠিক সময়ে আজান দেওয়ার জন্য 'Alarms & Reminders' অনুমতি প্রয়োজন।")
+                        .setPositiveButton("সেটিিংস", (dialog, which) -> {
+                            Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                            startActivity(intent);
+                        })
+                        .show();
+                return;
             }
-        } else {
-            fetchDeviceLocation();
-            updateNextDayPrayerTimes();
-            fetchPrayerTimes();
         }
-    }
 
-    private void updateNextDayPrayerTimes() {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Dhaka"));
-        calendar.add(Calendar.DATE, 1); // Move to next day
-        String nextDay = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
-        String url = useCoordinates
-                ? "http://api.aladhan.com/v1/timings/" + nextDay + "?latitude=" + latitude + "&longitude=" + longitude + "&method=3&school=1"
-                : "http://api.aladhan.com/v1/timingsByCity/" + nextDay + "?city=" + LocationUtils.getApiCityName(selectedDistrict, "") + "&country=Bangladesh&method=3&school=1";
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                response -> {
-                    Gson gson = new Gson();
-                    PrayerTimesResponse nextDayResponse = gson.fromJson(response.toString(), PrayerTimesResponse.class);
-                    PrayerTimesResponse.Data nextDayData = nextDayResponse.data;
-
-                    TextView fajrTimeTextT = findViewById(R.id.fajr_time_textT);
-                    TextView dhuhrTimeTextT = findViewById(R.id.dhuhr_time_textT);
-                    TextView asrTimeTextT = findViewById(R.id.asr_time_textT);
-                    TextView maghribTimeTextT = findViewById(R.id.maghrib_time_textT);
-                    TextView ishaTimeTextT = findViewById(R.id.isha_time_textT);
-
-                    fajrTimeTextT.setText(DateUtils.formatTimeTo12Hour(nextDayData.timings.Fajr));
-                    dhuhrTimeTextT.setText(DateUtils.formatTimeTo12Hour(nextDayData.timings.Dhuhr));
-                    asrTimeTextT.setText(DateUtils.formatTimeTo12Hour(nextDayData.timings.Asr));
-                    maghribTimeTextT.setText(DateUtils.formatTimeTo12Hour(nextDayData.timings.Maghrib));
-                    ishaTimeTextT.setText(DateUtils.formatTimeTo12Hour(nextDayData.timings.Isha));
-                },
-                error -> Toast.makeText(PrayerActivity.this, "Error fetching next day prayer times: " + error.getMessage(), Toast.LENGTH_SHORT).show());
-
-        requestQueue.add(request);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            if (notificationManager != null && !notificationManager.canUseFullScreenIntent()) {
+                new AlertDialog.Builder(this)
+                        .setTitle("স্ক্রিন ওয়েক আপ অনুমতি")
+                        .setMessage("ফোন লক থাকা অবস্থায় আজান স্ক্রিন দেখানোর জন্য অনুমতি প্রয়োজন।")
+                        .setPositiveButton("সেটিিংস", (dialog, which) -> {
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT);
+                            intent.setData(Uri.parse("package:" + getPackageName()));
+                            startActivity(intent);
+                        })
+                        .show();
+                return;
+            }
         }
-        return super.onOptionsItemSelected(item);
+
+        checkBatteryOptimizations();
     }
 
-    private void updateCurrentTime() {
-        final Runnable runnable = new Runnable() {
+    private void startClock() {
+        timeRunnable = new Runnable() {
             @Override
             public void run() {
-                SimpleDateFormat sdf = new SimpleDateFormat("h:mm a", Locale.getDefault());
-                sdf.setTimeZone(TimeZone.getTimeZone("Asia/Dhaka"));
-                currentTimeText.setText(sdf.format(Calendar.getInstance().getTime()));
-                handler.postDelayed(this, 1000);
+                SimpleDateFormat sdf = new SimpleDateFormat("h:mm:ss a", Locale.getDefault());
+                binding.currentTimeText.setText(DateUtils.convertToBengaliDigits(sdf.format(Calendar.getInstance().getTime())));
+
+                if (todayData != null) {
+                    String nextPrayerInfo = DateUtils.getNextPrayer(todayData);
+                    if (nextPrayerInfo != null && nextPrayerInfo.contains("|")) {
+                        String[] parts = nextPrayerInfo.split("\\|");
+                        binding.nextPrayerText.setText(parts[0]);
+                        binding.nextPrayerTimeText.setText(DateUtils.convertToBengaliDigits(parts[1]));
+                    }
+
+                    long[] times = DateUtils.getElapsedAndTotal(todayData);
+                    long elapsed = times[0];
+                    long total = times[1];
+
+                    if (total > 0) {
+                        float progress = (float) elapsed * 100 / total;
+                        binding.circularProgressBar.setProgress(Math.min(100, Math.max(0, progress)));
+                    } else {
+                        binding.circularProgressBar.setProgress(0);
+                    }
+                }
+
+                timeHandler.postDelayed(this, 1000);
             }
         };
-        handler.post(runnable);
+        timeHandler.post(timeRunnable);
     }
 
-    private void showLocationSelectionDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_location_selection, null);
-        builder.setView(dialogView);
+    private void showLoader() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
 
-        Spinner districtSpinner = dialogView.findViewById(R.id.district_spinner);
-        Button useLocationButton = dialogView.findViewById(R.id.use_location_button);
-        Button confirmButton = dialogView.findViewById(R.id.confirm_button);
+    private void hideLoader() {
+        binding.progressBar.setVisibility(View.GONE);
+    }
 
-        // Hide sub-district spinner
-        Spinner subDistrictSpinner = dialogView.findViewById(R.id.sub_district_spinner);
-        subDistrictSpinner.setVisibility(View.GONE);
+    private void checkPermissionsAndFetchData() {
+        showLoader();
+        todayData = PrayerNotificationManager.getCachedPrayerData(this);
+        if (todayData != null) {
+            updateUI(todayData);
+        }
 
-        ArrayAdapter<String> districtAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, LocationUtils.getDistricts());
-        districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        districtSpinner.setAdapter(districtAdapter);
-
-        int districtIndex = Arrays.asList(LocationUtils.getDistricts()).indexOf(selectedDistrict);
-        if (districtIndex >= 0) districtSpinner.setSelection(districtIndex);
-
-        AlertDialog dialog = builder.create();
-
-        useLocationButton.setOnClickListener(v -> {
-            if (ActivityCompat.checkSelfPermission(PrayerActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                fetchDeviceLocation();
-                dialog.dismiss();
-            } else {
-                ActivityCompat.requestPermissions(PrayerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
-            }
-        });
-
-        confirmButton.setOnClickListener(v -> {
-            selectedDistrict = (String) districtSpinner.getSelectedItem();
-            useCoordinates = false;
-            LocationUtils.saveLocation(PrayerActivity.this, selectedDistrict, "");
-            locationWeatherText.setText(selectedDistrict);
-            fetchPrayerTimes();
-            updateNextDayPrayerTimes();
-            dialog.dismiss();
-        });
-
-        dialog.show();
+        // Only fetch device location automatically if the user has previously opted to use coordinates
+        if (useCoordinates && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fetchDeviceLocation();
+        } else {
+            fetchAllPrayerData();
+        }
     }
 
     private void fetchDeviceLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            fetchAllPrayerData();
+            return;
+        }
+
         fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
             if (location != null) {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
                 selectedDistrict = LocationUtils.getDistrictFromCoordinates(this, latitude, longitude);
                 useCoordinates = true;
-                LocationUtils.saveLocation(this, selectedDistrict, "");
-                locationWeatherText.setText(selectedDistrict);
-                fetchPrayerTimesWithCoordinates(latitude, longitude);
-
-                updateNextDayPrayerTimes();
-            } else {
-                Toast.makeText(this, "Unable to detect location, using saved location", Toast.LENGTH_SHORT).show();
-                fetchPrayerTimes();
+                LocationUtils.saveCoordinates(this, latitude, longitude, selectedDistrict);
+                binding.locationWeatherText.setText(selectedDistrict);
             }
-        }).addOnFailureListener(e -> {
-            Toast.makeText(this, "Location error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            fetchPrayerTimes();
-        });
+            fetchAllPrayerData();
+        }).addOnFailureListener(e -> fetchAllPrayerData());
     }
 
+    private void fetchAllPrayerData() {
+        fetchPrayerTimes(true);
+        fetchPrayerTimes(false);
+    }
+
+    private void fetchPrayerTimes(boolean isToday) {
+        String url;
+        String dateStr = "timings";
+        if (!isToday) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, 1);
+            dateStr = new SimpleDateFormat("dd-MM-yyyy", Locale.US).format(calendar.getTime());
+        }
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        String method = sp.getString("prayer_calculation_method", "3");
+        String school = sp.getString("prayer_school", "1");
+
+        try {
+            if (useCoordinates) {
+                url = String.format(Locale.US, "https://api.aladhan.com/v1/timings/%s?latitude=%f&longitude=%f&method=%s&school=%s", dateStr, latitude, longitude, method, school);
+            } else {
+                String city = LocationUtils.getApiCityName(selectedDistrict, "");
+                String encodedCity = URLEncoder.encode(city, "UTF-8");
+                String[] savedLocation = LocationUtils.loadLocation(this);
+                String country = savedLocation.length > 1 ? savedLocation[1] : "Bangladesh";
+                url = String.format(Locale.US, "https://api.aladhan.com/v1/timingsByCity/%s?city=%s&country=%s&method=%s&school=%s", dateStr, encodedCity, country, method, school);
+            }
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                    response -> {
+                        PrayerTimesResponse prayerResponse = new Gson().fromJson(response.toString(), PrayerTimesResponse.class);
+                        if (prayerResponse != null && prayerResponse.data != null) {
+                            if (isToday) {
+                                todayData = prayerResponse.data;
+                                updateUI(todayData);
+                                hideLoader();
+                            } else {
+                                tomorrowData = prayerResponse.data;
+                                updateTomorrowUI(tomorrowData);
+                            }
+
+                            if (todayData != null && tomorrowData != null) {
+                                PrayerNotificationManager.schedulePrayerNotifications(this, todayData, tomorrowData);
+                            }
+                        }
+                    },
+                    error -> {
+                        if (isToday) hideLoader();
+                    });
+            requestQueue.add(request);
+        } catch (Exception e) {
+            if (isToday) hideLoader();
+            e.printStackTrace();
+        }
+    }
+
+    private void updateUI(PrayerTimesResponse.Data data) {
+        if (data.date != null && data.date.hijri != null) {
+            binding.hijriDateText.setText(DateUtils.formatHijriDate(data.date.hijri.date, data.date.hijri.month.number));
+        }
+
+        if (data.timings != null) {
+            setupPrayerItem(binding.itemFajr, "ফজর", data.timings.Fajr, R.drawable.ic_namaz);
+            setupPrayerItem(binding.itemDhuhr, "যোহর", data.timings.Dhuhr, R.drawable.ic_namaz);
+            setupPrayerItem(binding.itemAsr, "আসর", data.timings.Asr, R.drawable.ic_namaz);
+            setupPrayerItem(binding.itemMaghrib, "মাগরিব", data.timings.Maghrib, R.drawable.ic_namaz);
+            setupPrayerItem(binding.itemIsha, "ইশা", data.timings.Isha, R.drawable.ic_namaz);
+
+            binding.sunriseTimeText.setText(DateUtils.convertToBengaliDigits(DateUtils.formatTimeTo12Hour(data.timings.Sunrise)));
+            binding.sunsetTimeText.setText(DateUtils.convertToBengaliDigits(DateUtils.formatTimeTo12Hour(data.timings.Maghrib)));
+
+            String nextPrayerInfo = DateUtils.getNextPrayer(data);
+            if (nextPrayerInfo != null && nextPrayerInfo.contains("|")) {
+                String[] parts = nextPrayerInfo.split("\\|");
+                binding.nextPrayerText.setText(parts[0]);
+                binding.nextPrayerTimeText.setText(DateUtils.convertToBengaliDigits(parts[1]));
+            }
+
+            updateProgressBar(data);
+        }
+    }
+
+    private void setupPrayerItem(ItemPrayerTimeBinding itemBinding, String name, String time, int iconRes) {
+        if (itemBinding != null) {
+            itemBinding.prayerName.setText(name);
+            itemBinding.prayerTime.setText(DateUtils.convertToBengaliDigits(DateUtils.formatTimeTo12Hour(time)));
+            itemBinding.prayerIcon.setImageResource(iconRes);
+
+            SharedPreferences prefs = getSharedPreferences("PrayerPrefs", MODE_PRIVATE);
+            boolean isEnabled = prefs.getBoolean("alarm_enabled_" + name, true);
+            itemBinding.alarmIcon.setImageResource(isEnabled ? R.drawable.ic_alarm_on : R.drawable.ic_alarm_off);
+            itemBinding.alarmIcon.setOnClickListener(v -> {
+                boolean newState = !prefs.getBoolean("alarm_enabled_" + name, true);
+                prefs.edit().putBoolean("alarm_enabled_" + name, newState).apply();
+                itemBinding.alarmIcon.setImageResource(newState ? R.drawable.ic_alarm_on : R.drawable.ic_alarm_off);
+                Toast.makeText(this, name + (newState ? " আজান সচল" : " আজান বন্ধ"), Toast.LENGTH_SHORT).show();
+                if (todayData != null && tomorrowData != null) {
+                    PrayerNotificationManager.schedulePrayerNotifications(this, todayData, tomorrowData);
+                }
+            });
+        }
+    }
+
+    private void updateTomorrowUI(PrayerTimesResponse.Data data) {
+        if (data != null && data.timings != null) {
+            setupTomorrowItem(binding.tomFajr, "ফজর", data.timings.Fajr);
+            setupTomorrowItem(binding.tomDhuhr, "যোহর", data.timings.Dhuhr);
+            setupTomorrowItem(binding.tomAsr, "আসর", data.timings.Asr);
+            setupTomorrowItem(binding.tomMaghrib, "মাগরিব", data.timings.Maghrib);
+            setupTomorrowItem(binding.tomIsha, "ইশা", data.timings.Isha);
+        }
+    }
+
+    private void setupTomorrowItem(ItemPrayerTomorrowBinding itemBinding, String name, String time) {
+        if (itemBinding != null) {
+            itemBinding.prayerName.setText(name);
+            itemBinding.prayerTime.setText(DateUtils.convertToBengaliDigits(DateUtils.formatTimeTo12Hour(time)));
+        }
+    }
+
+    private void updateProgressBar(PrayerTimesResponse.Data data) {
+        long[] times = DateUtils.getElapsedAndTotal(data);
+        long elapsed = times[0];
+        long total = times[1];
+
+        if (total > 0) {
+            float progress = (float) elapsed * 100 / total;
+            binding.circularProgressBar.setProgressWithAnimation(Math.min(100, Math.max(0, progress)), 1000L);
+        }
+    }
+
+    private void showLocationSelectionDialog() {
+        boolean isInternational = LocationUtils.isInternationalLocation(this);
+        if (isInternational) {
+            showInternationalLocationDialog();
+        } else {
+            showBangladeshLocationDialog();
+        }
+    }
+
+    private void showBangladeshLocationDialog() {
+        DialogLocationSelectionBinding dialogBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(this), R.layout.dialog_location_selection, null, false);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogBinding.getRoot())
+                .create();
+
+        dialogBinding.subDistrictSpinner.setVisibility(View.GONE);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, LocationUtils.BANGLADESH_DISTRICTS);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dialogBinding.districtSpinner.setAdapter(adapter);
+
+        int currentPos = Arrays.asList(LocationUtils.BANGLADESH_DISTRICTS).indexOf(selectedDistrict);
+        if (currentPos >= 0) dialogBinding.districtSpinner.setSelection(currentPos);
+
+        dialogBinding.confirmButton.setOnClickListener(v -> {
+            selectedDistrict = dialogBinding.districtSpinner.getSelectedItem().toString();
+            useCoordinates = false;
+            LocationUtils.saveLocation(this, selectedDistrict, "");
+            binding.locationWeatherText.setText(selectedDistrict);
+            fetchAllPrayerData();
+            dialog.dismiss();
+        });
+
+        dialogBinding.useLocationButton.setOnClickListener(v -> {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+            } else {
+                useCoordinates = true;
+                fetchDeviceLocation();
+            }
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    private void showInternationalLocationDialog() {
+        DialogCountrySelectionBinding dialogBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(this), R.layout.dialog_country_selection, null, false);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogBinding.getRoot())
+                .create();
+
+        ArrayAdapter<String> countryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, LocationUtils.getAllCountries());
+        countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dialogBinding.countrySpinner.setAdapter(countryAdapter);
+
+        String[] savedLocation = LocationUtils.loadLocation(this);
+        String savedCountry = savedLocation.length > 1 ? savedLocation[1] : "Bangladesh";
+        int countryPos = Arrays.asList(LocationUtils.getAllCountries()).indexOf(savedCountry);
+        if (countryPos >= 0) dialogBinding.countrySpinner.setSelection(countryPos);
+
+        ArrayAdapter<String> districtAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, LocationUtils.BANGLADESH_DISTRICTS);
+        districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dialogBinding.districtSpinner.setAdapter(districtAdapter);
+
+        int districtPos = Arrays.asList(LocationUtils.BANGLADESH_DISTRICTS).indexOf(selectedDistrict);
+        if (districtPos >= 0) dialogBinding.districtSpinner.setSelection(districtPos);
+
+        dialogBinding.confirmButton.setOnClickListener(v -> {
+            selectedDistrict = dialogBinding.districtSpinner.getSelectedItem().toString();
+            String selectedCountry = dialogBinding.countrySpinner.getSelectedItem().toString();
+            useCoordinates = false;
+            LocationUtils.saveInternationalLocation(this, selectedDistrict, selectedCountry);
+            binding.locationWeatherText.setText(selectedDistrict + ", " + selectedCountry);
+            fetchAllPrayerData();
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timeHandler.removeCallbacks(timeRunnable);
+    }
+
+    private void checkBatteryOptimizations() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+            if (pm != null && !pm.isIgnoringBatteryOptimizations(getPackageName())) {
+                new AlertDialog.Builder(this)
+                        .setTitle("ব্যাকগ্রাউন্ড রান অনুমতি")
+                        .setMessage("অ্যাপটি বন্ধ থাকলেও সঠিক সময়ে আজান পাওয়ার জন্য ব্যাটারি অপটিমাইজেশন বন্ধ করা প্রয়োজন।")
+                        .setPositiveButton("সেটিংস এ যান", (dialog, which) -> {
+                            Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                            intent.setData(Uri.parse("package:" + getPackageName()));
+                            startActivity(intent);
+                        })
+                        .setNegativeButton("পরে", null)
+                        .show();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        String newMethod = sp.getString("prayer_calculation_method", "3");
+        String newSchool = sp.getString("prayer_school", "1");
+
+        if (!newMethod.equals(currentMethod) || !newSchool.equals(currentSchool)) {
+            currentMethod = newMethod;
+            currentSchool = newSchool;
+            Toast.makeText(this, "সেটিংস আপডেট হচ্ছে...", Toast.LENGTH_SHORT).show();
+            showLoader();
+            fetchAllPrayerData();
+        }
+    }
+    
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                useCoordinates = true;
                 fetchDeviceLocation();
-                updateNextDayPrayerTimes();
-                fetchPrayerTimes();
-            } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                Toast.makeText(this, "Location permission denied, using saved location", Toast.LENGTH_LONG).show();
-                fetchPrayerTimes();
-                updateNextDayPrayerTimes();
-            }
-        } else if (requestCode == EXACT_ALARM_PERMISSION_REQUEST_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            PrayerNotificationManager.onRequestPermissionsResult(this, requestCode, grantResults);
-        }
-    }
-
-    private void fetchPrayerTimes() {
-        if (useCoordinates) {
-            fetchPrayerTimesWithCoordinates(latitude, longitude);
-        } else {
-            String city = LocationUtils.getApiCityName(selectedDistrict, "");
-            String url = "http://api.aladhan.com/v1/timingsByCity?city=" + city + "&country=Bangladesh&method=3&school=1";
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                    response -> {
-                        Gson gson = new Gson();
-                        PrayerTimesResponse prayerResponse = gson.fromJson(response.toString(), PrayerTimesResponse.class);
-                        updateUI(prayerResponse.data);
-                    },
-                    error -> Toast.makeText(PrayerActivity.this, "Error fetching prayer times: " + error.getMessage(), Toast.LENGTH_SHORT).show());
-
-            requestQueue.add(request);
-        }
-    }
-
-    private void fetchPrayerTimesWithCoordinates(double latitude, double longitude) {
-        String url = "http://api.aladhan.com/v1/timings?latitude=" + latitude + "&longitude=" + longitude + "&method=3&school=1";
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                response -> {
-                    Gson gson = new Gson();
-                    PrayerTimesResponse prayerResponse = gson.fromJson(response.toString(), PrayerTimesResponse.class);
-                    updateUI(prayerResponse.data);
-                },
-                error -> Toast.makeText(PrayerActivity.this, "Error fetching prayer times: " + error.getMessage(), Toast.LENGTH_SHORT).show());
-
-        requestQueue.add(request);
-    }
-
-    private void updateUI(PrayerTimesResponse.Data data) {
-        // Update Hijri date
-        hijriDateText.setText(DateUtils.formatHijriDate(data.date.hijri.date, data.date.hijri.month.number));
-
-        // Update prayer times
-        fajrTimeText.setText(DateUtils.formatTimeTo12Hour(data.timings.Fajr));
-        dhuhrTimeText.setText(DateUtils.formatTimeTo12Hour(data.timings.Dhuhr));
-        asrTimeText.setText(DateUtils.formatTimeTo12Hour(data.timings.Asr));
-        maghribTimeText.setText(DateUtils.formatTimeTo12Hour(data.timings.Maghrib));
-        ishaTimeText.setText(DateUtils.formatTimeTo12Hour(data.timings.Isha));
-        sunriseTimeText.setText(DateUtils.formatTimeTo12Hour(data.timings.Sunrise));
-        sunsetTimeText.setText(DateUtils.formatTimeTo12Hour(data.timings.Maghrib)); // Assuming Sunset = Maghrib
-
-        // Determine next prayer and update progress
-        String nextPrayer = DateUtils.getNextPrayer(data.timings);
-        String[] prayerParts = nextPrayer.split(" ", 2);
-        nextPrayerText.setText(prayerParts[0]);
-        String[] next = prayerParts[1].split(" ", 2);
-        nextPrayerTimeText.setText(next[0]);
-        updateProgressBar(data.timings);
-
-        // Update clock tints
-        Calendar now = Calendar.getInstance(TimeZone.getTimeZone("Asia/Dhaka"));
-        int currentMinutes = now.get(Calendar.HOUR_OF_DAY) * 60 + now.get(Calendar.MINUTE);
-        String[] times = {data.timings.Fajr, data.timings.Dhuhr, data.timings.Asr, data.timings.Maghrib, data.timings.Isha};
-        int[] minutes = new int[5];
-        for (int i = 0; i < times.length; i++) {
-            String[] timeParts = times[i].split(":");
-            minutes[i] = Integer.parseInt(timeParts[0]) * 60 + Integer.parseInt(timeParts[1]);
-        }
-        fajrClock.setImageTintList(null);
-        dhuhrClock.setImageTintList(null);
-        asrClock.setImageTintList(null);
-        maghribClock.setImageTintList(null);
-        ishaClock.setImageTintList(null);
-        for (int i = 0; i < minutes.length; i++) {
-            if (currentMinutes >= minutes[i]) {
-                if (i == 0) fajrClock.setImageTintList(androidx.core.content.ContextCompat.getColorStateList(this, android.R.color.holo_red_dark));
-                else if (i == 1) dhuhrClock.setImageTintList(androidx.core.content.ContextCompat.getColorStateList(this, android.R.color.holo_red_dark));
-                else if (i == 2) asrClock.setImageTintList(androidx.core.content.ContextCompat.getColorStateList(this, android.R.color.holo_red_dark));
-            } else if (i == nextPrayerIndex(nextPrayer)) {
-                if (i == 3) maghribClock.setImageTintList(androidx.core.content.ContextCompat.getColorStateList(this, R.color.teal_200));
-                else if (i == 4) ishaClock.setImageTintList(androidx.core.content.ContextCompat.getColorStateList(this, R.color.teal_200));
             } else {
-                if (i == 3) maghribClock.setImageTintList(androidx.core.content.ContextCompat.getColorStateList(this, R.color.light_gray));
-                else if (i == 4) ishaClock.setImageTintList(androidx.core.content.ContextCompat.getColorStateList(this, R.color.light_gray));
+                Toast.makeText(this, "লোকেশন পারমিশন প্রয়োজন", Toast.LENGTH_SHORT).show();
             }
-        }
-
-        PrayerNotificationManager.schedulePrayerNotifications(this, data);
-    }
-
-    private int nextPrayerIndex(String nextPrayer) {
-        if (nextPrayer == null || nextPrayer.isEmpty()) {
-            Log.e(TAG, "nextPrayer is null or empty");
-            return -1;
-        }
-        String prayerName = nextPrayer.split(" ")[0].trim();
-        switch (prayerName) {
-            case "আসর": return 2;
-            case "মাগরিব": return 3;
-            case "ইশা": return 4;
-            case "ফজর": return 0;
-            case "যোহর": return 1;
-            default:
-                Log.e(TAG, "Unexpected prayer name: " + prayerName);
-                return -1;
-        }
-    }
-
-    private void updateProgressBar(PrayerTimesResponse.Data.Timings timings) {
-        Calendar now = Calendar.getInstance(TimeZone.getTimeZone("Asia/Dhaka"));
-        int currentMinutes = now.get(Calendar.HOUR_OF_DAY) * 60 + now.get(Calendar.MINUTE);
-
-        String[] prayerTimes = {timings.Fajr, timings.Dhuhr, timings.Asr, timings.Maghrib, timings.Isha};
-        int[] prayerMinutes = new int[5];
-        for (int i = 0; i < prayerTimes.length; i++) {
-            String[] timeParts = prayerTimes[i].split(":");
-            prayerMinutes[i] = Integer.parseInt(timeParts[0]) * 60 + Integer.parseInt(timeParts[1]);
-        }
-
-        int nextPrayerIndex = 0;
-        for (int i = 0; i < prayerMinutes.length; i++) {
-            if (currentMinutes < prayerMinutes[i]) {
-                nextPrayerIndex = i;
-                break;
-            }
-        }
-        if (currentMinutes >= prayerMinutes[4]) nextPrayerIndex = 0;
-
-        int startMinutes = (nextPrayerIndex > 0) ? prayerMinutes[nextPrayerIndex - 1] : prayerMinutes[4];
-        int endMinutes = prayerMinutes[nextPrayerIndex];
-        int totalDuration = (endMinutes - startMinutes + 1440) % 1440;
-        int timeLeft = (endMinutes - currentMinutes + 1440) % 1440;
-        int progress = 100 - (timeLeft * 100 / totalDuration);
-
-        circularProgressBar.setProgressWithAnimation((float) progress, 1000L);
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (countdownRunnable != null) {
-            handler.removeCallbacks(countdownRunnable);
         }
     }
 }

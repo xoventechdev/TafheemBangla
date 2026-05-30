@@ -7,91 +7,119 @@
 
     </data>
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?android:attr/colorBackground"
+        android:fitsSystemWindows="true">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:background="@color/purple_500"
-            android:id="@+id/toolBar"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:subtitleTextColor="@color/white"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            app:titleTextColor="@color/white" />
+            android:layout_height="wrap_content"
+            android:theme="@style/Widget.MaterialComponents.Toolbar.Primary">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_below="@+id/toolBar"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:navigationIconTint="?attr/colorOnPrimary"
+                app:titleTextColor="?attr/colorOnPrimary"
+                tools:title="দারসুল কুরআন" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".Activity.DarsActivity">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/copy_dars"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_baseline_content_copy_24"
-                app:fabSize="normal"
-                app:tint="@color/white"
-                android:backgroundTint="@color/common"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
-            <androidx.core.widget.NestedScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <LinearLayout
-                    android:padding="5dp"
-                    android:orientation="vertical"
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    app:cardUseCompatPadding="true">
 
-                    <TextView
-                        android:textIsSelectable="true"
-                        android:fontFamily="@font/kalpurush"
-                        android:gravity="center_horizontal"
-                        android:id="@+id/title"
-                        android:text="@string/app_name"
-                        android:textColor="@color/black"
-                        android:padding="5dp"
-                        android:textSize="22sp"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
 
-                    <TextView
-                        android:textIsSelectable="true"
-                        android:fontFamily="@font/kalpurush"
-                        android:gravity="center_horizontal"
-                        android:text="author md kamal hosen"
-                        android:id="@+id/author"
-                        android:textSize="20sp"
-                        android:padding="2dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/kalpurush"
+                            android:gravity="center"
+                            android:textColor="?attr/textColorPrimary"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:textIsSelectable="true"
+                            tools:text="দারসুল কুরআন শিরোনাম" />
 
-                    <View
-                        android:layout_marginBottom="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.3dp"
-                        android:background="@color/black" />
+                        <TextView
+                            android:id="@+id/author"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/kalpurush"
+                            android:gravity="center"
+                            android:textColor="?attr/textColorSecondary"
+                            android:textSize="18sp"
+                            android:textIsSelectable="true"
+                            tools:text="লেখক" />
 
-                    <TextView
-                        android:textIsSelectable="true"
-                        android:textColor="#B0000000"
-                        android:fontFamily="@font/kalpurush"
-                        android:id="@+id/content"
-                        android:textSize="20sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent" />
-                </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
+                        <View
+                            android:layout_width="60dp"
+                            android:layout_height="1dp"
+                            android:layout_gravity="center"
+                            android:layout_marginVertical="16dp"
+                            android:background="?attr/textColorSecondary" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </RelativeLayout>
+                        <TextView
+                            android:id="@+id/content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/kalpurush"
+                            android:lineSpacingExtra="8dp"
+                            android:textColor="?attr/textColorPrimary"
+                            android:textSize="20sp"
+                            android:textIsSelectable="true"
+                            tools:text="দারসের বিষয়বস্তু এখানে থাকবে..." />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Spacing at the bottom to avoid FAB overlap -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/copy_dars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:contentDescription="Copy Dars"
+            android:src="@drawable/ic_baseline_content_copy_24"
+            app:backgroundTint="?attr/colorPrimary"
+            app:fabSize="normal"
+            app:tint="?attr/colorOnPrimary" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

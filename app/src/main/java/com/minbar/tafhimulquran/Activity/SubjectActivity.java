@@ -26,6 +26,7 @@ import com.minbar.tafhimulquran.Adapter.WordAdapter;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
 import com.minbar.tafhimulquran.databinding.ActivitySubjectBinding;
 
 import es.dmoral.toasty.Toasty;
@@ -37,6 +38,7 @@ public class SubjectActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_subject);
 
@@ -48,7 +50,7 @@ public class SubjectActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        dbHelper = new SqlLiteDbHelper(this);
+        dbHelper = SqlLiteDbHelper.getInstance(this);
 
         SubVerseAdapter adapter = new SubVerseAdapter(this,dbHelper.getSubVerse(Integer.parseInt(is.getStringExtra("subId"))));
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);

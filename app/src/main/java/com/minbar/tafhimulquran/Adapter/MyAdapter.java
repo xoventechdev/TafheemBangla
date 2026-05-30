@@ -150,41 +150,35 @@ public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.AudioItemsViewHol
         }
         @Override
         public void onClick(View v) {
-
-
-            switch (v.getId()) {
-                case R.id.playSingle: {
-                    if (getAdapterPosition() == currentPlayingPosition) {
-                        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                            mediaPlayer.pause();
-                        } else {
-                            if (mediaPlayer != null)
-                                mediaPlayer.start();
-                        }
+            int id = v.getId();
+            if (id == R.id.playSingle) {
+                if (getAdapterPosition() == currentPlayingPosition) {
+                    if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                        mediaPlayer.pause();
                     } else {
-                        currentPlayingPosition = getAdapterPosition();
-                        if (mediaPlayer != null) {
-                            if (null != playingHolder) {
-                                updateNonPlayingView(playingHolder);
-                            }
-                            mediaPlayer.release();
-                        }
-                        playingHolder = this;
-
-
-
-
-                        PlaySound(singleMp3);//put your audio file
-
-
+                        if (mediaPlayer != null)
+                            mediaPlayer.start();
                     }
-                    if (mediaPlayer != null)
-                        updatePlayingView();
+                } else {
+                    currentPlayingPosition = getAdapterPosition();
+                    if (mediaPlayer != null) {
+                        if (null != playingHolder) {
+                            updateNonPlayingView(playingHolder);
+                        }
+                        mediaPlayer.release();
+                    }
+                    playingHolder = this;
+
+
+
+
+                    PlaySound(singleMp3);//put your audio file
+
+
                 }
-                break;
+                if (mediaPlayer != null)
+                    updatePlayingView();
             }
-
-
         }
 
 

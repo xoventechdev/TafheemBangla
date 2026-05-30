@@ -1,13 +1,16 @@
 package com.arges.sepan.argmusicplayer.Notification;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.arges.sepan.argmusicplayer.Models.ArgNotificationOptions;
 import com.arges.sepan.argmusicplayer.R;
@@ -17,12 +20,14 @@ public class ArgNotification extends Notification {
     protected final Notification notification;
     private final ArgRemoteView contentView, bigContentView;
     private final NotificationManager mNotificationManager;
+    private final Context mContext;
     protected ArgNotificationOptions options;
 
     public ArgNotification(Context context, @NonNull ArgNotificationOptions options) {
         super();
 
         this.options = options;
+        this.mContext = context;
         notificationId = options.getNotificationId();
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -86,6 +91,15 @@ public class ArgNotification extends Notification {
     }
 
     public void show() {
+        // Check for POST_NOTIFICATIONS permission on Android 13+ (API 33+)
+        // Use 33 directly as TIRAMISU might not be available in some build configurations
+        if (Build.VERSION.SDK_INT >= 33) {
+            if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Permission not granted, skip notification
+                return;
+            }
+        }
         mNotificationManager.notify(options.getNotificationId(), notification);
     }
 

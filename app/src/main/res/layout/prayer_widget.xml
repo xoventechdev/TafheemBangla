@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/widget_background"
+    android:padding="16dp">
+
+    <!-- Design matched from activity_prayer.xml Next Prayer Section -->
+    <LinearLayout
+        android:id="@+id/next_prayer_info_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/progress_container"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/kalpurush"
+            android:text="পরবর্তী নামাজ"
+            android:textColor="#CCFFFFFF"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/next_prayer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/kalpurush"
+            android:text="--"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/next_prayer_time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--:--"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/progress_container"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true">
+
+        <!-- Background Ring -->
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:progress="100"
+            android:progressDrawable="@drawable/widget_progress_background" />
+
+        <!-- Progress Ring -->
+        <ProgressBar
+            android:id="@+id/widget_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/widget_progress_circle" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_namaz"
+            android:alpha="0.9"
+            android:tint="#FFFFFF" />
+    </FrameLayout>
+
+    <!-- Optional bottom row if needed, but keeping it clean like the card -->
+    <LinearLayout
+        android:layout_below="@+id/next_prayer_info_container"
+        android:id="@+id/bottom_times_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/sunrise_time_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="সূর্যোদয়: --:--"
+            android:textColor="#CCFFFFFF"
+            android:textSize="10sp"
+            android:drawableStart="@drawable/ic_sunrise"
+            android:drawablePadding="4dp"
+            android:tint="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/sunset_time_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:text="সূর্যাস্ত: --:--"
+            android:textColor="#CCFFFFFF"
+            android:textSize="10sp"
+            android:drawableEnd="@drawable/ic_sunset"
+            android:drawablePadding="4dp"
+            android:tint="#FFFFFF"/>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -66,14 +66,15 @@ public class PageParaAdapter extends RecyclerView.Adapter<PageParaAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView subNumber;
-        LinearLayout senSubView, lastLine;
+        View senSubView;
+        View lastLine;
 
 
         public ViewHolder(View view) {
             super(view);
             this.subNumber = (TextView) view.findViewById(R.id.subNumber);
-            this.senSubView = (LinearLayout) view.findViewById(R.id.senSubView);
-            this.lastLine = (LinearLayout) view.findViewById(R.id.lastLine);
+            this.senSubView = view.findViewById(R.id.senSubView);
+            this.lastLine = view.findViewById(R.id.lastLine);
         }
     }
 }

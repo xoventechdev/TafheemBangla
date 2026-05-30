@@ -103,7 +103,7 @@ public class AudioActivity extends AppCompatActivity {
         audioOut = findViewById(R.id.audioOut);
         sh = getSharedPreferences("MySharedAudio",MODE_PRIVATE);
 
-        dbHelper = new SqlLiteDbHelper(this);
+        dbHelper = SqlLiteDbHelper.getInstance(this);
         recyclerView = findViewById(R.id.audioViwer);
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);

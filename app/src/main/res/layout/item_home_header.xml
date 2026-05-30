@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="4dp">
+
+
+    <!-- Modern Prayer Time Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnNextPrayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <!-- Header with location and icon -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_clock"
+                    app:tint="?attr/colorPrimary"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/next_prayer"
+                    android:textColor="?attr/textColorSecondary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/kalpurush"/>
+
+                <TextView
+                    android:id="@+id/tvLocationName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/default_location"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/kalpurush"
+                    android:background="@drawable/location_chip_background"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+
+            <!-- Prayer Time Display -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvNextPrayerName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/kalpurush"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView
+                        android:id="@+id/tvNextPrayerTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--:--"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/kalpurush"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="বাকি সময়"
+                        android:textColor="?attr/textColorSecondary"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/kalpurush"/>
+
+                    <TextView
+                        android:id="@+id/tvRemainingTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--:--"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/kalpurush"
+                        android:layout_marginTop="2dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Progress bar for time until next prayer -->
+            <ProgressBar
+                android:id="@+id/prayerProgress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:progressDrawable="@drawable/prayer_progress_drawable"
+                android:indeterminate="false"
+                android:scaleY="2"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Last Read Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnLastRead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/ivBookIcon"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/baseline_menu_book_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/tvLastReadLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/continue_reading"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/kalpurush"
+                app:layout_constraintBottom_toBottomOf="@+id/ivBookIcon"
+                app:layout_constraintStart_toEndOf="@+id/ivBookIcon"
+                app:layout_constraintTop_toTopOf="@+id/ivBookIcon" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_nav_collections"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/textColorSecondary" />
+
+            <TextView
+                android:id="@+id/tvLastSurahName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Al-Baqarah"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLastReadLabel" />
+
+            <TextView
+                android:id="@+id/tvLastAyahInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ayah 286"
+                android:textColor="?attr/textColorSecondary"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLastSurahName" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnContinue"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:text="@string/start_now"
+                android:textSize="11sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:textAllCaps="false"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/ic_baseline_play_circle_filled_24"
+                app:iconSize="14dp"
+                app:iconGravity="end"
+                android:backgroundTint="?attr/colorPrimary"
+                android:fontFamily="@font/kalpurush"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLastSurahName" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Surahs Header -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:text="@string/surahs_title"
+        android:textColor="?attr/textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/kalpurush"/>
+
+</LinearLayout>

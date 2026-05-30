@@ -1,31 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="?android:attr/colorBackground"
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbarlayout"
-        android:fitsSystemWindows="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:liftOnScroll="true">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:background="@color/purple_500"
-            android:id="@+id/toolBarS"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbarlayout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:subtitleTextColor="@color/white"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            app:titleTextColor="@color/white" />
-    </com.google.android.material.appbar.AppBarLayout>
-    <FrameLayout
-        android:layout_below="@+id/appbarlayout"
-        android:id="@+id/settings"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            app:elevation="0dp">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:background="?attr/colorPrimary"
+                android:id="@+id/toolBarS"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:subtitleTextColor="?attr/colorOnPrimary"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                app:titleTextColor="?attr/colorOnPrimary"
+                app:navigationIconTint="?attr/colorOnPrimary" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <FrameLayout
+            android:layout_below="@+id/appbarlayout"
+            android:id="@+id/settings"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </RelativeLayout>
 </LinearLayout>

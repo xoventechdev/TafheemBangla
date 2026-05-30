@@ -8,287 +8,286 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/quranLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/quranLayout"
+        android:background="?android:attr/colorBackground"
+        android:fitsSystemWindows="true"
         tools:context=".Activity.VerseActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbarlayout"
-            android:fitsSystemWindows="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:liftOnScroll="true">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:background="@color/purple_500"
                 android:id="@+id/toolBar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:subtitleTextColor="@color/white"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary"
-                app:titleTextColor="@color/white" />
+                android:background="?attr/colorPrimary"
+                app:navigationIconTint="?attr/colorOnPrimary"
+                app:subtitleTextColor="?attr/colorOnPrimary"
+                app:titleTextColor="?attr/colorOnPrimary" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <ScrollView
-            android:orientation="vertical"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/verseViwer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize"
-            tools:ignore="ScrollViewCount"
-            android:layout_above="@+id/audioView">
+            android:layout_above="@+id/audioView"
+            android:layout_below="@+id/appbarlayout"
+            android:clipToPadding="false"
+            android:fadeScrollbars="true"
+            android:paddingBottom="16dp"
+            app:fastScrollEnabled="true"
+            app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+            app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+            app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+            app:fastScrollVerticalTrackDrawable="@drawable/line_drawable" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/verseViwer"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fadeScrollbars="true"
-                    app:fastScrollEnabled="true"
-                    app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
-                    app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
-                    app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
-                    app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-            </LinearLayout>
-        </ScrollView>
-
-        <LinearLayout
+        <!-- Compact Premium Floating Controller Dashboard -->
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/audioView"
-            android:topLeftRadius="10dp"
-            android:topRightRadius="10dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@drawable/play_bg">
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginBottom="10dp"
+            app:cardBackgroundColor="?attr/colorPrimary"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="12dp"
+            app:strokeColor="#20FFFFFF"
+            app:strokeWidth="1dp">
 
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/audioContorl"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="10dp"
-                android:paddingRight="10dp"
-                tools:ignore="RtlSymmetry">
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:paddingBottom="12dp">
 
-                <RelativeLayout
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical">
+                <!-- Compact Drag Handle Indicator -->
+                <View
+                    android:visibility="gone"
+                    android:id="@+id/drag_handle"
+                    android:layout_width="32dp"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="8dp"
+                    android:alpha="0.3"
+                    android:background="@drawable/round"
+                    android:backgroundTint="?attr/colorOnPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <FrameLayout
-                        android:id="@+id/play_pause_layout"
-                        android:layout_width="40dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:paddingBottom="5dp"
-                        android:paddingEnd="5dp"
-                        android:paddingTop="5dp">
+                <!-- Compact Interaction Toggle Area -->
+                <ImageView
+                    android:id="@+id/upOut"
+                    android:layout_width="30dp"
+                    android:layout_height="28dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_up_white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="?attr/colorOnPrimary" />
+
+                <!-- Audio Controller Section -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/audioContorl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="4dp"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toBottomOf="@id/upOut">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/play_container"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        app:cardBackgroundColor="#26FFFFFF"
+                        app:cardCornerRadius="24dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="#33FFFFFF"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
                             android:id="@+id/play"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="6dp"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_baseline_play_circle_filled_24" />
+                            android:layout_height="match_parent"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_baseline_play_circle_filled_24"
+                            app:tint="?attr/colorOnPrimary" />
 
                         <ImageView
                             android:id="@+id/pause"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="6dp"
+                            android:layout_height="match_parent"
+                            android:padding="12dp"
                             android:src="@drawable/ic_baseline_stop_circle_24"
-                            android:visibility="gone" />
-                    </FrameLayout>
+                            android:visibility="gone"
+                            app:tint="?attr/colorOnPrimary" />
 
-                    <FrameLayout
-                        android:id="@+id/seekbar_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_toRightOf="@id/play_pause_layout"
-                        android:paddingTop="5dp"
-                        android:paddingRight="5dp"
-                        android:paddingBottom="5dp">
-
-                        <SeekBar
-                            android:id="@+id/media_seekbar"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right|top"
-                            android:orientation="horizontal"
-                            android:paddingTop="5dp"
-                            android:paddingRight="10dp"
-                            android:paddingBottom="5dp">
-
-                            <TextView
-                                android:id="@+id/run_time"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:ellipsize="end"
-                                android:inputType="text"
-                                android:text="00:00"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="11sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:ellipsize="end"
-                                android:inputType="text"
-                                android:text=" / "
-                                android:textColor="@color/white"
-                                android:textSize="11sp" />
-
-                            <TextView
-                                android:id="@+id/total_time"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:ellipsize="end"
-                                android:inputType="text"
-                                android:text="00:00"
-                                android:textColor="@color/white"
-                                android:textSize="11sp" />
-
-                            <ImageView
-                                android:visibility="gone"
-                                android:paddingLeft="2dp"
-                                android:layout_gravity="center"
-                                android:id="@+id/delete"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:src="@drawable/ic_baseline_delete_24" />
-                        </LinearLayout>
-                    </FrameLayout>
-                </RelativeLayout>
-
-                <ImageView
-                    android:id="@+id/upOut"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:visibility="visible"
-                android:animateLayoutChanges="true"
-                android:id="@+id/lowerOut"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginBottom="10dp">
-
-                <RelativeLayout
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent">
-
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height=".05dp"
-                            android:background="#63FFFFFF"/>
-                        <LinearLayout
-                            android:orientation="horizontal"
+                        <ImageView
+                            android:id="@+id/download"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_baseline_cloud_download_24"
+                            android:visibility="gone"
+                            app:tint="?attr/colorOnPrimary" />
+                    </com.google.android.material.card.MaterialCardView>
 
+                    <SeekBar
+                        android:id="@+id/media_seekbar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp"
+                        android:progressTint="?attr/colorOnPrimary"
+                        android:thumbTint="?attr/colorOnPrimary"
+                        app:layout_constraintBottom_toTopOf="@id/time_layout"
+                        app:layout_constraintEnd_toStartOf="@+id/delete"
+                        app:layout_constraintStart_toEndOf="@id/play_container"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed" />
 
-                            <LinearLayout
-                                android:paddingHorizontal="5dp"
-                                android:layout_weight="2"
-                                android:orientation="vertical"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/time_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/media_seekbar"
+                        app:layout_constraintStart_toStartOf="@id/media_seekbar"
+                        app:layout_constraintTop_toBottomOf="@id/media_seekbar">
 
-                                <TextView
-                                    android:gravity="center"
-                                    android:text="আয়াত স্কোল করুন"
-                                    android:textSize="18dp"
+                        <TextView
+                            android:id="@+id/run_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.8"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="00:00"
+                            android:textColor="?attr/colorOnPrimary"
+                            android:textSize="11sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                                    android:fontFamily="@font/kalpurush"
-                                    android:textColor="@color/white"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/total_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.8"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="00:00"
+                            android:textColor="?attr/colorOnPrimary"
+                            android:textSize="11sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:id="@+id/arg_music_panel_layout">
+                    <ImageView
+                        android:id="@+id/delete"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_baseline_delete_24"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="#FFFF5252" />
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                                    <LinearLayout
-                                        android:id="@+id/koi"
-                                        android:layout_marginHorizontal="5dp"
-                                        android:orientation="horizontal"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
+                <!-- Verse Scroll Section -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/lowerOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="24dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toBottomOf="@id/audioContorl">
 
-                                        <androidx.appcompat.widget.AppCompatTextView
-                                            android:textColor="#ffff"
-                                            android:id="@+id/nowItem"
-                                            android:layout_weight="1"
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentTop="false"
-                                            android:text="১"
-                                            android:layout_alignParentStart="true" />
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:alpha="0.1"
+                        android:background="?attr/colorOnPrimary"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                                        <androidx.appcompat.widget.AppCompatTextView
-                                            android:textColor="#ffff"
-                                            android:id="@+id/totalItem"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="1"
-                                            android:layout_alignParentEnd="false"
-                                            tools:ignore="RelativeOverlap" />
-                                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/scroll_label_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:alpha="0.6"
+                        android:fontFamily="@font/kalpurush"
+                        android:letterSpacing="0.04"
+                        android:text="আয়াত স্ক্রোল করুন"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="13sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/divider" />
 
-                                    <androidx.appcompat.widget.AppCompatSeekBar
-                                        android:layout_width="match_parent"
-                                        android:layout_height="10dp"
-                                        android:id="@+id/seekVerse"
-                                        android:maxHeight="10dp"
-                                        android:minHeight="10dp"
-                                        android:layout_gravity="center_horizontal"
-                                        android:layout_below="@+id/koi" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/nowItem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="১"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/scroll_label_hint" />
 
-                                </RelativeLayout>
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-                </RelativeLayout>
-            </LinearLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/totalItem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.8"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="1"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/nowItem"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/nowItem" />
 
+                    <androidx.appcompat.widget.AppCompatSeekBar
+                        android:id="@+id/seekVerse"
+                        android:layout_width="0dp"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="4dp"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp"
+                        android:progressTint="?attr/colorOnPrimary"
+                        android:thumbTint="?attr/colorOnPrimary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/nowItem" />
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
-
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </RelativeLayout>
 </layout>

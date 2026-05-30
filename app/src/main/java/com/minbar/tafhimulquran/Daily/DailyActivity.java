@@ -27,6 +27,7 @@ import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.FontFamily;
 import com.minbar.tafhimulquran.Utils.FontSize;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
 import com.minbar.tafhimulquran.databinding.ActivityDailyBinding;
 
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public class DailyActivity extends AppCompatActivity {
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Apply theme before super.onCreate
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_daily);
 
@@ -63,7 +66,7 @@ public class DailyActivity extends AppCompatActivity {
 
         setting = PreferenceManager.getDefaultSharedPreferences(this);
 
-        dbHelper = new SqlLiteDbHelper(this);
+        dbHelper = SqlLiteDbHelper.getInstance(this);
         getQuran();
         getHadith();
 

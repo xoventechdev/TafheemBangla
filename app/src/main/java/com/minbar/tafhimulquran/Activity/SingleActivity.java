@@ -16,12 +16,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.minbar.tafhimulquran.Adapter.FragmentAdapter;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
 
 import java.util.Objects;
 
@@ -41,12 +43,23 @@ public class SingleActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single);
 
-        dbHelper = new SqlLiteDbHelper(this);
+        dbHelper = SqlLiteDbHelper.getInstance(this);
 
-        surahid = Integer.parseInt(getIntent().getStringExtra("surah_id"));
+        String surahIdStr = getIntent().getStringExtra("surah_id");
+        if (surahIdStr != null) {
+            try {
+                surahid = Integer.parseInt(surahIdStr);
+            } catch (NumberFormatException e) {
+                surahid = getIntent().getIntExtra("surah_id", 1);
+            }
+        } else {
+            surahid = getIntent().getIntExtra("surah_id", 1);
+        }
+
         int verse_id = getIntent().getIntExtra("verse_id", 0);
         arabicTxt = getIntent().getStringExtra("arabicTxt");
         transTxt = getIntent().getStringExtra("transTxt");
@@ -90,9 +103,6 @@ public class SingleActivity extends AppCompatActivity {
             }
         });
         tabLayoutMediator.attach();
-
-
-
 
 
 

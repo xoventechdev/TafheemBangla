@@ -39,9 +39,12 @@ public class CharacterSubAdapter extends RecyclerView.Adapter<CharacterSubAdapte
         CharacterSubModel cm = this.mDataFiltered.get(i);
         vm.word_title.setText(cm.getItem());
 
-        if (i== this.mDataFiltered.size()){
+        if (i == this.mDataFiltered.size() - 1) {
             vm.lastLine.setVisibility(View.GONE);
+        } else {
+            vm.lastLine.setVisibility(View.VISIBLE);
         }
+
         vm.mainV.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, SentenceActivity.class);
             intent.putExtra("ch_wd",String.valueOf(cm.getCh_id()+"="+cm.getWd_id()));
@@ -56,13 +59,14 @@ public class CharacterSubAdapter extends RecyclerView.Adapter<CharacterSubAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView word_title;
-        LinearLayout mainV, lastLine;
+        LinearLayout mainV;
+        View lastLine;
 
         public ViewHolder(View view) {
             super(view);
             this.word_title = (TextView) view.findViewById(R.id.word_title);
             this.mainV = (LinearLayout) view.findViewById(R.id.list_itemId);
-            this.lastLine = (LinearLayout) view.findViewById(R.id.lastLine);
+            this.lastLine = (View) view.findViewById(R.id.lastLine);
         }
     }
 }

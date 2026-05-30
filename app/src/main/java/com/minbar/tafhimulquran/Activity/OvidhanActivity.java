@@ -14,6 +14,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.minbar.tafhimulquran.Adapter.CharacterAdapter;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
 
 import java.util.Objects;
 
@@ -21,6 +22,7 @@ public class OvidhanActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_ovidhan);
 

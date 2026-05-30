@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:background="@color/common"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:aapt="http://schemas.android.com/aapt"
+    android:background="?attr/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         android:gravity="center_horizontal"
         android:layout_margin="2dp"
-        android:background="@color/white"
+        android:background="?android:attr/colorBackground"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:background="@color/common"
+            android:background="?attr/colorPrimary"
             android:gravity="center_vertical"
             android:padding="5dp"
             android:orientation="horizontal"
@@ -24,19 +23,20 @@
 
             <TextView
                 android:id="@+id/title_verse"
-                android:layout_width="374dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/kalpurush"
                 android:paddingStart="5dp"
                 android:text="@string/app_name"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="22sp" />
 
             <ImageView
                 android:src="@drawable/ic_baseline_content_copy_24"
                 android:gravity="center_vertical"
                 android:layout_gravity="center_vertical"
+                app:tint="?attr/colorOnPrimary"
                 android:id="@+id/copyLayout"
                 android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
@@ -46,21 +46,22 @@
                 android:src="@drawable/ic_baseline_clear_24"
                 android:gravity="center_vertical"
                 android:layout_gravity="center_vertical"
+                app:tint="?attr/colorOnPrimary"
                 android:id="@+id/clearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
         <View
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/common"/>
+            android:background="?attr/colorPrimary"/>
 
         <TextView
             android:padding="2dp"
             android:visibility="gone"
             android:id="@+id/viewOne"
             android:textSize="20sp"
-            android:textColor="@color/black"
+            android:textColor="?attr/textColorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <androidx.recyclerview.widget.RecyclerView

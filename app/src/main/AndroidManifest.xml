@@ -4,16 +4,28 @@
     package="com.minbar.tafhimulquran">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
         tools:ignore="CoarseFineLocation" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <queries>
+        <package android:name="com.whatsapp" />
+    </queries>
+
     <application
+        android:name=".Prayer.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -23,24 +35,42 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KitabTafheem"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        tools:targetApi="35">
 
+        <activity
+            android:name=".Activity.TafheemIntroduceActivity"
+            android:theme="@style/Theme.KitabTafheemNo"
+            android:exported="false" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
             tools:node="merge">
-
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
+        </provider> <!-- Prayer Widget -->
+        <receiver
+            android:name=".Prayer.PrayerWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
 
-        </provider>
-
-        <receiver android:name=".Prayer.PrayerAlarmReceiver" android:exported="false"/>
-        <receiver android:name=".Prayer.BootReceiver"
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/prayer_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".Prayer.PrayerAlarmReceiver"
+            android:exported="true" />
+        <receiver
+            android:name=".Utils.ReminderReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".Prayer.BootReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -50,17 +80,18 @@
         <activity
             android:name=".Prayer.PrayerActivity"
             android:exported="false"
-            android:theme="@style/Theme.KitabTafheemNo"/>
+            android:theme="@style/Theme.KitabTafheemNo" />
         <activity
             android:name=".Activity.DonationActivity"
             android:exported="false" />
         <activity
             android:name=".Hadith.HadithListActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo" />
         <activity
             android:name=".Hadith.HadithChapterActivity"
-            android:theme="@style/Theme.KitabTafheemNo"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -70,67 +101,72 @@
             android:exported="false" />
         <activity
             android:name=".Daily.DailyActivity"
-            android:theme="@style/Theme.KitabTafheemNo"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".Activity.PageMainActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".Activity.PageActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".Activity.SingleActivity"
-            android:theme="@style/Theme.KitabTafheemNo"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".Activity.StarkActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".Activity.SentenceActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".Activity.OvidhanActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".Activity.TajwidActivity"
-            android:theme="@style/Theme.KitabTafheemNo"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".Activity.SettingsActivity"
-            android:theme="@style/Theme.KitabTafheemNo"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -152,15 +188,20 @@
         </activity>
         <activity
             android:name=".Activity.BitActivity"
-            android:theme="@style/Theme.KitabTafheemNo"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo" />
         <activity
             android:name=".Activity.FavActivity"
-            android:theme="@style/Theme.KitabTafheemNo"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo" />
         <activity
             android:name=".Activity.TafheemActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo" />
+        <activity
+            android:name=".Activity.NoteActivity"
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo" />
         <activity
             android:name=".Activity.SplashActivity"
             android:exported="true"
@@ -173,12 +214,12 @@
         </activity>
         <activity
             android:name=".Activity.DarsActivity"
-            android:theme="@style/Theme.KitabTafheemNo"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo" />
         <activity
             android:name=".Activity.SubjectActivity"
-            android:theme="@style/Theme.KitabTafheemNo"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo" />
         <activity
             android:name=".Activity.VerseActivity"
             android:exported="false"
@@ -187,6 +228,18 @@
         <activity
             android:name=".Activity.MainActivity"
             android:exported="true"
+            android:theme="@style/Theme.KitabTafheemNo" />
+        <activity
+            android:name=".Activity.MapsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo" />
+        <activity
+            android:name=".Activity.DarsListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.KitabTafheemNo" />
+        <activity
+            android:name=".Activity.SubjectListActivity"
+            android:exported="false"
             android:theme="@style/Theme.KitabTafheemNo" />
 
         <provider

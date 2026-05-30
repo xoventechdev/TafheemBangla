@@ -15,7 +15,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.minbar.tafhimulquran.Activity.PageActivity;
-import com.minbar.tafhimulquran.Activity.VerseActivity;
 import com.minbar.tafhimulquran.Model.SurahModel;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.Config;
@@ -95,7 +94,8 @@ public class PageSurahAdapter extends RecyclerView.Adapter<PageSurahAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView subNumber,subName, subAyat, subTika;
-        LinearLayout senSubView, lastLine;
+        LinearLayout senSubView;
+        View lastLine;
 
 
         public ViewHolder(View view) {
@@ -105,7 +105,7 @@ public class PageSurahAdapter extends RecyclerView.Adapter<PageSurahAdapter.View
             this.subAyat = (TextView) view.findViewById(R.id.subAyat);
             this.subTika = (TextView) view.findViewById(R.id.subTika);
             this.senSubView = (LinearLayout) view.findViewById(R.id.senSubView);
-            this.lastLine = (LinearLayout) view.findViewById(R.id.lastLine);
+            this.lastLine = (View) view.findViewById(R.id.lastLine);
         }
     }
 }

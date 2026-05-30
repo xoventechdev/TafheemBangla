@@ -13,6 +13,7 @@ import com.minbar.tafhimulquran.Adapter.PageParaAdapter;
 import com.minbar.tafhimulquran.Adapter.PageSurahAdapter;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
 import com.minbar.tafhimulquran.databinding.ActivityPageMainBinding;
 
 import java.util.Objects;
@@ -23,6 +24,7 @@ public class PageMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_page_main);
 
@@ -32,7 +34,7 @@ public class PageMainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SqlLiteDbHelper dbHelper = new SqlLiteDbHelper(this);
+        SqlLiteDbHelper dbHelper = SqlLiteDbHelper.getInstance(this);
 
         binding.pageItemList.setHasFixedSize(true);
         binding.pageItemList.setLayoutManager(new LinearLayoutManager(this));
@@ -47,16 +49,5 @@ public class PageMainActivity extends AppCompatActivity {
         //this.surahModelList = new ArrayList();
         PageParaAdapter adaptear = new PageParaAdapter(this);
         binding.pageItemPara.setAdapter(adaptear);
-
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

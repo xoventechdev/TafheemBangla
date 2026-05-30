@@ -89,18 +89,24 @@ public class VerseActivity extends AppCompatActivity {
     int jhhh = 0;
     SharedPreferences sp;
 
-//    BroadcastReceiver onComplete = new BroadcastReceiver() {
-//        @SuppressLint("SetTextI18n")
-//        public void onReceive(Context ctxt, Intent intent) {
-//            delete.setVisibility(View.VISIBLE);
-//        }
-//    };
-
     BroadcastReceiver onComplete = new BroadcastReceiver() {
         @SuppressLint("SetTextI18n")
         @Override
         public void onReceive(Context ctxt, Intent intent) {
-            delete.setVisibility(View.VISIBLE);
+            if (binding != null) {
+                binding.delete.setVisibility(View.VISIBLE);
+                binding.play.setVisibility(View.VISIBLE);
+                binding.download.setVisibility(View.GONE);
+                
+                // Re-initialize AudioWife after download
+                AudioWife.getInstance()
+                        .init(VerseActivity.this, Uri.fromFile(filePath))
+                        .setPlayView(binding.play)
+                        .setPauseView(binding.pause)
+                        .setSeekBar(binding.mediaSeekbar)
+                        .setRuntimeView(binding.runTime)
+                        .setTotalTimeView(binding.totalTime);
+            }
             Toasty.success(getApplicationContext(), surah_Name + " ডাউনলোড হয়েছে", Toast.LENGTH_SHORT, true).show();
         }
     };
@@ -108,7 +114,6 @@ public class VerseActivity extends AppCompatActivity {
     File filePath;
     VerseAdapter adapter;
     MaterialToolbar toolbar;
-    AudioWife audioWife;
 
 
     RecyclerView recyclerView;
@@ -228,28 +233,23 @@ public class VerseActivity extends AppCompatActivity {
 
 
 
-        ImageView mPlayMedia = findViewById(R.id.play);
-        delete = findViewById(R.id.delete);
-        ImageView mPauseMedia = findViewById(R.id.pause);
-        SeekBar mMediaSeekBar = (SeekBar) findViewById(R.id.media_seekbar);
-        TextView mRunTime = (TextView) findViewById(R.id.run_time);
-        TextView mTotalTime = (TextView) findViewById(R.id.total_time);
+        ImageView mPlayMedia = binding.play;
+        delete = binding.delete;
+        ImageView mPauseMedia = binding.pause;
+        ImageView mDownloadMedia = binding.download;
+        SeekBar mMediaSeekBar = binding.mediaSeekbar;
+        TextView mRunTime = binding.runTime;
+        TextView mTotalTime = binding.totalTime;
 
-
-        binding.upOut.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_up_white);
 
         binding.upOut.setOnClickListener(v -> {
 
             if (isUp) {
                 viewGoneAnimator(binding.lowerOut);
-                binding.upOut.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_up_white);
-
-                //myButton.setText("Slide up");
+                binding.upOut.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_white);
             } else {
                 viewVisibleAnimator(binding.lowerOut);
-                binding.upOut.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_white);
-
-                //myButton.setText("Slide down");
+                binding.upOut.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_white);
             }
             isUp = !isUp;
         });
@@ -257,21 +257,30 @@ public class VerseActivity extends AppCompatActivity {
 
 
         if (filePath.exists()){
-            audioWife.getInstance()
+            mPlayMedia.setVisibility(View.VISIBLE);
+            mDownloadMedia.setVisibility(View.GONE);
+            delete.setVisibility(View.VISIBLE);
+            
+            AudioWife.getInstance()
                     .init(VerseActivity.this, Uri.fromFile(filePath))
                     .setPlayView(mPlayMedia)
                     .setPauseView(mPauseMedia)
                     .setSeekBar(mMediaSeekBar)
                     .setRuntimeView(mRunTime)
                     .setTotalTimeView(mTotalTime);
+        } else {
+            mPlayMedia.setVisibility(View.GONE);
+            mDownloadMedia.setVisibility(View.VISIBLE);
+            delete.setVisibility(View.GONE);
         }
 
+        mDownloadMedia.setOnClickListener(v -> {
+            showdOWNLOAD();
+        });
+
         mPlayMedia.setOnClickListener(v -> {
-            if (!filePath.exists()){
-                showdOWNLOAD();
-                //askFile();
-            }else {
-                audioWife.getInstance()
+            if (filePath.exists()){
+                AudioWife.getInstance()
                         .init(VerseActivity.this, Uri.fromFile(filePath))
                         .setPlayView(mPlayMedia)
                         .setPauseView(mPauseMedia)
@@ -282,27 +291,11 @@ public class VerseActivity extends AppCompatActivity {
         });
 
 
-        /*
-        File filePathaaaa = null;
-        String fileNeme = null;
-        for (int i = 1; i < totalVerse+1; i++) {
-            fileNeme = playID + String.format("%03d", i) + ".mp3";
-            filePathaaaa = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + File.separator + playID + File.separator + fileNeme);
-
-        }
-
-
-
-         */
-
-
         if (filePath.exists()){
             delete.setVisibility(View.VISIBLE);
         }
         delete.setOnClickListener(v -> {
             deleteFile();
-//            delete.setVisibility(View.GONE);
-            //if (filePath.exists()){   filePath.delete();   }
         });
 
 
@@ -344,21 +337,16 @@ public class VerseActivity extends AppCompatActivity {
 
 
     public void deleteFile(){
-        File filePath = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + File.separator + filrName);
-        if (filePath.exists()){
-            filePath.delete();
-            delete.setVisibility(View.GONE);
+        File fileToDelete = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + File.separator + filrName);
+        if (fileToDelete.exists()){
+            fileToDelete.delete();
+            if (binding != null) {
+                binding.delete.setVisibility(View.GONE);
+                binding.play.setVisibility(View.GONE);
+                binding.download.setVisibility(View.VISIBLE);
+            }
+            AudioWife.getInstance().release();
         }
-
-//        String fileNeme = null;
-//        for (int i = 1; i < totalVerse+1; i++) {
-//            fileNeme = playID + String.format("%03d", i) + ".mp3";
-//            File filePath = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + File.separator + playID + File.separator + fileNeme);
-//            if (filePath.exists()){
-//                filePath.delete();
-//                delete.setVisibility(View.GONE);
-//            }
-//        }
     }
 
     public void askFile(){
@@ -409,38 +397,6 @@ public class VerseActivity extends AppCompatActivity {
 //            requestPermission();
         }
 
-
-
-
-
-
-        /*
-        boolean persent = true;
-        String fileNemee = null;
-        for (int a = 1; a < totalVerse+1; a++) {
-            fileNemee = playID + String.format("%03d", a) + ".mp3";
-
-            File fileqq = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + File.separator + fileNemee);
-
-
-
-            File[] filePathh = new File[0];
-            if (filePathh.length<totalVerse){
-                persent = false;
-
-
-
-            }
-        }
-
-        if (persent){
-            Toasty.success(getApplicationContext(),"100%", Toasty.LENGTH_SHORT).show();
-        }
-
-
-
-         */
-
     }
 
     private void viewGoneAnimator(final View view) {
@@ -477,13 +433,16 @@ public class VerseActivity extends AppCompatActivity {
         lp.height = -2;
 
         TextView titleVerse = (TextView) dialog.findViewById(R.id.title_verse);
-        titleVerse.setText("সুরাহ ফাতিহা, আয়াত - ০");
+        titleVerse.setText("সুরাহ ফাতিহা, আয়াত - ০");
 
 
         ((ImageView) dialog.findViewById(R.id.clearLayout)).setOnClickListener(v -> {
             dialog.dismiss();
         });
-        ((ImageView) dialog.findViewById(R.id.copyLayout)).setVisibility(View.GONE);
+
+        ImageView copyLayout = (ImageView) dialog.findViewById(R.id.copyLayout);
+        copyLayout.setVisibility(View.VISIBLE);
+
         TextView viewOne = (TextView) dialog.findViewById(R.id.viewOne);
         viewOne.setVisibility(View.VISIBLE);
 
@@ -498,11 +457,22 @@ public class VerseActivity extends AppCompatActivity {
         }
         String main = query.toString().replace("\\n","<br>").replace("[[","").replace("]]","");
         if (main.isEmpty()){
-            viewOne.setText("এই আয়াতের তাফসীর নেই।");
+            viewOne.setText("এই আয়াতের তাফসীর নেই।");
         } else {
             viewOne.setText(Html.fromHtml(main));
         }
 
+        // --- ADDED COPY FUNCTION ---
+        copyLayout.setOnClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            String textToCopy = titleVerse.getText().toString() + "\n\n" + viewOne.getText().toString();
+            ClipData clip = ClipData.newPlainText("Tafseer", textToCopy);
+            if (clipboard != null) {
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // ---------------------------
 
         dialog.show();
         dialog.getWindow().setAttributes(lp);
@@ -573,16 +543,16 @@ public class VerseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.about:
-                aboutShow(surahid);
-                //Toasty.success(getApplicationContext(), "Okey", Toasty.LENGTH_LONG).show();
-                return true;
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+        if (id == R.id.about) {
+            aboutShow(surahid);
+            //Toasty.success(getApplicationContext(), "Okey", Toasty.LENGTH_LONG).show();
+            return true;
+        } else if (id == android.R.id.home) {
+            finish();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -630,7 +600,7 @@ public class VerseActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        audioWife.getInstance().release();
+        AudioWife.getInstance().release();
         super.onBackPressed();
     }
 
@@ -808,15 +778,30 @@ public class VerseActivity extends AppCompatActivity {
         index = mLayoutManager.findFirstVisibleItemPosition();
         View v = recyclerView.getChildAt(0);
         top = (v == null) ? 0 : (v.getTop() - recyclerView.getPaddingTop());
+
         SharedPreferences.Editor myEdit = sh.edit();
         myEdit.putInt(surah_Name, index);
-        myEdit.putInt(surah_id,top);
+        myEdit.putInt(surah_id, top);
         myEdit.apply();
+
+        // Safely extract the actual verse number from the currently visible item
+        String lastVerseNumber = "1";
+        if (verseModels != null && index >= 0 && index < verseModels.size()) {
+            lastVerseNumber = String.valueOf(verseModels.get(index).getVerseID());
+
+            // If the visible item is the banner (Verse ID might be 0), default to 1
+            if (lastVerseNumber.equals("0")) {
+                lastVerseNumber = "1";
+            }
+        }
 
         sp.edit().putString("surah_id", surah_id).apply();
         sp.edit().putString("surah_Name", surah_Name).apply();
         sp.edit().putString("ayatCount", ayatCount).apply();
         sp.edit().putString("location", location).apply();
+
+        // ADDED: Save the actual verse number so HomeFragment can read it
+        sp.edit().putString("last_verse_id", lastVerseNumber).apply();
     }
 
     @Override

@@ -1,141 +1,247 @@
 package com.minbar.tafhimulquran.Prayer;
 
-
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
+import android.media.AudioAttributes;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
-import androidx.work.Constraints;
-import androidx.work.NetworkType;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
+import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
+import com.minbar.tafhimulquran.Prayer.PrayerTimesResponse.Data;
 import com.minbar.tafhimulquran.R;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.TimeZone;
 
 public class PrayerNotificationManager {
 
-     static final String CHANNEL_ID = "PrayerNotificationChannel";
-     static final int NOTIFICATION_ID = 1;
+    // Removed the static CHANNEL_ID. We will generate it dynamically.
+    static final int NOTIFICATION_ID = 1001;
     private static final String PREFS_NAME = "PrayerPrefs";
     private static final String KEY_PRAYER_DATA = "prayerData";
-    private static final int REQUEST_CODE_EXACT_ALARM = 1001;
+    private static final String KEY_TOMORROW_DATA = "tomorrowData";
+    private static final String KEY_LAST_UPDATE = "last_prayer_update";
+    private static final long OFFLINE_CACHE_VALIDITY = 24 * 60 * 60 * 1000; // 24 hours
 
-    public static void schedulePrayerNotifications(Context context, PrayerTimesResponse.Data data) {
+    // Generate a unique Channel ID based on the selected sound
+    public static String getDynamicChannelId(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("azan_prefs", Context.MODE_PRIVATE);
+        String azanFileName = prefs.getString("azan_sound_file", "azan");
+        return "PrayerChannel_" + azanFileName; // Changing the ID forces Android to apply the new sound
+    }
+
+    public static void schedulePrayerNotifications(Context context, PrayerTimesResponse.Data today) {
+        schedulePrayerNotifications(context, today, null);
+    }
+
+    public static void schedulePrayerNotifications(Context context, PrayerTimesResponse.Data today, PrayerTimesResponse.Data tomorrow) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String jsonData = gson.toJson(data);
-        prefs.edit().putString(KEY_PRAYER_DATA, jsonData).apply();
 
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
-            if (context instanceof android.app.Activity) {
-                ActivityCompat.requestPermissions((android.app.Activity) context, new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, REQUEST_CODE_EXACT_ALARM);
-            } else {
-                // Handle case where context is not an Activity (e.g., use a foreground service or skip scheduling)
-                return;
+        SharedPreferences.Editor editor = prefs.edit();
+        if (today != null) {
+            editor.putString(KEY_PRAYER_DATA, gson.toJson(today));
+        }
+        if (tomorrow != null) {
+            editor.putString(KEY_TOMORROW_DATA, gson.toJson(tomorrow));
+        }
+        editor.putLong(KEY_LAST_UPDATE, System.currentTimeMillis());
+        editor.apply();
+
+        createNotificationChannel(context);
+        checkExactAlarmPermission(context);
+
+        if (today != null) scheduleAlarms(context, today, 0); // IDs 0-4
+        if (tomorrow != null) scheduleAlarms(context, tomorrow, 5); // IDs 5-9
+    }
+
+    private static void checkExactAlarmPermission(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
+                // PrayerActivity should handle the rationale UI
             }
-        } else {
-            scheduleAlarms(context, data);
         }
     }
 
-    @SuppressLint("ScheduleExactAlarm")
-    private static void scheduleAlarms(Context context, PrayerTimesResponse.Data data) {
+    public static PrayerTimesResponse.Data getCachedPrayerData(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        String jsonData = prefs.getString(KEY_PRAYER_DATA, null);
+        long lastUpdate = prefs.getLong(KEY_LAST_UPDATE, 0);
+
+        if (jsonData != null && (System.currentTimeMillis() - lastUpdate) < OFFLINE_CACHE_VALIDITY) {
+            return new Gson().fromJson(jsonData, PrayerTimesResponse.Data.class);
+        }
+        return null;
+    }
+
+    private static void scheduleAlarms(Context context, PrayerTimesResponse.Data data, int startId) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager == null || data == null || data.timings == null) return;
+
         String[] prayerTimes = {data.timings.Fajr, data.timings.Dhuhr, data.timings.Asr, data.timings.Maghrib, data.timings.Isha};
         String[] prayerNames = {"ফজর", "যোহর", "আসর", "মাগরিব", "ইশা"};
 
-        Calendar now = Calendar.getInstance(TimeZone.getTimeZone("Asia/Dhaka"));
-        int currentMinutes = now.get(Calendar.HOUR_OF_DAY) * 60 + now.get(Calendar.MINUTE);
+        String timezone = (data.meta != null && data.meta.timezone != null) ? data.meta.timezone : "Asia/Dhaka";
+        TimeZone tz = TimeZone.getTimeZone(timezone);
+        Calendar now = Calendar.getInstance(tz);
+        long currentTimeMillis = now.getTimeInMillis();
 
         for (int i = 0; i < prayerTimes.length; i++) {
-            String[] timeParts = prayerTimes[i].split(":");
-            int prayerMinutes = Integer.parseInt(timeParts[0]) * 60 + Integer.parseInt(timeParts[1]);
-            if (prayerMinutes >= currentMinutes || i == 0) {
-                Calendar prayerTime = Calendar.getInstance(TimeZone.getTimeZone("Asia/Dhaka"));
-                prayerTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeParts[0]));
-                prayerTime.set(Calendar.MINUTE, Integer.parseInt(timeParts[1]));
-                prayerTime.set(Calendar.SECOND, 0);
+            if (prayerTimes[i] == null || !prayerTimes[i].contains(":")) continue;
 
-                if (prayerTime.before(now)) {
-                    prayerTime.add(Calendar.DATE, 1);
-                }
+            String cleanTime = prayerTimes[i].split(" ")[0];
+            String[] timeParts = cleanTime.split(":");
 
-                Intent intent = new Intent(context, PrayerAlarmReceiver.class);
-                intent.putExtra("prayerName", prayerNames[i]);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, i, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, prayerTime.getTimeInMillis(), pendingIntent);
-                } else {
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, prayerTime.getTimeInMillis(), pendingIntent);
-                }
+            Calendar prayerTime = Calendar.getInstance(tz);
+            if (startId >= 5) {
+                prayerTime.add(Calendar.DATE, 1);
             }
+
+            prayerTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeParts[0]));
+            prayerTime.set(Calendar.MINUTE, Integer.parseInt(timeParts[1]));
+            prayerTime.set(Calendar.SECOND, 0);
+            prayerTime.set(Calendar.MILLISECOND, 0);
+
+            if (prayerTime.getTimeInMillis() <= currentTimeMillis) {
+                continue; // Skip past prayers
+            }
+
+            Intent intent = new Intent(context, PrayerAlarmReceiver.class);
+            intent.putExtra("prayerName", prayerNames[i]);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, startId + i, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+            setExactAlarm(alarmManager, prayerTime.getTimeInMillis(), pendingIntent);
         }
     }
 
-    public static void onRequestPermissionsResult(Context context, int requestCode, int[] grantResults) {
-        if (requestCode == REQUEST_CODE_EXACT_ALARM && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-            Gson gson = new Gson();
-            String jsonData = prefs.getString(KEY_PRAYER_DATA, null);
-            if (jsonData != null) {
-                PrayerTimesResponse.Data data = gson.fromJson(jsonData, PrayerTimesResponse.Data.class);
-                scheduleAlarms(context, data);
+    private static void setExactAlarm(AlarmManager alarmManager, long timeMillis, PendingIntent pendingIntent) {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (alarmManager.canScheduleExactAlarms()) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
+                } else {
+                    alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
+                }
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
+            } else {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
+            }
+        } catch (Exception e) {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, timeMillis, pendingIntent);
+        }
+    }
+
+    public static void createNotificationChannel(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            if (notificationManager == null) return;
+
+            String channelId = getDynamicChannelId(context);
+            CharSequence name = "নামাজের সময় সূচী";
+            String description = "নামাজের সময়ের নোটিফিকেশন এবং আজান";
+            int importance = NotificationManager.IMPORTANCE_HIGH; // Must be HIGH for sound to play prominently
+
+            NotificationChannel channel = new NotificationChannel(channelId, name, importance);
+            channel.setDescription(description);
+            channel.enableLights(true);
+
+            boolean vibrationEnabled = PreferenceManager.getDefaultSharedPreferences(context)
+                    .getBoolean("prayer_vibration", true);
+            channel.enableVibration(vibrationEnabled);
+            if (vibrationEnabled) {
+                channel.setVibrationPattern(new long[]{0, 500, 500, 500});
+            }
+            channel.setLockscreenVisibility(android.app.Notification.VISIBILITY_PUBLIC);
+
+            // Audio attributes MUST be USAGE_ALARM to bypass some Do Not Disturb states
+            Uri soundUri = getSelectedAzanSoundUri(context);
+            if (soundUri != null) {
+                AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .setUsage(AudioAttributes.USAGE_ALARM)
+                        .build();
+                channel.setSound(soundUri, audioAttributes);
+            }
+
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    public static void saveAzanSoundPreference(Context context, String soundFile) {
+        // 1. Delete the OLD channel first
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            if (notificationManager != null) {
+                notificationManager.deleteNotificationChannel(getDynamicChannelId(context));
             }
         }
+
+        // 2. Save the new sound file name
+        SharedPreferences prefs = context.getSharedPreferences("azan_prefs", Context.MODE_PRIVATE);
+        prefs.edit().putString("azan_sound_file", soundFile).apply();
+
+        // 3. Create the NEW channel (it will have a new ID because of step 2)
+        createNotificationChannel(context);
+    }
+
+    public static Uri getSelectedAzanSoundUri(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("azan_prefs", Context.MODE_PRIVATE);
+        String azanFileName = prefs.getString("azan_sound_file", "azan");
+
+        // Much safer way to get the raw resource URI
+        int resId = context.getResources().getIdentifier(azanFileName, "raw", context.getPackageName());
+        if (resId != 0) {
+            return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + resId);
+        }
+        return null; // Fallback if file isn't found
     }
 
     public static void rescheduleFromCache(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String jsonData = prefs.getString(KEY_PRAYER_DATA, null);
-        if (jsonData != null) {
-            PrayerTimesResponse.Data data = gson.fromJson(jsonData, PrayerTimesResponse.Data.class);
-            schedulePrayerNotifications(context, data);
+        String todayJson = prefs.getString(KEY_PRAYER_DATA, null);
+        String tomorrowJson = prefs.getString(KEY_TOMORROW_DATA, null);
+
+        PrayerTimesResponse.Data today = todayJson != null ? gson.fromJson(todayJson, PrayerTimesResponse.Data.class) : null;
+        PrayerTimesResponse.Data tomorrow = tomorrowJson != null ? gson.fromJson(tomorrowJson, PrayerTimesResponse.Data.class) : null;
+
+        if (today != null || tomorrow != null) {
+            schedulePrayerNotifications(context, today, tomorrow);
         }
     }
 
-    private static void createNotificationChannel(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Prayer Notifications";
-            String description = "Notifications for prayer times";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+
+    // ---------------- TEST METHOD ----------------
+    public static void scheduleTestAlarm(Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager == null) return;
+
+        // Ensure channel exists
+        createNotificationChannel(context);
+
+        Intent intent = new Intent(context, PrayerAlarmReceiver.class);
+        intent.putExtra("prayerName", "টেস্ট (Test)"); // Pass a fake prayer name
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 999, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        // Schedule for exactly 10 seconds from right now
+        long triggerTime = System.currentTimeMillis() + 10000;
+
+        setExactAlarm(alarmManager, triggerTime, pendingIntent);
     }
-
-    private static void scheduleBackgroundFetch(Context context) {
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
-
-        OneTimeWorkRequest fetchRequest = new OneTimeWorkRequest.Builder(PrayerFetchWorker.class)
-                .setConstraints(constraints)
-                .setInitialDelay(24, java.util.concurrent.TimeUnit.HOURS)
-                .build();
-
-        WorkManager.getInstance(context).enqueueUniqueWork("PrayerFetch", androidx.work.ExistingWorkPolicy.REPLACE, fetchRequest);
-    }
+    // ---------------------------------------------
 }
-

@@ -8,19 +8,30 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-
-
     <color name="tafheem">#3a7a1e</color>
-    <color name="tYoll">#fabd03</color>
+    <color name="tafheem_dark">#2d6219</color>
+    <color name="tafheem_accent">#4CAF50</color>
+
+    <color name="dark_green">#004b23</color>
+    <color name="light_green_bg">#f8faf5</color>
+    <color name="card_bg">#ffffff</color>
+    <color name="text_main">#1a1a1a</color>
+    <color name="text_secondary">#666666</color>
+    <color name="divider_color">#eeeeee</color>
+
+    <color name="bottom_nav_unselected">#999999</color>
+    <color name="bottom_nav_selected">#004b23</color>
+
+    <color name="purple_primary">#673AB7</color>
+    <color name="purple_primary_dark">#512DA8</color>
+    <color name="purple_accent">#9C27B0</color>
+
     <color name="common">#673AB7</color>
 
     <color name="light_gray">#D3E8E6</color>
 
     <color name="colorSettings">#40000000</color>
     <color name="colorClick">#abcdef</color>
-
-
-
 
     <color name="color_qalqala">#ff2f9900</color>
     <color name="color_iqlab">#ff3164c5</color>
@@ -29,51 +40,42 @@
     <color name="color_ghunna">#ffd16a00</color>
     <color name="color_idghamwo">#aaa</color>
 
+    <!-- Red Theme Colors -->
+    <color name="red_colorPrimary">#ff0000</color>
+    <color name="red_colorPrimaryDark">#DF0000</color>
+    <color name="red_colorAccent">#F7F72D</color>
 
+    <!-- Pink Theme Colors -->
+    <color name="pink_colorPrimary">#e91e63</color>
+    <color name="pink_colorPrimaryDark">#CB1755</color>
+    <color name="pink_colorAccent">#2095f2</color>
 
+    <!-- Grey Theme Colors -->
+    <color name="grey_colorPrimary">#9d9d9d</color>
+    <color name="grey_colorPrimaryDark">#606060</color>
+    <color name="grey_colorAccent">#f90</color>
 
+    <!-- Brown Theme Colors -->
+    <color name="brown_colorPrimary">#795548</color>
+    <color name="brown_colorPrimaryDark">#63453B</color>
+    <color name="brown_colorAccent">#e81d62</color>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <color name="colorPrimary">@color/dodger_blue</color>
-    <color name="colorPrimaryDark">@color/dodger_blue</color>
-    <color name="colorPrimaryLight">@color/dodger_blue</color>
-    <color name="colorAccent">@color/spray</color>
-    <color name="textColorPrimary">@color/mine_shaft</color>
-    <color name="textColorSecondary">@color/boulder</color>
+    <color name="colorPrimary">#17C5FF</color>
+    <color name="colorPrimaryDark">#17C5FF</color>
+    <color name="colorPrimaryLight">#17C5FF</color>
+    <color name="colorAccent">#7FDDED</color>
+    <color name="textColorPrimary">#272727</color>
+    <color name="textColorSecondary">#757575</color>
 
     <color name="sunrise">#FFBF00</color>
     <color name="sunset">#FF4800</color>
 
-    <color name="dialog_button">@color/thunderbird</color>
-    <color name="dialog_title">@color/mine_shaft</color>
+    <color name="dialog_button">#C4161C</color>
+    <color name="dialog_title">#272727</color>
 
-    <color name="preferences_title">@color/mine_shaft</color>
-    <color name="preferences_summary">@color/scorpion</color>
-    <color name="preferences_disabled_text">@color/nobel</color>
+    <color name="preferences_title">#272727</color>
+    <color name="preferences_summary">#605F5F</color>
+    <color name="preferences_disabled_text">#B3B2B2</color>
 
     <color name="transparent">#00000000</color>
     <color name="scorpion">#605F5F</color>
@@ -125,4 +127,15 @@
     <color name="nobel">#B3B2B2</color>
     <color name="tundora">#484848</color>
     <color name="jade">#00C167</color>
+    <color name="colorTertiary">#FF5722</color>
+
+    <!-- Prayer Card Colors -->
+    <color name="prayer_card_background">#F0F9FF</color>
+    <color name="prayer_icon_color">#17C5FF</color>
+    <color name="prayer_title_color">#272727</color>
+    <color name="prayer_location_color">#605F5F</color>
+    <color name="prayer_name_color">#17C5FF</color>
+    <color name="prayer_time_color">#272727</color>
+    <color name="prayer_arrow_color">#BDBDBD</color>
+    <color name="prayer_progress_color">#17C5FF</color>
 </resources>

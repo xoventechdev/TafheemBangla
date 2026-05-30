@@ -177,36 +177,42 @@ public class QuranArabicUtils {
 
         return text;
     }
+
     private static int getIqlabStart(String m, int start) {
+        if (start <= 0) return 0;
         char ch = m.charAt(start - 1);
         if (ch == fathatain | ch == dammatain | ch == kasratain) {
-            if (m.charAt(start - 2) == shadda)
-                return start - 3;
-            return start - 2;
+            if (start - 2 >= 0 && m.charAt(start - 2) == shadda)
+                return Math.max(0, start - 3);
+            return Math.max(0, start - 2);
         }
-        return start - 1;
+        return Math.max(0, start - 1);
     }
 
     private static int getEnd(String m, int end) {
+        int length = m.length();
+        if (end >= length) return length;
+
         if (m.charAt(end) == shadda) {
-            if (m.charAt(end + 2) == supercript_alif_khara_fatha) {// standing fathah
-                return end + 3;
+            if (end + 2 < length && m.charAt(end + 2) == supercript_alif_khara_fatha) {// standing fathah
+                return Math.min(end + 3, length);
             }
-            return end + 2;
+            return Math.min(end + 2, length);
         }
-        if (m.charAt(end + 1) == supercript_alif_khara_fatha || m.charAt(end + 1) == shadda) {// standing fathah
-            return end + 2;
+        if (end + 1 < length && (m.charAt(end + 1) == supercript_alif_khara_fatha || m.charAt(end + 1) == shadda)) {// standing fathah
+            return Math.min(end + 2, length);
         }
-        return end + 1;
+        return Math.min(end + 1, length);
     }
 
     private static int getStart(String m, int start) {
+        if (start < 0 || start >= m.length()) return Math.max(0, start);
         char ch = m.charAt(start);
         if (ch == fathatain | ch == dammatain | ch == kasratain) {
-            if (m.charAt(start - 1) == shadda) {
-                return start - 2;
+            if (start - 1 >= 0 && m.charAt(start - 1) == shadda) {
+                return Math.max(0, start - 2);
             }
-            return start - 1;
+            return Math.max(0, start - 1);
         }
         return start;
     }

@@ -23,7 +23,9 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.minbar.tafhimulquran.Prayer.PrayerNotificationManager;
 import com.minbar.tafhimulquran.R;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,14 +38,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class SettingsActivity extends AppCompatActivity {
 
     private static final String FILE_NAME = "fezilalilquran.db";
-//    private static final String FILE_URL = "https://archive.org/download/fezilalilquran/fezilalilquran.db";
     private static final String FILE_URL = "https://drive.google.com/uc?export=download&id=1RcOX7KHAib10l8i0yBAuZ4Es2-PwJlDQ";
+
+    private static final String TAHEEM_ENGLISH_FILE_NAME = "tafheem_english.db";
+    private static final String TAHEEM_ENGLISH_FILE_URL = "https://drive.google.com/uc?export=download&id=1umT40D2EKqp8RS7T-loQqAdbAEPG5M1I";
     public static Context settingContext;
     public static  ProgressDialog progressDialog;
     public static AtomicBoolean isDownloadCancelled = new AtomicBoolean(false);
+    private boolean themeChanged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Apply theme before super.onCreate
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
 
@@ -71,10 +78,36 @@ public class SettingsActivity extends AppCompatActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             Load_setting();
         }
+
+        private void setupThemePreference() {
+            ListPreference themePreference = (ListPreference) findPreference("app_theme");
+            if (themePreference != null) {
+                String currentTheme = f159sp.getString("app_theme", "light");
+                themePreference.setSummary(themePreference.getEntries()[themePreference.findIndexOfValue(currentTheme)]);
+
+                themePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    String newValueStr = (String) newValue;
+                    // Save the theme immediately
+                    f159sp.edit().putString("app_theme", newValueStr).apply();
+
+                    // Update summary
+                    ListPreference listPreference = (ListPreference) preference;
+                    listPreference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue(newValueStr)]);
+
+                    // Notify activity that theme changed
+                    if (getActivity() instanceof SettingsActivity) {
+                        ((SettingsActivity) getActivity()).onThemeChanged();
+                    }
+                    return true;
+                });
+            }
+        }
         private void Load_setting() {
 
-
             this.f159sp = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+
+            // Setup theme preference
+            setupThemePreference();
 
 
 
@@ -99,9 +132,47 @@ public class SettingsActivity extends AppCompatActivity {
 //                    File outputFile = new File(storageDir, FILE_NAME);
 //                    Toast.makeText(settingContext, String.valueOf(databaseFile), Toast.LENGTH_LONG).show();
 
-                    if (!isDatabaseComplete(settingContext, "6352")) {
+                    if (!isDatabaseComplete(getActivity(), "6352")) {
                         // Show download popup
                         showDownloadPopup(preference);
+                        return false; // Don't update the preference until the download is complete
+                    } else {
+                        // File exists, allow the preference to be updated
+                        ListPreference listPreference = (ListPreference) preference;
+                        listPreference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue(newValueStr)]);
+                        return true;
+                    }
+                } else {
+                    // If turning off, just update the summary
+                    ListPreference listPreference = (ListPreference) preference;
+                    listPreference.setSummary(listPreference.getEntries()[listPreference.findIndexOfValue(newValueStr)]);
+                    return true;
+                }
+            });
+
+            ListPreference tafheemEnglishList = (ListPreference) findPreference("tafheem_english");
+            String feztringEnglish = this.f159sp.getString("tafheem_english", (String) null);
+            if ("on".equals(feztringEnglish)) {
+                tafheemEnglishList.setSummary(tafheemEnglishList.getEntry());
+            } else if ("off".equals(feztringEnglish)) {
+                tafheemEnglishList.setSummary(tafheemEnglishList.getEntry());
+            }
+
+            tafheemEnglishList.setOnPreferenceChangeListener((preference, newValue) -> {
+                String newValueStr = (String) newValue;
+
+                if ("on".equals(newValueStr)) {
+                    // Check if the file exists
+                    File databaseFile = getActivity().getDatabasePath(TAHEEM_ENGLISH_FILE_NAME);
+
+
+//                    File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+//                    File outputFile = new File(storageDir, TAHEEM_ENGLISH_FILE_NAME);
+//                    Toast.makeText(settingContext, String.valueOf(databaseFile), Toast.LENGTH_LONG).show();
+
+                    if (!isTafheemEnglishDatabaseComplete(getActivity(), "6348")) {
+                        // Show download popup
+                        showTafheemEnglishDownloadPopup(preference);
                         return false; // Don't update the preference until the download is complete
                     } else {
                         // File exists, allow the preference to be updated
@@ -459,6 +530,28 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+            // Azan Sound Selection Preference
+            ListPreference azanSoundPreference = (ListPreference) findPreference("azan_sound_file");
+            if (azanSoundPreference != null) {
+                String currentAzanSound = f159sp.getString("azan_sound_file", "azan"); // Default to azan
+                azanSoundPreference.setSummary(azanSoundPreference.getEntries()[azanSoundPreference.findIndexOfValue(currentAzanSound)]);
+
+                azanSoundPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    String newValueStr = (String) newValue;
+                    // Save the azan sound preference immediately
+                    f159sp.edit().putString("azan_sound_file", newValueStr).apply();
+
+                    // Update summary
+                    ListPreference azanListPreference = (ListPreference) preference;
+                    azanListPreference.setSummary(azanListPreference.getEntries()[azanListPreference.findIndexOfValue(newValueStr)]);
+
+                    // Notify PrayerNotificationManager to update the notification channel sound
+                    PrayerNotificationManager.saveAzanSoundPreference(getActivity().getApplicationContext(), newValueStr);
+
+                    return true;
+                });
+            }
+
 
 
 
@@ -641,7 +734,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         // Open the database
-        String dbPath = context.getDatabasePath("fezilalilquran.db").getAbsolutePath();
+        String dbPath = settingContext.getDatabasePath("fezilalilquran.db").getAbsolutePath();
         SQLiteDatabase db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
 
         // Query to count the rows in the table
@@ -674,4 +767,196 @@ public class SettingsActivity extends AppCompatActivity {
         return isComplete;
     }
 
+    public static void showTafheemEnglishDownloadPopup(Preference preference) {
+        new AlertDialog.Builder(settingContext)
+                .setTitle("তাফহীমুল কুরআন (ইংরেজি)")
+                .setMessage("এই আপনার মোবাইলে তাফসীর ডাটাবেজটি ডাউনলোড করা হয়নি। কি আপনি ডাউনলোড করতে চান? ফাইলের সাইজ প্রায় ১৪.৩৬ এমবি।")
+                .setPositiveButton("ডাউনলোড", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Start the download
+                        isDownloadCancelled.set(false); // Reset the cancellation flag
+                        new TafheemEnglishDownloadTask(preference).execute(TAHEEM_ENGLISH_FILE_URL);
+                    }
+                })
+                .setNegativeButton("বাতিল", null)
+                .show();
+    }
+
+    public static class TafheemEnglishDownloadTask extends AsyncTask<String, Integer, File> {
+        private Preference preference;
+
+        public TafheemEnglishDownloadTask(Preference preference) {
+            this.preference = preference;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // Show a ProgressDialog with a Cancel button
+            progressDialog = new ProgressDialog(settingContext);
+            progressDialog.setTitle("ডেটাবেস ডাউনলোড হচ্ছে");
+            progressDialog.setMessage("অনুগ্রহ করে অপেক্ষা করুন...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setCancelable(false);
+            progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    isDownloadCancelled.set(true); // Set the cancellation flag
+                    progressDialog.dismiss();
+                }
+            });
+            progressDialog.show();
+        }
+
+        @Override
+        protected File doInBackground(String... urls) {
+            try {
+                URL url = new URL(urls[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.connect();
+
+                // Get the file length for progress calculation
+                int fileLength = connection.getContentLength();
+
+                // Create a file in the app's database directory
+                File databaseFile = settingContext.getDatabasePath(TAHEEM_ENGLISH_FILE_NAME);
+                File parentDir = databaseFile.getParentFile();
+                if (!parentDir.exists()) {
+                    parentDir.mkdirs(); // Create the databases directory if it doesn't exist
+                }
+
+                InputStream inputStream = connection.getInputStream();
+                FileOutputStream outputStream = new FileOutputStream(databaseFile);
+
+                byte[] buffer = new byte[1024];
+                int total = 0;
+                int length;
+                while ((length = inputStream.read(buffer)) != -1) {
+                    if (isDownloadCancelled.get()) {
+                        // Stop the download if cancelled
+                        inputStream.close();
+                        outputStream.close();
+                        databaseFile.delete(); // Delete the partially downloaded file
+                        return null;
+                    }
+
+                    outputStream.write(buffer, 0, length);
+                    total += length;
+
+                    // Publish progress as a percentage
+                    if (fileLength > 0) { // Only if file length is known
+                        int progress = (int) (total * 100 / fileLength);
+                        publishProgress(progress);
+                    }
+                }
+
+                outputStream.close();
+                inputStream.close();
+
+                return databaseFile;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            if (progressDialog != null) {
+                progressDialog.setProgress(values[0]); // Update the progress bar
+            }
+        }
+
+        @Override
+        protected void onPostExecute(File file) {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+
+            if (file != null) {
+                // Verify the downloaded database
+                if (isTafheemEnglishDatabaseComplete(settingContext, "6348")) {
+                    // File downloaded and verified successfully, update the preference
+                    ListPreference listPreference = (ListPreference) preference;
+                    listPreference.setValue("on");
+                    listPreference.setSummary(listPreference.getEntry());
+                    Toast.makeText(settingContext, "ডাউনলোড সম্পূর্ণ হয়েছে", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Delete the incomplete database
+                    File databaseFile = settingContext.getDatabasePath(TAHEEM_ENGLISH_FILE_NAME);
+                    if (databaseFile.exists()) {
+                        databaseFile.delete();
+                    }
+                    Toast.makeText(settingContext, "ডাউনলোড সম্পূর্ণ হয়নি। অনুগ্রহ করে আবার চেষ্টা করুন।", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                if (isDownloadCancelled.get()) {
+                    Toast.makeText(settingContext, "ডাউনলোড বাতিল করা হয়েছে", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(settingContext, "ডাউনলোড ব্যর্থ হয়েছে", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    public static boolean isTafheemEnglishDatabaseComplete(Context context, String expectedRowCount) {
+
+        boolean isComplete = false;
+        File databaseFile = settingContext.getDatabasePath(TAHEEM_ENGLISH_FILE_NAME);
+        if(!databaseFile.exists()){
+            return isComplete;
+        }
+
+        // Open the database
+        String dbPath = settingContext.getDatabasePath("tafheem_english.db").getAbsolutePath();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
+
+        // Query to count the rows in the table
+        String tableName = "english_table";
+
+        try {
+            Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + tableName, null);
+
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int rowCount = cursor.getInt(0);  // Get the row count from the query
+                Log.d("RowCount", "Total rows in " + tableName + ": " + rowCount);
+
+                // Check if the row count matches the expected value
+                if (String.valueOf(rowCount).equals(expectedRowCount)) {
+                    isComplete = true;
+                }
+                cursor.close();
+            }
+
+            // Close the database
+            db.close();
+        }catch (Exception e){
+            databaseFile.delete();
+            isComplete = false;
+        }
+
+
+
+        return isComplete;
+    }
+
+    // Called when theme is changed in preferences
+    public void onThemeChanged() {
+        themeChanged = true;
+        setResult(RESULT_OK);
+        // Recreate this activity to apply new theme immediately
+        ThemeManager.recreateActivity(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (themeChanged) {
+            setResult(RESULT_OK);
+        }
+        super.onBackPressed();
+    }
 }

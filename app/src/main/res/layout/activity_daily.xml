@@ -4,366 +4,355 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/colorSurface"
+        android:fitsSystemWindows="true">
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbarlayout"
-            android:fitsSystemWindows="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:liftOnScroll="true">
+            android:layout_height="220dp"
+            android:background="?attr/colorSurface"
+            android:fitsSystemWindows="true">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:background="@color/purple_500"
-                android:id="@+id/toolBar"
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:subtitleTextColor="@color/white"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary"
-                app:titleTextColor="@color/white" />
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorSurface"
+                app:expandedTitleGravity="bottom|start"
+                app:expandedTitleMarginStart="24dp"
+                app:expandedTitleMarginBottom="28dp"
+                app:expandedTitleTextAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:title="@string/daily_path">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/nasim"
+                    android:alpha="0.1"
+                    android:contentDescription="@null"
+                    app:layout_collapseMode="parallax" />
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                    app:navigationIconTint="?attr/textColorPrimary" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
-            android:layout_below="@+id/appbarlayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".Daily.DailyActivity">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <LinearLayout
+                <!-- Quran Card -->
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/daily_quran"
-                    android:orientation="vertical"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/round_daily"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:textColor="@color/black"
-                        android:gravity="center"
-                        android:textSize="24sp"
-                        android:padding="5dp"
-                        android:text="আল কুরআন"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_gravity="center"
-                        android:id="@+id/daily_quranTag"
-                        android:textSize="16sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="?attr/dividerColor"
+                    app:strokeWidth="1dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
 
                     <LinearLayout
-                        android:id="@+id/arabicLayout"
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp">
+                        android:orientation="vertical">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#0D000000"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="16dp">
+
+                            <TextView
+                                android:id="@+id/quranLabel"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/kalpurush"
+                                android:text="@string/today_verse"
+                                android:textColor="?attr/colorPrimary"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/daily_quranTag"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/daily_quranTag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:fontFamily="@font/kalpurush"
+                                android:textColor="?attr/textColorSecondary"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="আল-বাকারা: ২৮৬" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="3dp"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:padding="20dp">
 
                             <TextView
                                 android:id="@+id/arabic"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/noorehidayat"
+                                android:gravity="right"
+                                android:lineSpacingMultiplier="1.6"
+                                android:textColor="?attr/textColorPrimary"
+                                android:textSize="32sp"
+                                tools:text="بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ" />
+
+                            <View
+                                android:layout_width="80dp"
+                                android:layout_height="3dp"
+                                android:layout_gravity="center"
+                                android:layout_marginVertical="24dp"
+                                android:background="?attr/colorPrimary"
+                                android:alpha="0.2" />
+
+                            <LinearLayout
+                                android:id="@+id/arabicMeana"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/trans"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/kalpurush"
+                                    android:textColor="?attr/colorAccent"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginBottom="12dp"
+                                    tools:text="শব্দে শব্দে অর্থ" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/VerseTai"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/banglaAyat"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/kalpurush"
+                                    android:lineSpacingMultiplier="1.3"
+                                    android:textColor="?attr/textColorPrimary"
+                                    android:textSize="19sp"
+                                    android:layout_marginBottom="12dp"
+                                    tools:text="আয়াতের বঙ্গানুবাদ এখানে দেখা যাবে।" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/enLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/english"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/kalpurush"
+                                    android:textColor="?attr/textColorSecondary"
+                                    android:textSize="16sp"
+                                    tools:text="English translation will be here." />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Hadith Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_hadith"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="100dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="?attr/dividerColor"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#0D000000"
+                            android:paddingHorizontal="20dp"
+                            android:paddingVertical="16dp">
+
+                            <TextView
+                                android:id="@+id/hadithLabel"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/kalpurush"
+                                android:text="@string/today_hadith"
+                                android:textColor="?attr/colorPrimary"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/daily_hadithTag"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/daily_hadithTag"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:layout_marginLeft="12dp"
-                                android:layout_marginTop="6dp"
-                                android:layout_marginRight="12dp"
-                                android:fontFamily="@font/noorehuda"
-                                android:textColor="@color/black"
-                                android:textSize="30sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:background="#3F51B5"
-                            android:layout_width="3dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:id="@+id/arabicMeana"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp">
-
-                        <LinearLayout
-                            android:background="#3F51B5"
-                            android:layout_width="3dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp" />
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/trans"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="2dp"
-                                android:gravity="start"
+                                android:layout_marginStart="8dp"
                                 android:fontFamily="@font/kalpurush"
-                                android:paddingStart="7dp"
-                                android:paddingEnd="10dp"
-                                android:textColor="#9C27B0"
-                                android:textSize="20sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:id="@+id/VerseTai"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp">
-
-                        <LinearLayout
-                            android:background="#E91E63"
-                            android:layout_width="3dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp" />
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:fontFamily="@font/kalpurush"
-                                android:textColor="@color/black"
-                                android:textSize="20sp"
-                                android:gravity="start"
-                                android:id="@+id/banglaAyat"
-                                android:paddingStart="7dp"
-                                android:paddingEnd="10dp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="2dp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/enLayout"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp">
-
-                        <LinearLayout
-                            android:background="#3F51B5"
-                            android:layout_width="3dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp" />
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:textSize="20sp"
-                                android:gravity="start"
-                                android:fontFamily="@font/kalpurush"
-                                android:textColor="@color/black"
-                                android:id="@+id/english"
-                                android:paddingStart="7dp"
-                                android:paddingEnd="10dp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="2dp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/round_daily"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:textColor="@color/black"
-                        android:gravity="center"
-                        android:textSize="24sp"
-                        android:padding="5dp"
-                        android:text="আল হাদীস"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_gravity="center"
-                        android:id="@+id/daily_hadithTag"
-                        android:textSize="16sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-
-
-                    <LinearLayout
-                        android:id="@+id/arabicHLayout"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp">
+                                android:textColor="?attr/textColorSecondary"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="বুখারী: ১" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="3dp"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:padding="20dp">
 
                             <TextView
                                 android:id="@+id/arabicH"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:layout_marginLeft="12dp"
-                                android:layout_marginTop="6dp"
-                                android:layout_marginRight="12dp"
-                                android:fontFamily="@font/noorehuda"
-                                android:textColor="@color/black"
-                                android:textSize="30sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:background="#3F51B5"
-                            android:layout_width="3dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:id="@+id/arabicMeanaH"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp">
-
-                        <LinearLayout
-                            android:background="#3F51B5"
-                            android:layout_width="3dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp" />
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/transH"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="2dp"
-                                android:gravity="start"
-                                android:fontFamily="@font/kalpurush"
-                                android:paddingStart="7dp"
-                                android:paddingEnd="10dp"
-                                android:textColor="#9C27B0"
-                                android:textSize="20sp" />
-                        </LinearLayout>
-                    </LinearLayout>
+                                android:fontFamily="@font/noorehidayat"
+                                android:gravity="right"
+                                android:lineSpacingMultiplier="1.6"
+                                android:textColor="?attr/textColorPrimary"
+                                android:textSize="32sp"
+                                tools:text="إنما الأعمال بالنيات" />
 
+                            <View
+                                android:layout_width="80dp"
+                                android:layout_height="3dp"
+                                android:layout_gravity="center"
+                                android:layout_marginVertical="24dp"
+                                android:background="?attr/colorPrimary"
+                                android:alpha="0.2" />
 
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:id="@+id/VerseTaiH"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp">
-
-                        <LinearLayout
-                            android:background="#E91E63"
-                            android:layout_width="3dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp" />
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:fontFamily="@font/kalpurush"
-                                android:textColor="@color/black"
-                                android:textSize="20sp"
-                                android:gravity="start"
-                                android:id="@+id/banglaAyatH"
-                                android:paddingStart="7dp"
-                                android:paddingEnd="10dp"
+                            <LinearLayout
+                                android:id="@+id/arabicMeanaH"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="2dp" />
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/transH"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/kalpurush"
+                                    android:textColor="?attr/colorAccent"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginBottom="12dp"
+                                    tools:text="শব্দে শব্দে অর্থ" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/VerseTaiH"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/banglaAyatH"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/kalpurush"
+                                    android:lineSpacingMultiplier="1.3"
+                                    android:textColor="?attr/textColorPrimary"
+                                    android:textSize="19sp"
+                                    android:layout_marginBottom="16dp"
+                                    tools:text="হাদীসের বঙ্গানুবাদ এখানে দেখা যাবে।" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/hadithStatus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/grade_background"
+                                    android:fontFamily="@font/kalpurush"
+                                    android:paddingHorizontal="12dp"
+                                    android:paddingVertical="6dp"
+                                    android:textColor="@android:color/holo_green_dark"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="সহীহ" />
+
+                                <TextView
+                                    android:id="@+id/hadithNote"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="12dp"
+                                    android:fontFamily="@font/kalpurush"
+                                    android:textColor="?attr/textColorSecondary"
+                                    android:textSize="14sp"
+                                    android:textStyle="italic"
+                                    tools:text="হাদীসের মান বা উৎস" />
+                            </LinearLayout>
+
                         </LinearLayout>
                     </LinearLayout>
-
-
-                    <TextView
-                        android:textColor="@color/black"
-                        android:padding="15dp"
-                        android:id="@+id/hadithStatus"
-                        android:textSize="20sp"
-                        android:gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <TextView
-                        android:textColor="@color/black"
-                        android:padding="15dp"
-                        android:id="@+id/hadithNote"
-                        android:textSize="20sp"
-                        android:gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                </LinearLayout>
-
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
-
         </androidx.core.widget.NestedScrollView>
 
-    </RelativeLayout>
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/copyDaily"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="24dp"
+            android:text="@string/share_all"
+            android:fontFamily="@font/kalpurush"
+            app:icon="@drawable/ic_baseline_share_24"
+            app:backgroundTint="?attr/colorPrimary"
+            app:iconTint="?attr/colorOnPrimary"
+            android:textColor="?attr/colorOnPrimary" />
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/copyDaily"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="TODO"
-        android:src="@drawable/ic_baseline_content_copy_24"
-        app:fabSize="normal"
-        app:tint="@color/white"
-        android:backgroundTint="@color/common"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

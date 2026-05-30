@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">তাফহীমুল কুরআন</string>
-    <string name="copyrights">© কপিরাইট-২০২৫ | XovenTech\nসকল স্বত্বাধিকার ডেভেলপার কর্তৃক সংরক্ষিত</string>
+    <string name="copyrights">© কপিরাইট-২০২৬ | XovenTech\nসকল স্বত্বাধিকার ডেভেলপার কর্তৃক সংরক্ষিত</string>
     <string name="share_text">তাফহীমুল কুরআন অ্যাপসটি ডাউনলোড করার জন্য অনুরোধ করছি। এই অ্যাপস এর মাধ্যমে সম্পূর্ণ তাফসীরটি অফলাইনে পড়তে পারবেন। কোন প্রকার ইন্টারনেটের প্রযোজন হবে না। আশাকরি আপনারা এই অ্যাপসের মাধ্যমে উপকৃত হবেন...  </string>
     <string name="more_apps">https://play.google.com/store/apps/dev?id=6812471568616278487</string>
 
@@ -11,6 +11,9 @@
     <string name="main_bottom_nav_home">হোম</string>
     <string name="main_bottom_nav_store">স্টোর</string>
     <string name="main_bottom_nav_subwise">বিষয় ভিত্তিক</string>
+    <string name="main_bottom_nav_library">লাইব্রেরি</string>
+    <string name="main_bottom_nav_settings">সেটিিংস</string>
+
     <string name="main_fav_zero_items">প্রিয়তে আপনার কোনো সুরা নেই!</string>
     <string name="main_home_hint_search">সার্চ করুন..</string>
     <string name="main_home_search_msg_zero_found">কোনো সুরা পাওয়া যায়নি!</string>
@@ -18,31 +21,101 @@
     <string name="main_toolbar_donate">ডোনেট</string>
     <string name="main_toolbar_lastread">লাস্ট রিড</string>
     <string name="main_toolbar_search">সার্চ</string>
-    <string name="main_toolbar_setting">সেটিংস</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main_toolbar_setting">সেটিিংস</string>
 
-    <!--
+    <!-- Home Header Strings -->
+    <string name="prayer_times_title">নামাজের সময়</string>
+    <string name="default_location">ঢাকা</string>
+    <string name="fajr">ফজর</string>
+    <string name="dhuhr">যোহর</string>
+    <string name="asr">আসর</string>
+    <string name="maghrib">মাগরিব</string>
+    <string name="isha">ইশা</string>
+    <string name="continue_reading">পড়া চালিয়ে যান</string>
+    <string name="start_now">শুরু করুন</string>
+    <string name="surahs_title">সূরাসমূহ</string>
+    <string name="next_prayer">পরবর্তী নামাজ</string>
+    <string name="last_read_empty">আপনি এখনো পড়া শুরু করেন নি।</string>
+    <string name="last_read_start">পড়া শুরু করুন</string>
+    <string name="last_read_no_info">কোনো তথ্য পাওয়া যায়নি</string>
+    <string name="ayah_label">আয়াতঃ %1$s</string>
+    <string name="default_surah_name">আল - ফাতিহা</string>
 
-    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="admob_interstitial_id">ca-app-pub-3940256099942544/1033173712</string>
+    <!-- Daily Path Strings -->
+    <string name="daily_path">প্রতিদিনের পাথেয়</string>
+    <string name="today_verse">আজকের আয়াত</string>
+    <string name="today_hadith">আজকের হাদীস</string>
+    <string name="share_all">সব শেয়ার করুন</string>
 
-    <string name="admob_app_id">ca-app-pub-4404209167326577~5836822756</string>
-    <string name="admob_banner_id">ca-app-pub-4404209167326577/8079842714</string>
-    <string name="admob_interstitial_id">ca-app-pub-4404209167326577/7696699333</string>
+    <!-- Download Dialog Strings -->
+    <string name="download_audio_title">অডিও ডাউনলোড</string>
+    <string name="download_audio_desc">অডিও সুরাহ প্লে করতে হলে আপনাকে অবশ্যই তা আগে ডাউনলোড করতে হবে। আপনি নিচ থেকে আপনার পছন্দের অডিও ডাউনলোড করতে পারেন</string>
+    <string name="abdur_rahman_sudais">আব্দুর রহমান আল-সুদাইস</string>
+    <string name="abdul_basit">কারী আব্দুল বাসিত</string>
+    <string name="mishary_afasy">শাইখ মিশারী বিন রশিদ আল-আফাসি</string>
+    <string name="mishary_afasy_bn">শাইখ মিশারী আল-আফাসি (বাংলা অনুবাদ)</string>
+    <string name="close">বন্ধ করুন</string>
+    <string name="download">ডাউনলোড</string>
+    <string name="cancel">বাতিল</string>
+    <string name="downNoticss">ডাউনলোড</string>
+    <string name="download_confirmation_title">অডিও ডাউনলোড করুন?</string>
+    <string name="download_confirmation_info">এই সুরাহর অডিও ফাইলগুলো ডাউনলোড করতে আপনার ইন্টারনেট সংযোগ প্রয়োজন। ডাউনলোড করা ফাইলগুলো আপনার ডিভাইসে সংরক্ষিত হবে।</string>
+    <string name="permission_required_title">পারমিশন প্রয়োজন</string>
+    <string name="permission_required_message">স্টোরেজ পারমিশন প্রয়োজন। অনুগ্রহ করে সেটিংসে এটি সক্রিয় করুন।</string>
+    <string name="go_to_settings">সেটিিংস যান</string>
 
-    -->
-    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="admob_interstitial_id">ca-app-pub-3940256099942544/1033173712</string>
+    <!-- Preference Strings -->
+    <string name="pref_prayer_schedule_title">নামাজের সময় সূচী</string>
+    <string name="pref_prayer_vibration_title">নামাজ নোটিফিকেশন ভাইব্রেশন</string>
+    <string name="pref_azan_sound_title">আজান শব্দ</string>
+    <string name="pref_calculation_method_title">হিসাব পদ্ধতি (Calculation Method)</string>
+    <string name="pref_school_title">মাযহাব (School)</string>
+    <string name="pref_font_size_title">ফন্ট সাইজ</string>
+    <string name="pref_arabic_font_size_title">আরাবিক ফন্ট সাইজ</string>
+    <string name="pref_bangla_font_size_title">বাংলা ফন্ট সাইজ</string>
+    <string name="pref_theme_selection_title">থিম সিলেকশন</string>
+    <string name="pref_choose_theme_title">থিম নির্বাচন করুন</string>
+    <string name="pref_app_theme_title">অ্যাপ থিম</string>
+    <string name="pref_font_family_title">ফন্ট ফ্যামিলি</string>
+    <string name="pref_bangla_font_title">বাংলা ফন্ট</string>
+    <string name="pref_arabic_font_title">আরবি ফন্ট</string>
+    <string name="pref_app_features_title">অ্যাপ ফিচারস</string>
 
+    <string name="pref_tafheem_title">তাফহীমুল কুরআন</string>
+    <string name="pref_tafheem_author">সাইয়েদ আবুল আলা মওদূদী রহঃ</string>
+
+    <string name="pref_ibn_kasir_title">তাফসীরে ইবনে কাসীর</string>
+    <string name="pref_ibn_kasir_author">হাফেজ ইবনে কাসীর রহঃ</string>
+
+    <string name="pref_fi_zilalil_title">তাফসীর ফী যিলালিল কোরআন</string>
+    <string name="pref_fi_zilalil_author">সাইয়্যেদ কুতুব শহীদ রহঃ</string>
+
+    <string name="pref_tafheem_en_title">তাফহীমুল কুরআন (ইংরেজি)</string>
+    <string name="pref_tafheem_en_author">আল্লামা সাইয়েদ আবুল আলা মওদূদী</string>
+
+    <string name="pref_pronunciation_title">আরবি উচ্চারণ</string>
+    <string name="pref_bangla_translation_title">বাংলা অনুবাদ</string>
+    <string name="pref_english_translation_title">ইংরেজি অনুবাদ</string>
+    <string name="pref_translation_note_title">অনুবাদ টিকা</string>
+    <string name="pref_audio_layout_title">অডিও লেআউট</string>
+    <string name="pref_scrolling_layout_title">আয়াত স্কোলিং লেআউট</string>
+    <string name="pref_colorful_tajwid_title">কালারফুল তাজবিদ</string>
+
+    <!-- Search Strings -->
+    <string name="search_hint">এখানে লিখুন......</string>
+    <string name="search_no_results">কোন ফলাফল পাওয়া যায়নি</string>
+    <string name="search_filter_surah">সুরাহ</string>
+    <string name="search_filter_bn">বাংলা অনুবাদ</string>
+    <string name="search_filter_en">ইংরেজি অনুবাদ</string>
+    <string name="desc_back">ফিরে যান</string>
+    <string name="desc_clear">মুছে ফেলুন</string>
+    <string name="desc_search">সার্চ</string>
 
     <string name="downNotics">এই সুরাহ টি ডাউনলোড করা নেই।</string>
     <string name="ssss">) :</string>
-    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 
-    <!-- Preference Titles -->
+    <!-- Preference Titles (Legacy) -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
 
@@ -62,19 +135,37 @@
     <string name="theme_preference_section">Appearance</string>
     <string name="theme_preference_title">Theme</string>
     <string name="theme_preference_dialog_title">Choose your preferred theme</string>
-    <string name="theme_preference_name_white_blue">Blue sky (Default)</string>
-    <string name="theme_preference_name_dark_orange">Orange night</string>
-    <string name="theme_preference_name_dark_Turquoise">Nightly aurore</string>
-    <string name="theme_preference_use_arabic_locale">Arabic mode (الوضع العربي)</string>
-    <string name="theme_preference_use_arabic_locale_summay">Use Arabic for application interface</string>
-    <string name="theme_preference_numerals_title">Numerals type</string>
-    <string name="theme_preference_numerals_dialog_title">Choose numerals type</string>
-    <string name="theme_preference_numerals_type_arabic_indic">Arabic–Indic numerals</string>
-    <string name="theme_preference_numerals_type_arabic">Arabic numerals</string>
+    <string name="theme_light">Light (Green)</string>
+    <string name="theme_purple">Purple</string>
+    <string name="theme_dark_orange">Dark Orange</string>
+    <string name="theme_dark_turquoise">Dark Turquoise</string>
+
+    <!-- Azan Sound preferences -->
+    <string name="azan_sound_title">Azan Sound Selection</string>
+    <string name="azan_sound_summary">Choose the azan sound for prayer notifications</string>
+
     <string name="open">open</string>
-    <string name="close">close</string>
     <string name="bn_ovidhan">তাফহীম অভিধান</string>
     <string name="chapa_quran">ছাপা কুরআন</string>
+    <string name="para">পারা</string>
+    <string name="next_ayat">পরবর্তী আয়াত</string>
+    <string name="prev_ayat">পূর্ববর্তী আয়াত</string>
+    <string name="notes_title">নোটসমূহ</string>
+    <string name="notes_empty">আপনার কোনো নোট নেই</string>
+    <string name="save_note">সেভ করুন</string>
+    <string name="write_note_hint">এখানে আপনার নোট লিখুন...</string>
+    <string name="tafseer_view">তাফসীর দেখুন</string>
+
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+
+    <!-- Exit Dialog Strings -->
+    <string name="exit_title">অ্যাপটি বন্ধ করতে চান?</string>
+    <string name="exit_message">অ্যাপটি ভালো লেগে থাকলে, আমাদের একটি ৫-স্টার রেটিং দিয়ে উৎসাহিত করুন। আপনার মূল্যবান মতামত আমাদের অনুপ্রেরণা।</string>
+    <string name="exit_rate_btn">৫ স্টার রেটিং দিন</string>
+    <string name="exit_no_btn">না, থাক</string>
+    <string name="exit_yes_btn">হ্যাঁ, বন্ধ করুন</string>
+    <string name="time_separator"> / </string>
 
 
     <string-array name="surat_fr">
@@ -198,48 +289,4 @@
         <item>Al-Falaq</item>
         <item> An-Nas </item>
     </string-array>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="lorem_ipsum">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
-        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
-        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
-        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
-        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
-        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
-        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
-        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
-        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
-        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
-        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
-        bibendum, vel congue leo egestas.\n\n
-        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
-        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
-        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
-        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
-        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
-        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
-        est.\n\n
-        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
-        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
-        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
-        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
-        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
-        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
-        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
-        convallis.\n\n
-        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
-        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
-        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
-        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
-        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
-        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
-        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
-    </string>
-
-
 </resources>

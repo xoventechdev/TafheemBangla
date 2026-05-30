@@ -43,7 +43,7 @@ public class FontFamily {
                 return R.style.DarkTurquoiseTheme;
             case "THEME_WHITE_BLUE":
             default:
-                return R.style.BlueWhiteTheme;
+                return R.style.AppTheme_light;
         }
     }
 
@@ -70,21 +70,31 @@ public class FontFamily {
 
     public static Typeface getArabic(Context context){
         SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(context);
-        String string = sh.getString("font_arabi", "me_quran");
-        Typeface font = ResourcesCompat.getFont(context, R.font.noorehuda);
-        Typeface font2 = ResourcesCompat.getFont(context, R.font.lateef);
-        Typeface font3 = ResourcesCompat.getFont(context, R.font.me_quran);
-        Typeface font4 = ResourcesCompat.getFont(context, R.font.qalammajeed);
-        if ("noorehuda".equals(string)) {
-            return font;
-        } else if ("noorehira".equals(string)) {
+        String string = sh.getString("font_arabi", "noorehidayat");
+        Typeface font1 = ResourcesCompat.getFont(context, R.font.noorehidayat);
+        Typeface font2 = ResourcesCompat.getFont(context, R.font.al_mushaf_quran);
+        Typeface font3 = ResourcesCompat.getFont(context, R.font.al_qalam_quran_majeed);
+
+        if ("noorehidayat".equals(string)) {
+            return font1;
+        } else if ("al_mushaf_quran".equals(string)) {
             return font2;
-        } else if ("me_quran".equals(string)) {
+        } else if ("al_qalam_quran_majeed".equals(string)) {
             return font3;
-        } else if ("scheherazade".equals(string)) {
-            return font4;
         }
-        return font;
+        return font1;
+    }
+
+    public static Typeface Arabic(Context context) {
+        return getArabic(context);
+    }
+
+    public static Typeface Bangla(Context context) {
+        return getBangla(context);
+    }
+
+    public static Typeface English(Context context) {
+        return getBangla(context); // Assuming English uses same font as Bangla for now, or default
     }
 
 

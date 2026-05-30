@@ -9,15 +9,18 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:background="?android:attr/colorBackground">
         <com.google.android.material.appbar.MaterialToolbar
-            android:background="@color/purple_500"
+            android:background="?attr/colorPrimary"
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:subtitleTextColor="@color/white"
+            app:subtitleTextColor="?attr/colorOnPrimary"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="?attr/colorOnPrimary"
+            app:navigationIconTint="?attr/colorOnPrimary" />
 
         <LinearLayout
             android:layout_below="@+id/toolBar"

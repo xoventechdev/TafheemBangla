@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.OthersFragment">
 
@@ -13,9 +14,9 @@
             android:padding="8dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <TextView
-                android:textColor="@color/common"
+                android:textColor="?attr/colorPrimary"
                 android:text="পরিচিতি :-"
                 android:textSize="22sp"
                 android:fontFamily="@font/kalpurush"
@@ -25,7 +26,8 @@
                 android:id="@+id/aboutF"
                 android:text="@string/app_name"
                 android:fontFamily="@font/kalpurush"
-                android:textSize="20dp"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <LinearLayout
@@ -39,11 +41,12 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:visibility="visible"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <androidx.cardview.widget.CardView
                         android:layout_gravity="center"
                         android:id="@+id/card_view1"
+                        app:cardBackgroundColor="?attr/colorSurface"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <RelativeLayout
@@ -55,13 +58,13 @@
                                 android:id="@+id/textId1"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                app:cardBackgroundColor="@color/white">
+                                app:cardBackgroundColor="?attr/colorSurface">
 
                                 <com.google.android.material.imageview.ShapeableImageView
-                                    android:backgroundTint="@color/white"
-                                    android:background="@color/white"
+                                    android:backgroundTint="?attr/colorSurface"
+                                    android:background="?attr/colorSurface"
                                     app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                                    app:strokeColor="@color/white"
+                                    app:strokeColor="?attr/colorSurface"
                                     app:strokeWidth="1dp"
                                     android:scaleType="fitXY"
                                     android:layout_gravity="center_horizontal"
@@ -70,7 +73,7 @@
 
                                 <com.google.android.material.imageview.ShapeableImageView
                                     app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                                    app:strokeColor="@color/white"
+                                    app:strokeColor="?attr/colorSurface"
                                     app:strokeWidth="1dp"
                                     android:scaleType="fitXY"
                                     android:layout_gravity="center_horizontal"
@@ -82,20 +85,22 @@
                             </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textSize="18dp"
+                                android:textSize="16sp"
                                 android:id="@+id/a1"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_below="@id/textId1"
                                 android:layout_centerHorizontal="true"
                                 android:fontFamily="@font/kalpurush"
                                 android:gravity="center"
+                                android:textColor="?attr/textColorPrimary"
                                 android:maxLines="2"
                                 android:padding="2dp"
                                 android:text="সাইয়েদ আবুল আ'লা মওদুদী" />
                             <TextView
                                 android:text="লেখক"
                                 android:textStyle="italic"
+                                android:textColor="?attr/textColorSecondary"
                                 android:layout_below="@id/a1"
                                 android:layout_centerHorizontal="true"
                                 android:layout_width="wrap_content"
@@ -110,13 +115,14 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:visibility="visible"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <androidx.cardview.widget.CardView
                         android:layout_gravity="center"
                         android:id="@+id/card_view2"
+                        app:cardBackgroundColor="?attr/colorSurface"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content">
                         <RelativeLayout
                             android:layout_gravity="center"
                             android:layout_width="match_parent"
@@ -126,13 +132,13 @@
                                 android:id="@+id/textId2"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                app:cardBackgroundColor="@color/white">
+                                app:cardBackgroundColor="?attr/colorSurface">
 
                                 <com.google.android.material.imageview.ShapeableImageView
-                                    android:backgroundTint="@color/white"
-                                    android:background="@color/white"
+                                    android:backgroundTint="?attr/colorSurface"
+                                    android:background="?attr/colorSurface"
                                     app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                                    app:strokeColor="@color/white"
+                                    app:strokeColor="?attr/colorSurface"
                                     app:strokeWidth="1dp"
                                     android:scaleType="fitXY"
                                     android:layout_gravity="center_horizontal"
@@ -141,7 +147,7 @@
 
                                 <com.google.android.material.imageview.ShapeableImageView
                                     app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                                    app:strokeColor="@color/white"
+                                    app:strokeColor="?attr/colorSurface"
                                     app:strokeWidth="1dp"
                                     android:scaleType="fitXY"
                                     android:layout_gravity="center_horizontal"
@@ -152,20 +158,22 @@
                             </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textSize="18dp"
+                                android:textSize="16sp"
                                 android:id="@+id/b1"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_below="@id/textId2"
                                 android:layout_centerHorizontal="true"
                                 android:fontFamily="@font/kalpurush"
                                 android:gravity="center"
+                                android:textColor="?attr/textColorPrimary"
                                 android:maxLines="2"
                                 android:padding="2dp"
                                 android:text="আব্দুল মান্নান তালিব" />
                             <TextView
                                 android:text="অনুবাদক"
                                 android:textStyle="italic"
+                                android:textColor="?attr/textColorSecondary"
                                 android:layout_below="@id/b1"
                                 android:layout_centerHorizontal="true"
                                 android:layout_width="wrap_content"
@@ -181,11 +189,12 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:visibility="visible"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <androidx.cardview.widget.CardView
                         android:layout_gravity="center"
                         android:id="@+id/card_view3"
+                        app:cardBackgroundColor="?attr/colorSurface"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <RelativeLayout
@@ -197,13 +206,13 @@
                                 android:id="@+id/textId3"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                app:cardBackgroundColor="@color/white">
+                                app:cardBackgroundColor="?attr/colorSurface">
 
                                 <com.google.android.material.imageview.ShapeableImageView
-                                    android:backgroundTint="@color/white"
-                                    android:background="@color/white"
+                                    android:backgroundTint="?attr/colorSurface"
+                                    android:background="?attr/colorSurface"
                                     app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                                    app:strokeColor="@color/white"
+                                    app:strokeColor="?attr/colorSurface"
                                     app:strokeWidth="1dp"
                                     android:scaleType="fitXY"
                                     android:layout_gravity="center_horizontal"
@@ -212,7 +221,7 @@
 
                                 <com.google.android.material.imageview.ShapeableImageView
                                     app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-                                    app:strokeColor="@color/white"
+                                    app:strokeColor="?attr/colorSurface"
                                     app:strokeWidth="1dp"
                                     android:scaleType="fitXY"
                                     android:layout_gravity="center_horizontal"
@@ -222,20 +231,22 @@
                             </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:id="@+id/author_title"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_below="@id/textId3"
                                 android:layout_centerHorizontal="true"
                                 android:fontFamily="@font/kalpurush"
                                 android:gravity="center"
+                                android:textColor="?attr/textColorPrimary"
                                 android:maxLines="2"
                                 android:padding="2dp"
                                 android:text="Sahih International" />
                             <TextView
                                 android:text="Translator"
                                 android:textStyle="italic"
+                                android:textColor="?attr/textColorSecondary"
                                 android:layout_below="@id/author_title"
                                 android:layout_centerHorizontal="true"
                                 android:layout_width="wrap_content"
@@ -246,8 +257,8 @@
 
             </LinearLayout>
             <View
-                android:layout_marginVertical="5dp"
-                android:background="@color/black"
+                android:layout_marginVertical="10dp"
+                android:background="?android:attr/listDivider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <LinearLayout
@@ -255,7 +266,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:textColor="@color/common"
+                    android:textColor="?attr/colorPrimary"
                     android:text="তাফহীমুল কুরআনের ভূমিকা :-"
                     android:textSize="22sp"
                     android:fontFamily="@font/kalpurush"
@@ -264,12 +275,9 @@
 
                 <TextView
                     android:id="@+id/vumila"
-                    android:text="শিরোনামে ‘ভূমিকা শব্দটি দেখে কুরআন মজীদের ভূমিকা লিখতে বসে গেছি বলে ভুল ধারণা করার কোন কারণ নেই। এটা কুরআনের নয় বরং তাফহীমুল কুরআনের ভূমিকা। দু’টি উদ্দেশ্য সামনে রেখে আমি এ ভূমিকা লেখায় হাত দিয়েছি।
-
-একঃ কুরআন অধ্যয়নের আগে একজন সাধারন পাঠককে এমন কিছু কথা ভালোভাবে জেনে নিতে হবে যেগুলো শুরুতেই জেনে নিলে তার পক্ষে কুরআনের বক্তব্য অনুধাবন করা সহজ হয়ে যায়। নয়তো কুরআন অধ্যয়নের মাঝখানে বারবার একথাগুলো তার মনে সন্দেহ সঞ্চার করতে পারে। অনেক সময় শুধুমাত্র এগুলো না বুঝার কারণে মানুষ কুরআনের অন্তর্নিহিত অর্থের কেবলমাত্র উপরিভাগে আসতে থাকে বছরের পর বছর ধরে। ভেতরে প্রবেশ করার আর কোন পথই খুঁজে পায় না।
-
-দুই: কুরআন বুঝার চেষ্টা করার সময় মানুষের মনে যে প্রশ্নগুলো উদয় হয় সর্বপ্রথম সেগুলোর জবাব দেবো যে গুলোর প্রথম প্রথম আমার মনে জেগেছিল অথবা পরে আমার সামনে আসে।"
-                    android:textSize="20dp"
+                    android:textColor="?attr/textColorPrimary"
+                    android:text="শিরোনামে ‘ভূমিকা শব্দটি দেখে কুরআন মজীদের ভূমিকা লিখতে বসে গেছি বলে ভুল ধারণা করার কোন কারণ নেই। এটা কুরআনের নয় বরং তাফহীমুল কুরআনের ভূমিকা। দু’টি উদ্দেশ্য সামনে রেখে আমি এ ভূমিকা লেখায় হাত দিয়েছি।\n\nএকঃ কুরআন অধ্যয়নের আগে একজন সাধারন পাঠককে এমন কিছু কথা ভালোভাবে জেনে নিতে হবে যেগুলো শুরুতেই জেনে নিলে তার পক্ষে কুরআনের বক্তব্য অনুধাবন করা সহজ হয়ে যায়। নয়তো কুরআন অধ্যয়নের মাঝখানে বারবার একথাগুলো তার মনে সন্দেহ সঞ্চার করতে পারে। অনেক সময় শুধুমাত্র এগুলো না বুঝার কারণে মানুষ কুরআনের অন্তর্নিহিত অর্থের কেবলমাত্র উপরিভাগে আসতে থাকে বছরের পর বছর ধরে। ভেতরে প্রবেশ করার আর কোন পথই খুঁজে পায় না।\n\nদুই: কুরআন বুঝার চেষ্টা করার সময় মানুষের মনে যে প্রশ্নগুলো উদয় হয় সর্বপ্রথম সেগুলোর জবাব দেবো যে গুলোর প্রথম প্রথম আমার মনে জেগেছিল অথবা পরে আমার সামনে আসে।"
+                    android:textSize="20sp"
                     android:fontFamily="@font/kalpurush"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -278,7 +286,7 @@
                     android:scrollbarSize="18dp"
                     android:id="@+id/recycler_others"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:fadeScrollbars="true"
                     app:fastScrollEnabled="true"
                     app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
@@ -289,12 +297,9 @@
 
 
                 <TextView
-                    android:text="কুরআন অধ্যয়নকালে একজন পাঠকের মনে যতো রকমের প্রশ্নের উদয় হয় তার সবগুলোর জবাব দেয়ার জন্য আমি এ ভূমিকা ফাঁদিনি। কারণ এ প্রশ্নগুলোর মধ্যে এমন বহু প্রশ্ন রয়েছে যেগুলো কোন না কোন আয়াত বা সূরা পাঠকালে মনে জাগে। সেগুলোর জবাব তাফহীমুল কুরআনের সংশ্লিষ্ট অংশে যথাস্থানেই দেয়া হয়েছে। কাজেই এ ধরনের প্রশ্নগুলো বাদ দিয়ে আমি এখানে কেবলমাত্র এমন সব প্রম্নের জবাব দিয়েছি সামগ্রিকভাবে যা সমগ্র কুরআনের সাথে সন্পর্কিত। কাজেই পাঠকবৃন্দের কাছে অনুরোধ, শুধুমাত্র এই ভূমিকাটুকু পড়েই একে অস্পূর্ণ হবার ধারণা নিয়ে বসে থাকবেন না। বরং সমগ্র গ্রন্থখানি পাঠ করুন। তারপর দেখুন আপনার মনে এমন কোন প্রশ্ন রয়েছে কি –না যার জবাব পাওয়া যায়নি অথবা জবাব যথেষ্ট বলে আপনার মনে হয়নি। এ ধরনের কোন প্রশ্ন থাকলে গ্রন্থকারকে জানাবার জন্য অনুরোধ জানাচ্ছি।*
-
-*গ্রন্থাকার অবশ্যি ১৯৭৯ সালে ইন্তেকাল করেছেন। কাজেই তাঁর কাছে প্রশ্ন করার আর কোন সুযোগই নেই। তবে আমার মনে হয় এ গ্রন্থ পাঠ করার পর পাঠকদের যদি কোথাও কোন অতৃপ্তি থেকে যায়, তাহলে গ্রন্থকারের বিশাল সাহিত্য ভান্ডারের মধ্যে খুঁজলে তার জবাব পাওয়া যাবে। কারণ ইসলামী আন্দোলনের জন্য গ্রন্থকার যে সাহিত্য ভান্ডার সৃষ্টি করে গেছেন তার উৎস এই কুরআন এবং তাফহীমুল কুরআন। জীবনের সূচনা লগ্ন থেকে নিয়ে যেদিন থেকে তিনি কলম হাতে নিয়েছেন মৃত্যুর পূর্ব পর্যন্ত তিনি এই কুরআনী দাওয়াতের সন্প্রসারণের কাজই করে গেছেন। কাজই এ ক্ষেত্রে তাঁর সাহিত্য ভান্ডার তাঁর মূর্তমান প্রতিনিধি।
-
-— সমাপ্ত —"
-                    android:textSize="20dp"
+                    android:text="কুরআন অধ্যয়নকালে একজন পাঠকের মনে যতো রকমের প্রশ্নের উদয় হয় তার সবগুলোর জবাব দেয়ার জন্য আমি এ ভূমিকা ফাঁদিনি। কারণ এ প্রশ্নগুলোর মধ্যে এমন বহু প্রশ্ন রয়েছে যেগুলো কোন না কোন আয়াত বা সূরা পাঠকালে মনে জাগে। সেগুলোর জবাব তাফহীমুল কুরআনের সংশ্লিষ্ট অংশে যথাস্থানেই দেয়া হয়েছে। কাজেই এ ধরনের প্রশ্নগুলো বাদ দিয়ে আমি এখানে কেবলমাত্র এমন সব প্রম্নের জবাব দিয়েছি সামগ্রিকভাবে যা সমগ্র কুরআনের সাথে সন্পর্কিত। কাজেই পাঠকবৃন্দের কাছে অনুরোধ, শুধুমাত্র এই ভূমিকাটুকু পড়েই একে অস্পূর্ণ হবার ধারণা নিয়ে বসে থাকবেন না। বরং সমগ্র গ্রন্থখানি পাঠ করুন। তারপর দেখুন আপনার মনে এমন কোন প্রশ্ন রয়েছে কি –না যার জবাব পাওয়া যায়নি অথবা জবাব যথেষ্ট বলে আপনার মনে হয়নি। এ ধরনের কোন প্রশ্ন থাকলে গ্রন্থকারকে জানাবার জন্য অনুরোধ জানাচ্ছি।*\n\n*গ্রন্থাকার অবশ্যি ১৯৭৯ সালে ইন্তেকাল করেছেন। কাজেই তাঁর কাছে প্রশ্ন করার আর কোন সুযোগই নেই। তবে আমার মনে হয় এ গ্রন্থ পাঠ করার পর পাঠকদের যদি কোথাও কোন অতৃপ্তি থেকে যায়, তাহলে গ্রন্থকারের বিশাল সাহিত্য ভান্ডারের মধ্যে খুঁজলে তার জবাব পাওয়া যাবে। কারণ ইসলামী আন্দোলনের জন্য গ্রন্থকার যে সাহিত্য ভান্ডার সৃষ্টি করে গেছেন তার উৎস এই কুরআন এবং তাফহীমুল কুরআন। জীবনের সূচনা লগ্ন থেকে নিয়ে যেদিন থেকে তিনি কলম হাতে নিয়েছেন মৃত্যুর পূর্ব পর্যন্ত তিনি এই কুরআনী দাওয়াতের সন্প্রসারণের কাজই করে গেছেন। কাজই এ ক্ষেত্রে তাঁর সাহিত্য ভান্ডার তাঁর মূর্তমান প্রতিনিধি।\n\n— সমাপ্ত —"
+                    android:textSize="20sp"
+                    android:textColor="?attr/textColorPrimary"
                     android:fontFamily="@font/kalpurush"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

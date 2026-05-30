@@ -10,22 +10,15 @@
         <item>reply_all</item>
     </string-array>
 
-
-
-
-
-
     <string-array name="font_arabi_fonts">
-        <item>KFGQPC Hafs</item>
-        <item>Me_Quran</item>
-        <item>Kitab</item>
-        <item>Noore Hidayat</item>
+        <item>নূরে হেদায়াত</item>
+        <item>আল মুসহাফ কুরআন</item>
+        <item>আল কলম কুরআন মাজীদ</item>
     </string-array>
     <string-array name="font_arabi_fonts_values">
-        <item>hafs</item>
-        <item>me_quran</item>
-        <item>kitab</item>
         <item>noorehidayat</item>
+        <item>al_mushaf_quran</item>
+        <item>al_qalam_quran_majeed</item>
     </string-array>
     <string-array name="font_bangla_fonts">
         <item>সুলাইমান লিপি</item>
@@ -106,9 +99,6 @@
         <item>38</item>
     </string-array>
     <string-array name="items_valueAr">
-        <item>18</item>
-        <item>20</item>
-        <item>22</item>
         <item>24</item>
         <item>26</item>
         <item>28</item>
@@ -117,6 +107,9 @@
         <item>34</item>
         <item>36</item>
         <item>38</item>
+        <item>40</item>
+        <item>42</item>
+        <item>44</item>
     </string-array>
     <string-array name="items_valueBD">
         <item>12</item>
@@ -164,13 +157,70 @@
         <item>off</item>
     </string-array>
 
+    <string-array name="azan_sound_names">
+        <item>আজান (ডিফল্ট)</item>
+        <item>শুধু তাকবীর</item>
+        <item>মিশারি আল-ফাসি (কুয়েত)</item>
+        <item>নুরুদ্দিন হামজা আল-মাগরিবি (কুদস)</item>
+    </string-array>
+    <string-array name="azan_sound_values">
+        <item>prayer_call</item>
+        <item>takbeer_only_call</item>
+        <item>meshary_al_fasy_kuwait</item>
+        <item>nurdin_hamza_al_maghriby_quds</item>
+    </string-array>
 
+    <string-array name="prayer_method_names">
+        <item>University of Islamic Sciences, Karachi</item>
+        <item>Islamic Society of North America (ISNA)</item>
+        <item>Muslim World League (MWL)</item>
+        <item>Umm al-Qura University, Makkah</item>
+        <item>Egyptian General Authority of Survey</item>
+        <item>Institute of Geophysics, University of Tehran</item>
+        <item>Gulf Region</item>
+        <item>Kuwait</item>
+        <item>Qatar</item>
+        <item>Majlis Ugama Islam Singapura</item>
+        <item>Union des Organisations Islamiques de France</item>
+        <item>Diyanet İşleri Başkanlığı, Turkey</item>
+        <item>Spiritual Administration of Muslims of Russia</item>
+    </string-array>
+    <string-array name="prayer_method_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+    </string-array>
 
+    <string-array name="prayer_school_names">
+        <item>Shafi (Standard)</item>
+        <item>Hanafi</item>
+    </string-array>
+    <string-array name="prayer_school_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
 
-
-
-
-
-
+    <string-array name="entries_theme_list">
+        <item>@string/theme_light</item>
+        <item>@string/theme_purple</item>
+        <item>@string/theme_dark_orange</item>
+        <item>@string/theme_dark_turquoise</item>
+    </string-array>
+    <string-array name="entryvalues_theme_list">
+        <item>light</item>
+        <item>purple</item>
+        <item>dark_orange</item>
+        <item>dark_turquoise</item>
+    </string-array>
 
 </resources>

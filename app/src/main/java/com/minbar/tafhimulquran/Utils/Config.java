@@ -1,20 +1,27 @@
 package com.minbar.tafhimulquran.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.Html;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
-import com.minbar.tafhimulquran.Adapter.VerseAdapter;
-
-import org.w3c.dom.Text;
+import com.minbar.tafhimulquran.Activity.TafheemActivity;
+import com.minbar.tafhimulquran.Model.VerseModel;
 
 public class Config {
 
@@ -45,13 +52,23 @@ public class Config {
         return s.replace("০","0").replace("১","1").replace("২","2").replace("৩","3").replace("৪","4").replace("৫","5").replace("৬","6").replace("৭","7").replace("৮","8").replace("৯","9");
     }
 
+    public static String toBangla(String s) {
+        if (s == null) return "";
+        return ENtoBN(s);
+    }
+
+
+    public static String HideNumberBySetting(String s) {
+        if (s == null) return "";
+        SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (defaultSharedPreferences.getString("tika", "on").equals("on")) {
+            return s.replace("০", "<font color='#E91E63'><sup>০</sup></font>").replace("১", "<font color='#E91E63'><sup>১</sup></font>").replace("২", "<font color='#E91E63'><sup>২</sup></font>").replace("৩", "<font color='#E91E63'><sup>৩</sup></font>").replace("৪", "<font color='#E91E63'><sup>৪</sup></font>").replace("৫", "<font color='#E91E63'><sup>৫</sup></font>").replace("৬", "<font color='#E91E63'><sup>৬</sup></font>").replace("৭", "<font color='#E91E63'><sup>৭</sup></font>").replace("৮", "<font color='#E91E63'><sup>৮</sup></font>").replace("৯", "<font color='#E91E63'><sup>৯</sup></font>");
+        }
+        return s.replace("০","").replace("১","").replace("২","").replace("৩","").replace("৪","").replace("৫","").replace("৬","").replace("৭","").replace("৮","").replace("৯","");
+    }
+
 
     public static String HideNumber(String s){
-//        SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context );
-//        if (defaultSharedPreferences.getString("tika", "on").equals("on")) {
-//
-//            return s.replace("০","<font color='#E91E63'><sup>০</sup></font>").replace("১","<font color='#E91E63'><sup>১</sup></font>").replace("২","<font color='#E91E63'><sup>২</sup></font>").replace("৩","<font color='#E91E63'><sup>৩</sup></font>").replace("৪","<font color='#E91E63'><sup>৪</sup></font>").replace("৫","<font color='#E91E63'><sup>৫</sup></font>").replace("৬","<font color='#E91E63'><sup>৬</sup></font>").replace("৭","<font color='#E91E63'><sup>৭</sup></font>").replace("৮","<font color='#E91E63'><sup>৮</sup></font>").replace("৯","<font color='#E91E63'><sup>৯</sup></font>");
-//        }
         return s.replace("০","").replace("১","").replace("২","").replace("৩","").replace("৪","").replace("৫","").replace("৬","").replace("৭","").replace("৮","").replace("৯","");
     }
 
@@ -60,13 +77,19 @@ public class Config {
     }
 
 
-    public static String Tajweed(String s){
+    public static String Tajweed(Context context, String s){
+        if (context == null) return s;
         SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context );
         if (defaultSharedPreferences.getString("Tajwid", "on").equals("on")) {
             Spannable kk = QuranArabicUtils.getTajweed(context,s);
             return String.valueOf(kk);
         }
         return s;
+    }
+
+    @Deprecated
+    public static String Tajweed(String s){
+        return Tajweed(context, s);
     }
 
 
@@ -98,10 +121,63 @@ public class Config {
         }
         return values.toString();
     }
-    
-    
-    
-    
 
+    public static void setHtmlWithLinks(TextView textView, String html, Context context) {
+        if (html == null) return;
 
+        Spanned spanned;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            spanned = Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT);
+        } else {
+            spanned = Html.fromHtml(html);
+        }
+
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(spanned);
+        URLSpan[] urls = spannableStringBuilder.getSpans(0, spanned.length(), URLSpan.class);
+
+        for (URLSpan span : urls) {
+            int start = spannableStringBuilder.getSpanStart(span);
+            int end = spannableStringBuilder.getSpanEnd(span);
+            int flags = spannableStringBuilder.getSpanFlags(span);
+            final String url = span.getURL();
+
+            if (url != null && url.contains(":")) {
+                ClickableSpan clickableSpan = new ClickableSpan() {
+                    @Override
+                    public void onClick(@NonNull View widget) {
+                        String[] parts = url.split(":");
+                        if (parts.length == 2) {
+                            try {
+                                String sId = parts[0];
+                                String explId = parts[1];
+
+                                SqlLiteDbHelper db = SqlLiteDbHelper.getInstance(context);
+                                // Resolve expl_id to actual ayat_id (verse id)
+                                int ayatId = db.getAyatIdByExplId(Integer.parseInt(sId), Integer.parseInt(explId));
+                                if (ayatId != -1) {
+                                    VerseModel model = db.getVerseById(Integer.parseInt(sId), ayatId);
+                                    if (model != null) {
+                                        Intent intent = new Intent(context, TafheemActivity.class);
+                                        intent.putExtra("surah_id", sId);
+                                        // Pass the resolved verse id
+                                        intent.putExtra("verse_id", String.valueOf(ayatId));
+                                        intent.putExtra("arabicTxt", model.getArabic());
+                                        intent.putExtra("transTxt", model.getTrans());
+                                        intent.putExtra("banglaTxt", model.getBangla());
+                                        context.startActivity(intent);
+                                    }
+                                }
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                };
+                spannableStringBuilder.removeSpan(span);
+                spannableStringBuilder.setSpan(clickableSpan, start, end, flags);
+            }
+        }
+        textView.setText(spannableStringBuilder);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+    }
 }

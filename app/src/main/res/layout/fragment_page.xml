@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
     tools:context=".Fragment.PageFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -12,20 +13,19 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <TextView
-
                 android:textIsSelectable="true"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="?attr/textColorPrimary"
                 android:id="@+id/txtVerse"
                 android:paddingBottom="20dp"
                 android:text="@string/app_name"
-                android:fontFamily="@font/saleem_quran"
+                android:fontFamily="@font/noorehidayat"
                 android:textSize="26sp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

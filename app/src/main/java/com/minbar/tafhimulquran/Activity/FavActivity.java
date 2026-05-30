@@ -25,6 +25,7 @@ import com.minbar.tafhimulquran.Adapter.WordAdapter;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
 import com.minbar.tafhimulquran.Utils.XovenHandler;
 
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ public class FavActivity extends AppCompatActivity {
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Apply theme before super.onCreate
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fav);
 
@@ -66,7 +69,7 @@ public class FavActivity extends AppCompatActivity {
         String vb = sb.toString();
         //Toasty.success(getApplicationContext(), vb, Toasty.LENGTH_SHORT).show();
 
-        this.dbHelper = new SqlLiteDbHelper(this);
+        this.dbHelper = SqlLiteDbHelper.getInstance(this);
         RecyclerView recyclerView2 = (RecyclerView) findViewById(R.id.recycler_fav);
         this.recyclerView = recyclerView2;
         recyclerView2.setHasFixedSize(true);

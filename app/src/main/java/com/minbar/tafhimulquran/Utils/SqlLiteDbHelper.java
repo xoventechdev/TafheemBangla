@@ -27,6 +27,14 @@ import java.util.ArrayList;
 public class SqlLiteDbHelper extends SQLiteAssetHelper {
     private static final String DATABASE_NAME = "tafheemul_quran1.db";
     private static final int DATABASE_VERSION = 12;
+    private static SqlLiteDbHelper instance;
+
+    public static synchronized SqlLiteDbHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new SqlLiteDbHelper(context.getApplicationContext());
+        }
+        return instance;
+    }
 
     public SqlLiteDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,7 +50,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new SurahModel(rawQuery.getInt(0), rawQuery.getString(1), rawQuery.getString(2), rawQuery.getString(3), rawQuery.getString(4), rawQuery.getString(5)));
             }
             rawQuery.close();
-            writableDatabase.close();
         }
         return arrayList;
     }
@@ -56,7 +63,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new SubModel(rawQuery.getInt(0), rawQuery.getString(1), rawQuery.getString(2), rawQuery.getString(3)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -70,7 +76,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new DarsModel(rawQuery.getInt(0), rawQuery.getString(1), rawQuery.getString(2), rawQuery.getString(3), rawQuery.getString(4)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -84,7 +89,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new VerseModel(rawQuery.getInt(0), rawQuery.getInt(4), rawQuery.getInt(5), rawQuery.getString(6), rawQuery.getString(11), rawQuery.getString(7), rawQuery.getString(10)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -103,7 +107,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new WordModel(rawQuery.getInt(1), rawQuery.getInt(2), rawQuery.getInt(3), rawQuery.getString(4), rawQuery.getString(5)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -121,8 +124,47 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
             }
             return surahName;
         } finally {
-            cursor.close();
+            if (cursor != null) cursor.close();
         }
+    }
+
+    @SuppressLint("Range")
+    public VerseModel getVerseById(int surahId, int verseId) {
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+        Cursor rawQuery = readableDatabase.rawQuery("SELECT * FROM alquran WHERE sura_id=? AND ayat_id=?", new String[]{surahId + "", verseId + ""});
+        if (rawQuery != null && rawQuery.moveToFirst()) {
+            VerseModel model = new VerseModel(rawQuery.getInt(0), rawQuery.getInt(4), rawQuery.getInt(5), rawQuery.getString(6), rawQuery.getString(11), rawQuery.getString(7), rawQuery.getString(10));
+            rawQuery.close();
+            return model;
+        }
+        if (rawQuery != null) rawQuery.close();
+        return null;
+    }
+
+    // New method to retrieve ayat_id (verseId) based on expl_id for a given surah
+    @SuppressLint("Range")
+    public int getAyatIdByExplId(int surahId, int explId) {
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = readableDatabase.rawQuery("SELECT ayat_id FROM expls WHERE sura_id=? AND expl_id=?",
+                    new String[]{String.valueOf(surahId), String.valueOf(explId)});
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor.getInt(cursor.getColumnIndex("ayat_id"));
+            }
+            return -1;
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+    }
+
+    // New method to get VerseModel directly using expl_id
+    public VerseModel getVerseByExplId(int surahId, int explId) {
+        int ayatId = getAyatIdByExplId(surahId, explId);
+        if (ayatId != -1) {
+            return getVerseById(surahId, ayatId);
+        }
+        return null;
     }
 
     public ArrayList<VerseModel> getSubVerse(int i) {
@@ -134,7 +176,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new VerseModel(rawQuery.getInt(0), rawQuery.getInt(4), rawQuery.getInt(5), rawQuery.getString(6), rawQuery.getString(11), rawQuery.getString(7), rawQuery.getString(10)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -152,13 +193,13 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
             }
             return content;
         } finally {
-            cursor.close();
+            if (cursor != null) cursor.close();
         }
     }
 
     @SuppressLint("Range")
-    public ArrayList  getAboutContent(int i) {
-        ArrayList list = new ArrayList<String>();
+    public ArrayList<String> getAboutContent(int i) {
+        ArrayList<String> list = new ArrayList<String>();
         SQLiteDatabase readableDatabase = getReadableDatabase();
         Cursor cursor = readableDatabase.rawQuery("SELECT vumika FROM vumika_sura WHERE sura_id=?", new String[]{i + ""});
         if (cursor != null) {
@@ -166,18 +207,17 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 list.add(cursor.getString(cursor.getColumnIndex("vumika")));
             }
             cursor.close();
-            readableDatabase.close();
         }
         return list;
     }
 
     @SuppressLint("Range")
-    public ArrayList  getTafheem(String anyValue) {
+    public ArrayList<String> getTafheem(String anyValue) {
         String[] strParts = anyValue.split("=");
         int surahid = Integer.parseInt(strParts[0]);
         int verseid = Integer.parseInt(strParts[1]);
 
-        ArrayList list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<String>();
         SQLiteDatabase readableDatabase = getReadableDatabase();
         Cursor cursor = readableDatabase.rawQuery("SELECT expels FROM expls WHERE sura_id="+surahid+" AND ayat_id="+verseid+" ORDER BY id ASC", (String[]) null, (CancellationSignal) null);
         if (cursor != null) {
@@ -185,18 +225,17 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 list.add(cursor.getString(cursor.getColumnIndex("expels")));
             }
             cursor.close();
-            readableDatabase.close();
         }
         return list;
     }
 
     @SuppressLint("Range")
-    public ArrayList  getBayaan(String anyValue) {
+    public ArrayList<String> getBayaan(String anyValue) {
         String[] strParts = anyValue.split("=");
         int surahid = Integer.parseInt(strParts[0]);
         int verseid = Integer.parseInt(strParts[1]);
 
-        ArrayList list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<String>();
         SQLiteDatabase readableDatabase = getReadableDatabase();
         Cursor cursor = readableDatabase.rawQuery("SELECT content FROM bayaan WHERE surah_id="+surahid+" AND ayah_id="+verseid+" ORDER BY id ASC", (String[]) null, (CancellationSignal) null);
         if (cursor != null) {
@@ -204,7 +243,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 list.add(cursor.getString(cursor.getColumnIndex("content")));
             }
             cursor.close();
-            readableDatabase.close();
         }
         return list;
     }
@@ -218,7 +256,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new VerseModel(rawQuery.getInt(0), rawQuery.getInt(4), rawQuery.getInt(5), rawQuery.getString(6), rawQuery.getString(11), rawQuery.getString(7), rawQuery.getString(10)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -231,7 +268,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new VumikaModel(rawQuery.getInt(0), rawQuery.getString(1), rawQuery.getString(2), rawQuery.getString(3)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -245,7 +281,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new VerseModel(rawQuery.getInt(0), rawQuery.getInt(4), rawQuery.getInt(5), rawQuery.getString(6), rawQuery.getString(11), rawQuery.getString(7), rawQuery.getString(10)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -259,7 +294,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new VerseModel(rawQuery.getInt(0), rawQuery.getInt(4), rawQuery.getInt(5), rawQuery.getString(6), rawQuery.getString(11), rawQuery.getString(7), rawQuery.getString(10)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -273,7 +307,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new SurahModel(rawQuery.getInt(0), rawQuery.getString(1), rawQuery.getString(2), rawQuery.getString(3), rawQuery.getString(4), rawQuery.getString(5)));
             }
             rawQuery.close();
-            writableDatabase.close();
         }
         return arrayList;
     }
@@ -287,7 +320,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new MapsModel(rawQuery.getInt(0), rawQuery.getString(1), rawQuery.getString(2), rawQuery.getString(3)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -301,7 +333,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new CharacterModel(rawQuery.getInt(0), rawQuery.getString(1)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -315,7 +346,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new CharacterSubModel(rawQuery.getInt(0), rawQuery.getInt(1), rawQuery.getString(2)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -331,7 +361,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new SenModel(rawQuery.getString(0), rawQuery.getString(1), rawQuery.getString(2), rawQuery.getString(3)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -347,7 +376,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new SenSubModel(rawQuery.getString(3), rawQuery.getString(4), rawQuery.getString(5)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -362,7 +390,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new VerseModel(rawQuery.getInt(0), rawQuery.getInt(4), rawQuery.getInt(5), rawQuery.getString(6), rawQuery.getString(11), rawQuery.getString(7), rawQuery.getString(10)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -379,10 +406,10 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
             array[q] = uname;
             q++;
         }
-
+        cursor.close();
         return array;
     }
-    
+
     @SuppressLint("Range")
     public String getTestBangla(String anyValue) {
         String[] strParts = anyValue.split("=");
@@ -400,7 +427,7 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
             }
             return content;
         } finally {
-            cursor.close();
+            if (cursor != null) cursor.close();
         }
     }
 
@@ -422,7 +449,7 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
             }
             return content;
         } finally {
-            cursor.close();
+            if (cursor != null) cursor.close();
         }
     }
 
@@ -445,7 +472,7 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
             }
             return content;
         } finally {
-            cursor.close();
+            if (cursor != null) cursor.close();
         }
     }
 
@@ -463,6 +490,7 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
             array[q] = uname;
             q++;
         }
+        cursor.close();
         return array;
     }
 
@@ -481,7 +509,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new PageVerseModal(cursor.getInt(4), cursor.getInt(5), cursor.getString(6)));
             }
             cursor.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -500,7 +527,7 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
             }
             return downStatus;
         } finally {
-            cursor.close();
+            if (cursor != null) cursor.close();
         }
     }
 
@@ -519,7 +546,7 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
             }
             return content;
         } finally {
-            cursor.close();
+            if (cursor != null) cursor.close();
         }
 
     }
@@ -536,7 +563,6 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new VerseModel(rawQuery.getInt(0), rawQuery.getInt(4), rawQuery.getInt(5), rawQuery.getString(6), rawQuery.getString(11), rawQuery.getString(7), rawQuery.getString(10)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
@@ -552,64 +578,7 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
                 arrayList.add(new HadithModel(rawQuery.getInt(5), rawQuery.getString(6), rawQuery.getString(7), rawQuery.getString(8), rawQuery.getString(9), rawQuery.getInt(11)));
             }
             rawQuery.close();
-            readableDatabase.close();
         }
         return arrayList;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-    @SuppressLint("Range")
-    public int checkDown(int i) {
-        SQLiteDatabase readableDatabase = getReadableDatabase();
-        Cursor cursor = null;
-        int downStatus = 0;
-        try {
-            cursor = readableDatabase.rawQuery("SELECT down FROM surah_name WHERE _id=?", new String[]{i + ""});
-            if (cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                downStatus = cursor.getInt(cursor.getColumnIndex("bookmark"));
-            }
-            return downStatus;
-        } finally {
-            cursor.close();
-        }
-    }
-
-    public void updateDown(int i) {
-        SQLiteDatabase readableDatabase = getReadableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("down", 1);
-        readableDatabase.update("surah_name", contentValues, "_id = ?", new String[]{i + ""});
-        readableDatabase.close();
-    }
-
-    public void updateUnDown(int i) {
-        SQLiteDatabase readableDatabase = getReadableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("down", 0);
-        readableDatabase.update("surah_name", contentValues, "_id = ?", new String[]{i + ""});
-        readableDatabase.close();
-    }
-
- */
 }

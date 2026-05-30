@@ -4,117 +4,167 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
     </data>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?android:attr/colorBackground"
+        android:fitsSystemWindows="true"
         tools:context=".Activity.SearchActivity">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <!-- Custom Search Bar -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/search_card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="56dp"
+            android:layout_margin="12dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="false">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/search_Bar"
-                android:clipToPadding="false"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="12dp"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:cardCornerRadius="50dp"
-                app:cardElevation="1dp"
-                app:cardUseCompatPadding="false"
-                style="@style/Widget.MaterialComponents.CardView">
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="16dp">
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/btnBack"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_baseline_search"
+                    app:tint="?attr/textColorSecondary"
+                    android:contentDescription="Back" />
 
-                    <ImageView
-                        android:padding="16dp"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        app:srcCompat="@drawable/ic_baseline_search"
-                        app:tint="@android:color/darker_gray" />
+                <EditText
+                    android:id="@+id/etSearch"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="এখানে লিখুন......"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textColorHint="?attr/textColorSecondary"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp">
+                    <requestFocus />
+                </EditText>
 
-                    <EditText
-                        android:id="@+id/et_Search"
-                        android:background="@android:color/transparent"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:hint="এখানে লিখুন......"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:layout_weight="1"
-                        android:imeOptions="actionSearch">
+                <ProgressBar
+                    android:id="@+id/searchLoader"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:visibility="gone"
+                    android:layout_marginEnd="8dp"
+                    style="?android:attr/progressBarStyleSmall" />
 
-                        <requestFocus />
-                    </EditText>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/btnClear"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:padding="6dp"
+                    android:visibility="gone"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_baseline_delete_24"
+                    app:tint="?attr/textColorSecondary"
+                    android:contentDescription="Clear" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout
-            android:gravity="center"
-            android:orientation="horizontal"
+        <!-- Filter Options -->
+        <RadioGroup
+            android:id="@+id/searchFilterGroup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="8dp">
 
             <RadioButton
-                android:checked="true"
-                android:id="@+id/s_surah"
+                android:id="@+id/sSurah"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="সুরাহ"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="@color/common"/>
+                android:checked="true"
+                android:textColor="?attr/textColorPrimary"
+                android:buttonTint="?attr/colorPrimary"
+                android:paddingStart="8dp"
+                android:paddingEnd="16dp"/>
 
             <RadioButton
-                android:id="@+id/s_Bn"
+                android:id="@+id/sBn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="বাংলা অনুবাদ"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="@color/common"/>
+                android:textColor="?attr/textColorPrimary"
+                android:buttonTint="?attr/colorPrimary"
+                android:paddingStart="8dp"
+                android:paddingEnd="16dp"/>
 
             <RadioButton
-                android:id="@+id/s_En"
-                android:text="ইংরেজি অনুবাদ"
+                android:id="@+id/sEn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/common"/>
-        </LinearLayout>
+                android:text="ইংরেজি অনুবাদ"
+                android:textColor="?attr/textColorPrimary"
+                android:buttonTint="?attr/colorPrimary"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"/>
+        </RadioGroup>
 
-        <androidx.core.widget.NestedScrollView
+        <!-- Results Section -->
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/searchView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/emptyStateContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="32dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_baseline_search"
+                    app:tint="?attr/textColorSecondary"
+                    android:alpha="0.3"
+                    android:contentDescription="Empty Search" />
 
                 <TextView
-
-                    android:layout_marginTop="50dp"
                     android:id="@+id/noData"
-                    android:gravity="center"
-                    android:text="No data"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:visibility="gone"
-                    android:id="@+id/searchView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="কোন ফলাফল পাওয়া যায়নি"
+                    android:textColor="?attr/textColorSecondary"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/kalpurush"
+                    android:gravity="center" />
             </LinearLayout>
-
-
-        </androidx.core.widget.NestedScrollView>
-
-
+        </FrameLayout>
     </LinearLayout>
 </layout>

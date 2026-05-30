@@ -1,25 +1,126 @@
-<RelativeLayout
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="wrap_content"
+    android:background="?attr/colorSurface"
+    android:clipToPadding="false">
 
-    <EditText
-        android:id="@+id/etNote"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/btnSaveNote"
-        android:hint="এখানে এই আয়াত সম্পর্কিত নোট লিখন"
-        android:gravity="top"
-        android:inputType="textMultiLine"
-        android:background="@android:drawable/edit_text" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <Button
-        android:id="@+id/btnSaveNote"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
-        android:text="নোট সেভ করুন" />
+        <!-- Header Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-</RelativeLayout>
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/writing"
+                app:tint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/tvDialogTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:text="@string/notes_title"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textColor="?attr/textColorPrimary"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            app:dividerColor="?attr/dividerColor" />
+
+        <!-- Input Field Section -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:hint="@string/write_note_hint"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusTopStart="16dp"
+            app:boxStrokeColor="?attr/colorPrimary"
+            app:endIconMode="clear_text"
+            app:hintTextColor="?attr/colorPrimary"
+            app:startIconDrawable="@drawable/ic_home_mm_lastread"
+            app:startIconTint="?attr/textColorSecondary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="textMultiLine|textCapSentences"
+                android:minLines="5"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Action Buttons Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCloseDialog"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="54dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="@string/close"
+                android:textAllCaps="false"
+                android:textColor="?attr/textColorSecondary"
+                app:cornerRadius="12dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaveNote"
+                android:layout_width="0dp"
+                android:layout_height="54dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="@string/save_note"
+                android:textAllCaps="false"
+                app:backgroundTint="?attr/colorPrimary"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/ic_baseline_save_alt_24"
+                app:iconGravity="textStart" />
+        </LinearLayout>
+
+        <!-- Secondary Action -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTafseer"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/tafseer_view"
+            android:textAllCaps="false"
+            android:textColor="?attr/colorTertiary"
+            app:cornerRadius="12dp"
+            app:icon="@drawable/baseline_menu_book_24"
+            app:iconGravity="textStart"
+            app:iconTint="?attr/colorTertiary"
+            app:strokeColor="?attr/colorTertiary" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/kalpurush"
+            android:text="STUDY &amp; RESOURCES"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Prayer Times -->
+                <LinearLayout
+                    android:id="@+id/btnPrayer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_background"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="?attr/colorPrimary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="নামাজের সময়"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" android:layout_marginStart="72dp"/>
+
+                <!-- Riyadus Saliheen -->
+                <LinearLayout
+                    android:id="@+id/btnRiyadus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_background"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_nav_book_open"
+                        app:tint="?attr/colorPrimary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="রিয়াদুস সালেহীন"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" android:layout_marginStart="72dp"/>
+
+                <!-- Subject Based -->
+                <LinearLayout
+                    android:id="@+id/btnSubject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_background"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_nav_collections"
+                        app:tint="?attr/colorPrimary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="বিষয় ভিত্তিক আয়াত"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" android:layout_marginStart="72dp"/>
+
+                <!-- Darsul Quran -->
+                <LinearLayout
+                    android:id="@+id/btnDars"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_background"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_nav_book_open"
+                        app:tint="?attr/colorPrimary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="দারসুল কুরআন"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" android:layout_marginStart="72dp"/>
+
+                <!-- Daily Quran -->
+                <LinearLayout
+                    android:id="@+id/btnDaily"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_background"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_nav_book_open"
+                        app:tint="?attr/colorPrimary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="প্রতিদিন কুরআন - হাদীস"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" android:layout_marginStart="72dp"/>
+
+                <!-- Chapa Quran -->
+                <LinearLayout
+                    android:id="@+id/btnChapaQuran"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_background"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_nav_book_open"
+                        app:tint="?attr/colorPrimary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="ছাপা কুরআন"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" android:layout_marginStart="72dp"/>
+
+                <!-- Tafheem Ovidhan -->
+                <LinearLayout
+                    android:id="@+id/btnOvidhan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_background"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_nav_collections"
+                        app:tint="?attr/colorPrimary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="তাফহীম অভিধান"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" android:layout_marginStart="72dp"/>
+
+                <!-- Tafheem Intro -->
+                <LinearLayout
+                    android:id="@+id/btnIntro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_background"
+                        android:padding="10dp"
+                        android:src="@drawable/writing"
+                        app:tint="?attr/colorPrimary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="তাফহীম পরিচিতি"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" android:layout_marginStart="72dp"/>
+
+                <!-- Tajwid -->
+                <LinearLayout
+                    android:id="@+id/btnTajwid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_background"
+                        android:padding="10dp"
+                        android:src="@drawable/baseline_aod_24"
+                        app:tint="?attr/colorPrimary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="তাজবিদ"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp" />
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" android:layout_marginStart="72dp"/>
+
+                <!-- Notes -->
+                <LinearLayout
+                    android:id="@+id/btnNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_background"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_baseline_save_alt_24"
+                        app:tint="?attr/colorPrimary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="@string/notes_title"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/kalpurush"
+            android:text="MAPS &amp; HISTORY"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Maps -->
+                <LinearLayout
+                    android:id="@+id/btnMaps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_background"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_baseline_map_24"
+                        app:tint="?attr/colorPrimary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="মানচিত্র"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

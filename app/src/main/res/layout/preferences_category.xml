@@ -1,12 +1,13 @@
-<TextView
-    android:layout_marginTop="5dp"
-    android:layout_marginStart="30dp"
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/title"
-    android:textColor="@color/common"
     android:layout_width="match_parent"
-    android:fontFamily="@font/kalpurush"
     android:layout_height="wrap_content"
-    android:textSize="16sp"
-    android:textStyle="bold"
+    android:layout_marginStart="30dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp"
+    android:fontFamily="@font/kalpurush"
     android:textAllCaps="true"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    android:textColor="?attr/colorPrimary"
+    android:textSize="14sp"
+    android:textStyle="bold" />

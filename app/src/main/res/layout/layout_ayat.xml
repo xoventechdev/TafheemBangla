@@ -2,25 +2,30 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:id="@+id/ayat_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginEnd="10dp"
-    android:layout_marginBottom="16dp">
+    android:layout_marginBottom="16dp"
+    android:background="?android:attr/colorBackground">
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@drawable/ayat_header_background"
+        android:background="?attr/colorSurface"
         android:layout_width="match_parent"
         android:layout_height="40dp">
+
         <TextView
-            android:text="111"
-            android:textSize="16sp"
-            android:textColor="@color/white"
+            tools:text="১"
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnPrimary"
             android:gravity="center"
             android:id="@+id/ayat_no"
             android:background="@drawable/count_background"
-            android:layout_width="30dp"
+            android:backgroundTint="?attr/colorPrimary"
+            android:layout_width="wrap_content"
+            android:minWidth="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -28,133 +33,122 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:id="@+id/surah_name_ayat"
+            android:textColor="?attr/textColorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ayat_no"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
-            android:id="@+id/vNote"
-            android:background="@drawable/about_background"
-            android:paddingStart="5dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="6dp"
+            android:id="@+id/copy_ayat"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="6dp"
             android:focusable="true"
             android:clickable="true"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="12dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:src="@drawable/writing"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_baseline_content_copy_black"
+            app:tint="?attr/textColorSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/bit"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
-            android:id="@+id/bit"
-            android:background="@drawable/about_background"
-            android:paddingStart="5dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="6dp"
+            android:id="@+id/share"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="6dp"
             android:focusable="true"
             android:clickable="true"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="12dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:src="@drawable/ic_baseline_image_24"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_baseline_share_24"
+            app:tint="?attr/textColorSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/playSingle"
+            app:layout_constraintEnd_toStartOf="@+id/copy_ayat"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/fav"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="6dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_baseline_favorite_border_24"
+            app:tint="?attr/textColorSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/share"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/playSingle"
             android:visibility="gone"
-            android:background="@drawable/about_background"
-            android:paddingStart="5dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="6dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="6dp"
             android:focusable="true"
             android:clickable="true"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="12dp"
-            android:foreground="?attr/selectableItemBackground"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="4dp"
             android:src="@drawable/arg_play"
+            app:tint="?attr/textColorSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/fav"
             app:layout_constraintTop_toTopOf="parent"/>
 
-
         <ImageView
-            android:id="@+id/fav"
-            android:background="@drawable/about_background"
-            android:paddingStart="5dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="6dp"
-            android:focusable="true"
-            android:clickable="true"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="12dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:src="@drawable/ic_baseline_favorite_border_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/share"
-            app:layout_constraintTop_toTopOf="parent"/>
-        <ImageView
-            android:id="@+id/share"
-            android:background="@drawable/about_background"
-            android:paddingStart="5dp"
-            android:paddingTop="6dp"
-            android:paddingEnd="7dp"
-            android:paddingBottom="6dp"
-            android:focusable="true"
-            android:clickable="true"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="12dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:src="@drawable/ic_baseline_share_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/copy_ayat"
-            app:layout_constraintTop_toTopOf="parent"/>
-        <ImageView
-            android:id="@+id/copy_ayat"
-            android:background="@drawable/about_background"
+            android:id="@+id/bit"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="6dp"
             android:focusable="true"
             android:clickable="true"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="12dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:src="@drawable/ic_baseline_content_copy_black"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_baseline_image_24"
+            app:tint="?attr/textColorSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/playSingle"
             app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/vNote"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="6dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/writing"
+            app:tint="?attr/textColorSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/bit"
+            app:layout_constraintTop_toTopOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <LinearLayout
-       android:id="@+id/arabicLayout"
+        android:id="@+id/arabicLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp">
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -163,18 +157,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="6dp"
                 android:layout_marginRight="12dp"
-                android:fontFamily="@font/noorehuda"
-                android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:fontFamily="@font/al_mushaf_quran"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="30sp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:background="#3F51B5"
-            android:layout_width="3dp"
+        <View
+            android:background="?attr/colorPrimary"
+            android:layout_width="4dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginStart="8dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -182,87 +178,79 @@
         android:id="@+id/arabicMeana"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp">
-        <LinearLayout
-            android:background="#3F51B5"
-            android:layout_width="3dp"
+        android:layout_marginBottom="8dp">
+        <View
+            android:background="?attr/colorPrimary"
+            android:layout_width="4dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginEnd="8dp"/>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <TextView
                 android:id="@+id/trans"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
                 android:gravity="start"
                 android:fontFamily="@font/kalpurush"
-                android:paddingStart="7dp"
                 android:paddingEnd="10dp"
-                android:textColor="#9C27B0"
-                android:textSize="20sp" />
+                android:textColor="?attr/colorAccent"
+                android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
-
-
 
     <LinearLayout
         android:orientation="horizontal"
         android:id="@+id/VerseTai"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp">
-        <LinearLayout
-            android:background="#E91E63"
-            android:layout_width="3dp"
+        android:layout_marginBottom="8dp">
+        <View
+            android:background="?attr/colorAccent"
+            android:layout_width="4dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginEnd="8dp"/>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:fontFamily="@font/kalpurush"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:gravity="start"
                 android:id="@+id/banglaAyat"
-                android:paddingStart="7dp"
-                android:paddingEnd="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"/>
+                android:fontFamily="@font/kalpurush"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="18sp"
+                android:gravity="start"
+                android:paddingEnd="10dp"/>
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/enLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp">
-        <LinearLayout
-            android:background="#3F51B5"
-            android:layout_width="3dp"
+        android:layout_marginBottom="8dp">
+        <View
+            android:background="?attr/colorAccent"
+            android:layout_width="4dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginEnd="8dp"/>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:textSize="20sp"
-                android:gravity="start"
-                android:fontFamily="@font/kalpurush"
-                android:textColor="@color/black"
                 android:id="@+id/english"
-                android:paddingStart="7dp"
-                android:paddingEnd="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"/>
+                android:textSize="18sp"
+                android:gravity="start"
+                android:fontFamily="@font/kalpurush"
+                android:textColor="?attr/textColorPrimary"
+                android:paddingEnd="10dp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

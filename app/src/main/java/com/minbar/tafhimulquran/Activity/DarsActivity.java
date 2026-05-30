@@ -21,6 +21,7 @@ import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.FontFamily;
 import com.minbar.tafhimulquran.Utils.FontSize;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
 import com.minbar.tafhimulquran.databinding.ActivityDarsBinding;
 
 import es.dmoral.toasty.Toasty;
@@ -31,6 +32,7 @@ public class DarsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_dars);
 
@@ -42,7 +44,7 @@ public class DarsActivity extends AppCompatActivity {
         Intent is = getIntent();
         binding.title.setText(Html.fromHtml(is.getStringExtra("title")+"<br><i><small>(আলোচ্য সুরাহ :- "+is.getStringExtra("ayat")+")</small></i>"));
         binding.author.setText(is.getStringExtra("author"));
-        SqlLiteDbHelper dbHelper = new SqlLiteDbHelper(this);
+        SqlLiteDbHelper dbHelper = SqlLiteDbHelper.getInstance(this);
         binding.content.setText(Html.fromHtml(dbHelper.getDarsContent(Integer.parseInt(is.getStringExtra("id")))));
         binding.content.setTypeface(FontFamily.getBangla(this));
         binding.content.setTextSize(2,Float.valueOf(FontSize.getBangla(this)));

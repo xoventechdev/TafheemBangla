@@ -1,86 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:aapt="http://schemas.android.com/aapt"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:id="@+id/list_itemId"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="#1A000000"
+    app:cardBackgroundColor="?attr/colorSurface">
 
-
+    <LinearLayout
+        android:id="@+id/list_itemId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:gravity="center_vertical"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <RelativeLayout
-                android:layout_marginStart="5dp"
-                android:gravity="center_vertical"
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp">
                 <View
                     android:id="@+id/circle_View"
-                    android:background="@drawable/arg_play"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"/>
-
-            </RelativeLayout>
-
-
-            <LinearLayout
-                android:background="@drawable/ayat_header_background"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-
-                    android:layout_marginStart="10dp"
-                    android:fontFamily="@font/kalpurush"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
-                    android:id="@+id/vumika_title"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"/>
-
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/count_background"
+                    app:backgroundTint="?attr/colorPrimary"
+                    android:alpha="0.1"/>
                 <ImageView
-                    android:id="@+id/arrowIcon"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"/>
-            </LinearLayout>
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_menu_book_24"
+                    app:tint="?attr/colorPrimary"
+                    android:contentDescription="@null" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/vumika_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/kalpurush"
+                android:textColor="?attr/textColorPrimary"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/arrowIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                app:tint="?attr/textColorSecondary"
+                android:contentDescription="@null" />
         </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
         <androidx.recyclerview.widget.RecyclerView
-            android:visibility="gone"
-            android:padding="5dp"
-            android:scrollbarSize="18dp"
             android:id="@+id/viewCharaWord"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fadeScrollbars="true"
-            app:fastScrollEnabled="true"
-            app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
-            app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
-            app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
-            app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:background="#05000000"
+            android:paddingBottom="4dp"
+            android:overScrollMode="never" />
 
-    </RelativeLayout>
-        <LinearLayout
-            android:layout_below="@id/webView"
-            android:background="@android:color/darker_gray"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"/>
-
-</LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

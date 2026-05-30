@@ -19,6 +19,7 @@ import com.minbar.tafhimulquran.Adapter.HadithChapterAdapter;
 import com.minbar.tafhimulquran.Model.HadithChapter;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.DatabaseHelper;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +31,8 @@ public class HadithChapterActivity extends AppCompatActivity {
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Apply theme before super.onCreate
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hadith_chapter);
 

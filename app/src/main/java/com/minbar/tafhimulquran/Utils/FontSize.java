@@ -20,8 +20,22 @@ public class FontSize {
         return string2+".0f";
     }
 
+    public static float Arabic(Context context) {
+        SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(context);
+        String string2 = sh.getString("ARABICFONT","26");
+        return Float.parseFloat(string2);
+    }
 
+    public static float Bangla(Context context) {
+        SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(context);
+        String string2 = sh.getString("ProFONT", "20");
+        return Float.parseFloat(string2);
+    }
 
-
+    public static float English(Context context) {
+        SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(context);
+        String string2 = sh.getString("ProFONT", "18");
+        return Float.parseFloat(string2);
+    }
 
 }

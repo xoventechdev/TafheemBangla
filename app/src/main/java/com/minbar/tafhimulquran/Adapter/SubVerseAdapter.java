@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -35,6 +36,8 @@ import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.FontFamily;
 import com.minbar.tafhimulquran.Utils.FontSize;
+import com.minbar.tafhimulquran.Utils.NoteDatabaseHelper;
+import com.minbar.tafhimulquran.Utils.PronunciationUtils;
 import com.minbar.tafhimulquran.Utils.QuranArabicUtils;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
 import com.minbar.tafhimulquran.Utils.XovenHandler;
@@ -110,12 +113,20 @@ public class SubVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                  mvh.ayat_no.setText(Config.ENtoBN(verse_id));
                  mvh.surah_name_ayat.setText(dbHelper.getSurahName(model.getSurahID()));
                  mvh.arabic.setText(new Config(mcontext).Tajweed(model.getArabic()));
-                 mvh.trans.setText(Html.fromHtml(model.getTrans()));
+
+                 // Set Arabic pronunciation visibility
+                 if (PronunciationUtils.isArabicPronunciationVisible(mcontext)) {
+                     mvh.trans.setText(Html.fromHtml(model.getTrans()));
+                     mvh.trans.setVisibility(View.VISIBLE);
+                 } else {
+                     mvh.trans.setText("");
+                     mvh.trans.setVisibility(View.GONE);
+                 }
 
                  //getBangla = model.getBangla().replace("০","").replace("১","").replace("২","").replace("৩","").replace("৪","").replace("৫","").replace("৬","").replace("৭","").replace("৮","").replace("৯","");
 
 
-                 mvh.banglaAyat.setText(Html.fromHtml(new Config(mcontext).HideNumber(model.getBangla())+"<i><small> - তাফহীমুল কুরআন</small></i>"));
+                 mvh.banglaAyat.setText(Html.fromHtml(new Config(mcontext).HideNumberBySetting(model.getBangla())+"<i><small> - তাফহীমুল কুরআন</small></i>"));
                  mvh.english.setText(Html.fromHtml(model.getEnglish()+"<i><small> - Sahih International</small></i>"));
 
 /*
@@ -162,7 +173,9 @@ public class SubVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                      if (favStatuss){
                          xovenHandler.deleteFav(ID);
                          mvh.fav.setImageResource(R.drawable.ic_baseline_favorite_border_24);
-                         ((FavActivity) v.getContext()).checkList();
+                         if (v.getContext() instanceof FavActivity) {
+                             ((FavActivity) v.getContext()).checkList();
+                         }
                      }else {
                          xovenHandler.addFav(ID);
                          mvh.fav.setImageResource(R.drawable.ic_baseline_favorite_24);
@@ -170,15 +183,25 @@ public class SubVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                      }
                  });
 
+
+
+                 mvh.vNote.setOnClickListener(v -> {
+                     showNoteDialog(model.getSurahID(), model.getVerseID());
+                 });
+
                  mvh.share.setOnClickListener(v -> {
                      Intent intent = new Intent("android.intent.action.SEND");
                      intent.setType("text/plain");
-                     intent.putExtra("android.intent.extra.TEXT", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + model.getBangla() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + SubVerseAdapter.mcontext.getPackageName());
+                     SqlLiteDbHelper dbHelper = new SqlLiteDbHelper(mcontext);
+                     String surahName = dbHelper.getSurahName(model.getSurahID());
+                     intent.putExtra("android.intent.extra.TEXT", surahName + " : " + Config.toBangla(String.valueOf(model.getVerseID())) + "\n" + model.getArabic() + "\n\n" + new Config(mcontext).HideNumber(model.getBangla()) + "\n\nতাফহীমুল কুরআন\nhttps://play.google.com/store/apps/details?id=" + SubVerseAdapter.mcontext.getPackageName());
                      SubVerseAdapter.mcontext.startActivity(Intent.createChooser(intent, "Share the verse"));
                  });
                  mvh.copy_ayat.setOnClickListener(v -> {
                      Context context = SubVerseAdapter.mcontext;
-                     ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + model.getBangla() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + SubVerseAdapter.mcontext.getPackageName()));
+                     SqlLiteDbHelper dbHelper = new SqlLiteDbHelper(mcontext);
+                     String surahName = dbHelper.getSurahName(model.getSurahID());
+                     ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", surahName + " : " + Config.toBangla(String.valueOf(model.getVerseID())) + "\n" + model.getArabic() + "\n\n" + new Config(mcontext).HideNumber(model.getBangla()) + "\n\nতাফহীমুল কুরআন\nhttps://play.google.com/store/apps/details?id=" + SubVerseAdapter.mcontext.getPackageName()));
                      //Toast.makeText(VerseAdapter.mcontext, "This verse has been copied", Toast.LENGTH_SHORT).show();
                      Toasty.success(SubVerseAdapter.mcontext, "The verse is copied.", Toast.LENGTH_SHORT, true).show();
 
@@ -217,7 +240,41 @@ public class SubVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
      }
 
+    private void showNoteDialog(int surahId, int verseId) {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(mcontext);
+        @SuppressLint("InflateParams") View dialogView = LayoutInflater.from(mcontext).inflate(R.layout.dialog_note, null);
 
+        TextView tvDialogTitle = dialogView.findViewById(R.id.tvDialogTitle);
+        EditText etNote = dialogView.findViewById(R.id.etNote);
+        View btnSaveNote = dialogView.findViewById(R.id.btnSaveNote);
+        View btnCloseDialog = dialogView.findViewById(R.id.btnCloseDialog);
+        View btnTafseer = dialogView.findViewById(R.id.btnTafseer);
+        btnTafseer.setVisibility(View.GONE);
+
+        SqlLiteDbHelper db = new SqlLiteDbHelper(mcontext);
+        String surahName = db.getSurahName(surahId);
+        String title = surahName + " - আয়াতঃ " + Config.ENtoBN(String.valueOf(verseId));
+        tvDialogTitle.setText(title);
+
+        NoteDatabaseHelper noteDb = new NoteDatabaseHelper(mcontext);
+        etNote.setText(noteDb.getNote(String.valueOf(surahId), String.valueOf(verseId)));
+
+        androidx.appcompat.app.AlertDialog dialog = builder.setView(dialogView).create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        dialog.show();
+
+        btnSaveNote.setOnClickListener(v -> {
+            String note = etNote.getText().toString().trim();
+            noteDb.saveOrUpdateNote(String.valueOf(surahId), String.valueOf(verseId), note);
+            Toasty.success(mcontext, "নোট সেভ করা হয়েছে", Toast.LENGTH_SHORT, true).show();
+            dialog.dismiss();
+        });
+
+        btnCloseDialog.setOnClickListener(v -> dialog.dismiss());
+
+    }
 
 
     @SuppressLint("SetTextI18n")
@@ -345,7 +402,7 @@ public class SubVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
          public TextView ayat_no,surah_name_ayat,  arabic,banglaAyat,english, trans;
          //, banglaAyat, english;
          public LinearLayout relativeLayout, arabicLayout, enLayout, arabicMeana;
-         public ImageView share, copy_ayat, fav, bit;
+         public ImageView share, copy_ayat, fav, bit, vNote;
 
 
          public myviewholder(@NonNull View itemView)
@@ -363,6 +420,8 @@ public class SubVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
              this.share = (ImageView) itemView.findViewById(R.id.share);
              this.copy_ayat = (ImageView) itemView.findViewById(R.id.copy_ayat);
              this.bit = (ImageView) itemView.findViewById(R.id.bit);
+             this.vNote = (ImageView) itemView.findViewById(R.id.vNote);
+
              //this.txtSound = (ImageView) itemView.findViewById(R.id.txtSound);
              relativeLayout = (LinearLayout)itemView.findViewById(R.id.ayat_layout);
              arabicLayout = (LinearLayout)itemView.findViewById(R.id.arabicLayout);

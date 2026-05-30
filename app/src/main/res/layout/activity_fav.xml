@@ -6,6 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="?android:attr/colorBackground"
     tools:context=".Activity.FavActivity">
 
     <RelativeLayout
@@ -13,13 +15,14 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:background="@color/purple_500"
+            android:background="?attr/colorPrimary"
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:subtitleTextColor="@color/white"
+            app:subtitleTextColor="?attr/colorOnPrimary"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="?attr/colorOnPrimary"
+            app:navigationIconTint="?attr/colorOnPrimary" />
 
         <TextView
             android:layout_below="@+id/toolBar"
@@ -27,6 +30,7 @@
             android:text="কোন আয়াত এড করা নেই।"
             android:fontFamily="@font/kalpurush"
             android:textSize="22sp"
+            android:textColor="?attr/textColorPrimary"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
