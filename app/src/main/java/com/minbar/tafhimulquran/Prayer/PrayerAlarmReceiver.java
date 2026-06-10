@@ -13,6 +13,7 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
+import com.minbar.tafhimulquran.Activity.MainActivity;
 import com.minbar.tafhimulquran.R;
 
 public class PrayerAlarmReceiver extends BroadcastReceiver {
@@ -35,7 +36,8 @@ public class PrayerAlarmReceiver extends BroadcastReceiver {
             }
         }
 
-        Intent openAppIntent = new Intent(context, PrayerActivity.class);
+        Intent openAppIntent = new Intent(context, MainActivity.class);
+        openAppIntent.putExtra("OPEN_FRAGMENT", "prayer");
         openAppIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, openAppIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
@@ -57,7 +59,6 @@ public class PrayerAlarmReceiver extends BroadcastReceiver {
                 .setSound(soundUri)
                 .setAutoCancel(true)
                 .setOngoing(false)
-                .setFullScreenIntent(pendingIntent, true) // Important for alarm-like behavior
                 .setContentIntent(pendingIntent)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
 

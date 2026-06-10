@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/colorBackground">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <!-- 1. Header Info Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="?attr/colorSurface"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="1dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:id="@+id/azanSoundSettings"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="Azan Settings"
+                            android:padding="6dp"
+                            android:src="@drawable/ic_home_mm_settings"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="?attr/textColorSecondary" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/hijri_date_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/kalpurush"
+                                android:textColor="?attr/textColorSecondary"
+                                android:textSize="14sp"
+                                tools:text="Wednesday 11 Safar 1446" />
+
+                            <TextView
+                                android:id="@+id/current_time_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="?attr/colorPrimary"
+                                android:textSize="26sp"
+                                android:textStyle="bold"
+                                tools:text="12:14 PM" />
+
+                            <TextView
+                                android:id="@+id/location_weather_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:drawableStart="@drawable/baseline_add_location_alt_24"
+                                android:drawablePadding="6dp"
+                                android:focusable="true"
+                                android:gravity="center"
+                                android:padding="4dp"
+                                android:textColor="?attr/textColorSecondary"
+                                android:textSize="13sp"
+                                app:drawableTint="?attr/textColorSecondary"
+                                tools:text="Bishnupur - Dhaka" />
+                        </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 2. Next Prayer Section -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="?attr/colorPrimary"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="3dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:id="@+id/next_prayer_info_container"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@+id/progress_container"
+                            app:layout_constraintEnd_toStartOf="@+id/progress_container"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/progress_container">
+
+                            <TextView
+                                android:layout_marginTop="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="1"
+                                android:fontFamily="@font/kalpurush"
+                                android:text="পরবর্তী নামাজ"
+                                android:textColor="?attr/colorOnPrimary"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/next_prayer_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/kalpurush"
+                                android:textColor="?attr/colorOnPrimary"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                tools:text="মাগরিব" />
+
+                            <TextView
+                                android:id="@+id/next_prayer_time_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="?attr/colorOnPrimary"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                tools:text="৬:৩৭ পিএম" />
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:id="@+id/progress_container"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                                android:id="@+id/circularProgressBar"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:cpb_background_progressbar_color="#30FFFFFF"
+                                app:cpb_background_progressbar_width="3dp"
+                                app:cpb_progress_max="100"
+                                app:cpb_progressbar_color="?attr/colorOnPrimary"
+                                app:cpb_progressbar_width="5dp"
+                                app:cpb_round_border="true" />
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:alpha="0.9"
+                                android:src="@drawable/ic_namaz"
+                                app:tint="?attr/colorOnPrimary" />
+                        </FrameLayout>
+
+                        <View
+                            android:id="@+id/divider"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="12dp"
+                            android:background="#30FFFFFF"
+                            app:layout_constraintTop_toBottomOf="@+id/progress_container" />
+
+                        <LinearLayout
+                            android:id="@+id/bottom_times_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/divider">
+
+                            <TextView
+                                android:id="@+id/sunrise_time_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:drawableStart="@drawable/ic_sunrise"
+                                android:drawablePadding="6dp"
+                                android:gravity="center_vertical"
+                                android:textColor="?attr/colorOnPrimary"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                app:drawableTint="?attr/colorOnPrimary"
+                                tools:text="৬:০৩ এএম" />
+
+                            <TextView
+                                android:id="@+id/sunset_time_text"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:drawableEnd="@drawable/ic_sunset"
+                                android:drawablePadding="6dp"
+                                android:gravity="center_vertical|end"
+                                android:textColor="?attr/colorOnPrimary"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                app:drawableTint="?attr/colorOnPrimary"
+                                tools:text="৭:৫৬ পিএম" />
+                        </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 3. Prayer Times List -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="?attr/colorSurface"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="?android:attr/listDivider"
+                        android:orientation="vertical"
+                        android:showDividers="middle">
+
+                        <include layout="@layout/item_prayer_time" android:id="@+id/item_fajr" />
+                        <include layout="@layout/item_prayer_time" android:id="@+id/item_dhuhr" />
+                        <include layout="@layout/item_prayer_time" android:id="@+id/item_asr" />
+                        <include layout="@layout/item_prayer_time" android:id="@+id/item_maghrib" />
+                        <include layout="@layout/item_prayer_time" android:id="@+id/item_isha" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 4. Tomorrow's Schedule -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/kalpurush"
+                    android:text="আগামীকালের সময়সূচী"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    app:cardBackgroundColor="?attr/colorSurface"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="8dp"
+                        android:weightSum="5">
+
+                        <include layout="@layout/item_prayer_tomorrow" android:id="@+id/tom_fajr" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                        <include layout="@layout/item_prayer_tomorrow" android:id="@+id/tom_dhuhr" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                        <include layout="@layout/item_prayer_tomorrow" android:id="@+id/tom_asr" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                        <include layout="@layout/item_prayer_tomorrow" android:id="@+id/tom_maghrib" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                        <include layout="@layout/item_prayer_tomorrow" android:id="@+id/tom_isha" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+    </FrameLayout>
+</layout>

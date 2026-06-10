@@ -11,10 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -23,12 +26,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
+import com.minbar.tafhimulquran.Activity.MainActivity;
+import com.minbar.tafhimulquran.Activity.SingleActivity;
 import com.minbar.tafhimulquran.Activity.VerseActivity;
 import com.minbar.tafhimulquran.Adapter.SurahAdapter;
 import com.minbar.tafhimulquran.Model.SurahModel;
 import com.minbar.tafhimulquran.Prayer.DateUtils;
 import com.minbar.tafhimulquran.Prayer.LocationUtils;
-import com.minbar.tafhimulquran.Prayer.PrayerActivity;
 import com.minbar.tafhimulquran.Prayer.PrayerNotificationManager;
 import com.minbar.tafhimulquran.Prayer.PrayerTimesResponse;
 import com.minbar.tafhimulquran.R;
@@ -38,6 +43,8 @@ import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import es.dmoral.toasty.Toasty;
 
 public class HomeFragment extends Fragment implements SurahAdapter.OnHeaderBoundListener {
 
@@ -59,19 +66,109 @@ public class HomeFragment extends Fragment implements SurahAdapter.OnHeaderBound
     private ExecutorService executor;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
+    private AutoCompleteTextView autoCompleteSurah, autoCompleteVerse;
+    private MaterialButton btnGoQuick;
+    private ArrayList<SurahModel> surahList;
+    private int selectedSurahId = -1;
+    private int selectedVerseId = -1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
-        dbHelper = new SqlLiteDbHelper(getActivity());
+        dbHelper = SqlLiteDbHelper.getInstance(getActivity());
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         recyclerView = v.findViewById(R.id.recyclerViewid);
         progressBar = v.findViewById(R.id.progressBar);
 
+        autoCompleteSurah = v.findViewById(R.id.autoCompleteSurah);
+        autoCompleteVerse = v.findViewById(R.id.autoCompleteVerse);
+        btnGoQuick = v.findViewById(R.id.btnGoQuick);
+
+        setupQuickNav();
         setupSurahList();
 
         return v;
+    }
+
+    private void setupQuickNav() {
+        if (executor == null || executor.isShutdown()) {
+            executor = Executors.newSingleThreadExecutor();
+        }
+
+        executor.execute(() -> {
+            surahList = dbHelper.getSurah();
+            final ArrayList<String> surahNames = new ArrayList<>();
+            for (SurahModel surah : surahList) {
+                surahNames.add(Config.ENtoBN(surah.getSura_Number()) + ". " + surah.getBangla_Name());
+            }
+
+            mainHandler.post(() -> {
+                if (isAdded() && getContext() != null) {
+                    ArrayAdapter<String> surahAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, surahNames);
+                    autoCompleteSurah.setAdapter(surahAdapter);
+                }
+            });
+        });
+
+        autoCompleteSurah.setOnItemClickListener((parent, view, position, id) -> {
+            if (surahList != null && position < surahList.size()) {
+                selectedSurahId = surahList.get(position).getSurah_ID();
+                updateVerseDropdown(selectedSurahId);
+                autoCompleteVerse.setText("");
+                selectedVerseId = -1;
+            }
+        });
+
+        btnGoQuick.setOnClickListener(v -> {
+            if (selectedSurahId == -1) {
+                Toasty.warning(requireContext(), getString(R.string.warning_select_surah), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (selectedVerseId == -1) {
+                String verseStr = autoCompleteVerse.getText().toString();
+                if (!verseStr.isEmpty()) {
+                    try {
+                        selectedVerseId = Integer.parseInt(Config.BntoEN(verseStr));
+                    } catch (Exception ignored) {}
+                }
+            }
+
+            if (selectedVerseId == -1) {
+                Toasty.warning(requireContext(), getString(R.string.warning_select_verse), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Intent intent = new Intent(getActivity(), SingleActivity.class);
+            intent.putExtra("surah_id", selectedSurahId);
+            intent.putExtra("verse_id", selectedVerseId);
+            startActivity(intent);
+        });
+    }
+
+    private void updateVerseDropdown(int surahId) {
+        executor.execute(() -> {
+            final String[] verses = dbHelper.getVerseList(surahId);
+            final ArrayList<String> verseLabels = new ArrayList<>();
+            for (String v : verses) {
+                verseLabels.add(Config.ENtoBN(v));
+            }
+
+            mainHandler.post(() -> {
+                if (isAdded() && getContext() != null) {
+                    ArrayAdapter<String> verseAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, verseLabels);
+                    autoCompleteVerse.setAdapter(verseAdapter);
+                    autoCompleteVerse.setOnItemClickListener((parent, view, position, id) -> {
+                        try {
+                            selectedVerseId = Integer.parseInt(verses[position]);
+                        } catch (Exception e) {
+                            selectedVerseId = -1;
+                        }
+                    });
+                }
+            });
+        });
     }
 
     private void setupSurahList() {
@@ -115,7 +212,9 @@ public class HomeFragment extends Fragment implements SurahAdapter.OnHeaderBound
 
         if (btnNextPrayer != null) {
             btnNextPrayer.setOnClickListener(view -> {
-                Intent intent = new Intent(getActivity(), PrayerActivity.class);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("OPEN_FRAGMENT", "prayer");
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             });
         }
@@ -221,7 +320,7 @@ public class HomeFragment extends Fragment implements SurahAdapter.OnHeaderBound
 
                 // Calculate remaining time using the local device timezone
 
-                Log.d("prayerTime", prayerTime);
+//                Log.d("prayerTime", prayerTime);
                 String remainingTime = calculateRemainingTime(prayerTime);
                 if (tvRemainingTime != null) {
                     tvRemainingTime.setText(remainingTime);

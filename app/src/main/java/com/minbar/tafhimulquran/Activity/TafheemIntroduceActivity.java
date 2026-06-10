@@ -22,6 +22,7 @@ import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.FontFamily;
 import com.minbar.tafhimulquran.Utils.FontSize;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
 
 public class TafheemIntroduceActivity extends AppCompatActivity {
 
@@ -31,6 +32,7 @@ public class TafheemIntroduceActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tafheem_introduce);
 
@@ -125,7 +127,7 @@ public class TafheemIntroduceActivity extends AppCompatActivity {
     String a3 = "<p>The&nbsp;<strong>Saheeh International translation</strong>&nbsp;is an&nbsp;English Language translation&nbsp;of the&nbsp;Quran&nbsp;that has been used by Islam's most conservative adherents. Published by the Publishing House (dar),&nbsp;<em>dar&nbsp;Abul Qasim</em>, Saudi Arabia, it is one of the World's most popular Quran translations.</p>\n" +
             "<p>Translated by three American women, Umm Muhammad (Emily Assami), Mary Kennedy, and Amatullah Bantley, Notable conventions include rendering the&nbsp;God in Islam&nbsp;as&nbsp;<em>Allah</em>&nbsp;as they believe it is not okay to use the English word.</p>\n" +
             "<p>The translation has been described as biased towards \"Sunni orthodoxy\", which according to authors, requires words to be inserted in square parentheses.</p>\n" +
-            "<p><em>Ṣaḥīḥ</em>&nbsp;(<span title=\"Arabic-language text\"><span lang=\"ar\">صحيح</span></span>) may be translated as \"authentic\" or \"sound.\"</p>\n" +
+            "<p><em>Ṣaḥīḥ</em>&nbsp;(<span title=\"Arabic-language text\"><span lang=\"ar\">صحيহ</span></span>) may be translated as \"authentic\" or \"sound.\"</p>\n" +
             "<h2><span id=\"Translators\" class=\"mw-headline\">Translators</span></h2>\n" +
             "<p>Emily Assami was born in&nbsp;California&nbsp;into an&nbsp;atheist&nbsp;family. She was married to an Arab husband. She studied Arabic at&nbsp;Damascus University. She was a former atheist who converted to Islam. She is known as&nbsp;<em>Umm Muhammad</em>&nbsp;or&nbsp;<em>Aminah</em>.</p>\n" +
             "<p>Mary Kennedy was born in&nbsp;Orlando. She was a former Christian who converted to Islam.</p>\n" +

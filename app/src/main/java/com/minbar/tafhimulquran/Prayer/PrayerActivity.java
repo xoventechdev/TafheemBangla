@@ -147,13 +147,14 @@ public class PrayerActivity extends AppCompatActivity {
     }
 
     private void checkExactAlarmPermission() {
+        // 1. Check Exact Alarm Permission (Android 12+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
             if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
                 new AlertDialog.Builder(this)
                         .setTitle("অ্যালার্ম অনুমতি প্রয়োজন")
                         .setMessage("সঠিক সময়ে আজান দেওয়ার জন্য 'Alarms & Reminders' অনুমতি প্রয়োজন।")
-                        .setPositiveButton("সেটিিংস", (dialog, which) -> {
+                        .setPositiveButton("সেটিংস", (dialog, which) -> {
                             Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
                             startActivity(intent);
                         })
@@ -162,25 +163,9 @@ public class PrayerActivity extends AppCompatActivity {
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            if (notificationManager != null && !notificationManager.canUseFullScreenIntent()) {
-                new AlertDialog.Builder(this)
-                        .setTitle("স্ক্রিন ওয়েক আপ অনুমতি")
-                        .setMessage("ফোন লক থাকা অবস্থায় আজান স্ক্রিন দেখানোর জন্য অনুমতি প্রয়োজন।")
-                        .setPositiveButton("সেটিিংস", (dialog, which) -> {
-                            Intent intent = new Intent(Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT);
-                            intent.setData(Uri.parse("package:" + getPackageName()));
-                            startActivity(intent);
-                        })
-                        .show();
-                return;
-            }
-        }
-
+        // 2. Check Battery Optimization
         checkBatteryOptimizations();
     }
-
     private void startClock() {
         timeRunnable = new Runnable() {
             @Override

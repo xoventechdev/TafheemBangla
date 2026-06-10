@@ -117,10 +117,10 @@ public class SubVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                  // Set Arabic pronunciation visibility
                  if (PronunciationUtils.isArabicPronunciationVisible(mcontext)) {
                      mvh.trans.setText(Html.fromHtml(model.getTrans()));
-                     mvh.trans.setVisibility(View.VISIBLE);
+                     mvh.arabicMeana.setVisibility(View.VISIBLE);
                  } else {
                      mvh.trans.setText("");
-                     mvh.trans.setVisibility(View.GONE);
+                     mvh.arabicMeana.setVisibility(View.GONE);
                  }
 
                  //getBangla = model.getBangla().replace("০","").replace("১","").replace("২","").replace("৩","").replace("৪","").replace("৫","").replace("৬","").replace("৭","").replace("৮","").replace("৯","");

@@ -7,52 +7,42 @@
 
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?android:attr/colorBackground"
         android:fitsSystemWindows="true"
-        android:background="?android:attr/colorBackground">
+        android:orientation="vertical">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:background="?attr/colorPrimary"
-            android:id="@+id/toolBar"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:subtitleTextColor="?attr/colorOnPrimary"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            app:titleTextColor="?attr/colorOnPrimary"
-            app:navigationIconTint="?attr/colorOnPrimary" />
+            android:layout_height="wrap_content"
+            app:elevation="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_below="@+id/toolBar"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolBar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:navigationIconTint="?attr/colorOnPrimary"
+                app:subtitleTextColor="?attr/colorOnPrimary"
+                app:titleTextColor="?attr/colorOnPrimary" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/subVerse"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".Activity.SubjectActivity">
+            android:clipToPadding="false"
+            android:fadeScrollbars="true"
+            android:paddingBottom="16dp"
+            app:fastScrollEnabled="true"
+            app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+            app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+            app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+            app:fastScrollVerticalTrackDrawable="@drawable/line_drawable" />
 
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/subVerse"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fadeScrollbars="true"
-                        app:fastScrollEnabled="true"
-                        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
-                        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
-                        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
-                        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-                </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </RelativeLayout>
-
+    </LinearLayout>
 </layout>

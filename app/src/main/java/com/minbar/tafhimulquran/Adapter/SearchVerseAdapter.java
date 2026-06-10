@@ -37,6 +37,7 @@ import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.FontFamily;
 import com.minbar.tafhimulquran.Utils.FontSize;
+import com.minbar.tafhimulquran.Utils.PronunciationUtils;
 import com.minbar.tafhimulquran.Utils.QuranArabicUtils;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
 import com.minbar.tafhimulquran.Utils.XovenHandler;
@@ -112,7 +113,15 @@ public class SearchVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                  mvh.ayat_no.setText(Config.ENtoBN(verse_id));
                  mvh.surah_name_ayat.setText(dbHelper.getSurahName(model.getSurahID()));
                  mvh.arabic.setText(new Config(mcontext).Tajweed(model.getArabic()));
-                 mvh.trans.setText(Html.fromHtml(model.getTrans()));
+
+                 // Set Arabic pronunciation visibility
+                 if (PronunciationUtils.isArabicPronunciationVisible(mcontext)) {
+                     mvh.trans.setText(Html.fromHtml(model.getTrans()));
+                     mvh.arabicMeana.setVisibility(View.VISIBLE);
+                 } else {
+                     mvh.trans.setText("");
+                     mvh.arabicMeana.setVisibility(View.GONE);
+                 }
 
                  //getBangla = model.getBangla().replace("০","").replace("১","").replace("২","").replace("৩","").replace("৪","").replace("৫","").replace("৬","").replace("৭","").replace("৮","").replace("৯","");
 

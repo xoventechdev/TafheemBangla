@@ -397,7 +397,8 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
     @SuppressLint("Range")
     public String[] getVerseList(int aa) {
         SQLiteDatabase readableDatabase = getReadableDatabase();
-        Cursor cursor = readableDatabase.rawQuery("SELECT * FROM alquran WHERE sura_id="+aa+" AND NOT id=0 ORDER BY id ASC ", (String[]) null, (CancellationSignal) null);
+        // Removed 'AND NOT id=0' to ensure Ayat 0 is included for Surah 1
+        Cursor cursor = readableDatabase.rawQuery("SELECT * FROM alquran WHERE sura_id="+aa+" ORDER BY id ASC ", (String[]) null, (CancellationSignal) null);
         String[] array = new String[cursor.getCount()];
 
         int q = 0;

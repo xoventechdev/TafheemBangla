@@ -94,7 +94,7 @@ public class BitActivity extends AppCompatActivity {
         binding.bangla.setText(cleanedBangla);
         
         String surahName = dbHelper.getSurahName(surah_id);
-        binding.ref.setText(getString(R.string.ssss) + " " + surahName + ", আয়াতঃ " + verse_id);
+        binding.ref.setText(surahName + ", আয়াতঃ " + verse_id);
 
         adjustTextSizes(arabicTxt.length(), cleanedBangla.length());
     }

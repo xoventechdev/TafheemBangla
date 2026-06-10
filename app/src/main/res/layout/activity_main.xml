@@ -42,7 +42,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/dark_green" />
+                        app:tint="?attr/colorPrimary" />
 
                     <TextView
                         android:id="@+id/toolbarTitle"
@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/kalpurush"
                         android:text="Sakina Quran"
-                        android:textColor="@color/dark_green"
+                        android:textColor="?attr/colorPrimary"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,7 +69,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/dark_green" />
+                        app:tint="?attr/colorPrimary" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
@@ -104,9 +104,9 @@
         android:background="?android:attr/colorBackground"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_header"
-        app:itemIconTint="@color/dark_green"
-        app:itemTextColor="@color/text_main"
-        app:itemShapeFillColor="@color/light_green_bg"
+        app:itemIconTint="?attr/colorPrimary"
+        app:itemTextColor="?attr/textColorPrimary"
+        app:itemShapeFillColor="?attr/colorSurface"
         app:menu="@menu/menu_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

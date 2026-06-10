@@ -22,12 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.minbar.tafhimulquran.Activity.BitActivity;
-import com.minbar.tafhimulquran.Activity.FavActivity;
 import com.minbar.tafhimulquran.Activity.TafheemActivity;
 import com.minbar.tafhimulquran.Activity.VerseActivity;
 import com.minbar.tafhimulquran.Model.VerseModel;
@@ -56,15 +54,35 @@ public class FavVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final List<Object> displayItems = new ArrayList<>();
     private final List<Object> allItems = new ArrayList<>();
     private static Context mcontext;
+    private OnFavActionListener listener;
 
     private SqlLiteDbHelper dbHelper;
+
+    /**
+     * Callback interface for favorite verse actions
+     */
+    public interface OnFavActionListener {
+        void onClickCalled(String value);
+        void checkList();
+    }
 
     public FavVerseAdapter(Context context, List<VerseModel> verseList) {
         mcontext = context;
         this.dbHelper = new SqlLiteDbHelper(context);
+        // Set up listener if context implements the interface
+        if (context instanceof OnFavActionListener) {
+            this.listener = (OnFavActionListener) context;
+        }
 
         // Group verses by surah
         groupVersesBySurah(verseList);
+    }
+
+    /**
+     * Set listener for favorite verse actions (useful for Fragment usage)
+     */
+    public void setOnFavActionListener(OnFavActionListener listener) {
+        this.listener = listener;
     }
 
     private void groupVersesBySurah(List<VerseModel> verseList) {
@@ -146,10 +164,10 @@ public class FavVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         // Set Arabic pronunciation visibility
         if (PronunciationUtils.isArabicPronunciationVisible(mcontext)) {
             holder.trans.setText(Html.fromHtml(model.getTrans()));
-            holder.trans.setVisibility(View.VISIBLE);
+            holder.arabicMeana.setVisibility(View.VISIBLE);
         } else {
             holder.trans.setText("");
-            holder.trans.setVisibility(View.GONE);
+            holder.arabicMeana.setVisibility(View.GONE);
         }
 
         holder.banglaAyat.setText(Html.fromHtml(new Config(mcontext).HideNumberBySetting(model.getBangla())+"<i><small> - তাফহীমুল কুরআন</small></i>"));
@@ -157,7 +175,9 @@ public class FavVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         holder.arabicLayout.setOnClickListener(v -> {
             String qqq = dbHelper.getSurahName(model.getSurahID())+"@"+model.getSurahID()+"="+model.getVerseID();
-            ((FavActivity) v.getContext()).onClickCalled(qqq);
+            if (listener != null) {
+                listener.onClickCalled(qqq);
+            }
         });
 
         int ID = model.getId();
@@ -174,7 +194,9 @@ public class FavVerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 xovenHandler.deleteFav(ID);
                 holder.fav.setImageResource(R.drawable.ic_baseline_favorite_border_24);
                 notifytoview(getItemPosition(model));
-                ((FavActivity) v.getContext()).checkList();
+                if (listener != null) {
+                    listener.checkList();
+                }
             } else {
                 xovenHandler.addFav(ID);
                 holder.fav.setImageResource(R.drawable.ic_baseline_favorite_24);

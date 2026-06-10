@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 import es.dmoral.toasty.Toasty;
 
-public class FavActivity extends AppCompatActivity {
+public class FavActivity extends AppCompatActivity implements FavVerseAdapter.OnFavActionListener {
 
     FavVerseAdapter adapter;
     SqlLiteDbHelper dbHelper;

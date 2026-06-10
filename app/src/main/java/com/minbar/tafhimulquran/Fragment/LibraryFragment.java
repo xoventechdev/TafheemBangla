@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import com.minbar.tafhimulquran.Activity.DarsListActivity;
+import com.minbar.tafhimulquran.Activity.MainActivity;
 import com.minbar.tafhimulquran.Activity.MapsActivity;
 import com.minbar.tafhimulquran.Activity.NoteActivity;
 import com.minbar.tafhimulquran.Activity.OvidhanActivity;
@@ -16,7 +17,6 @@ import com.minbar.tafhimulquran.Activity.TafheemIntroduceActivity;
 import com.minbar.tafhimulquran.Activity.TajwidActivity;
 import com.minbar.tafhimulquran.Daily.DailyActivity;
 import com.minbar.tafhimulquran.Hadith.HadithChapterActivity;
-import com.minbar.tafhimulquran.Prayer.PrayerActivity;
 import com.minbar.tafhimulquran.R;
 
 public class LibraryFragment extends Fragment {
@@ -25,7 +25,12 @@ public class LibraryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_library, container, false);
 
-        v.findViewById(R.id.btnPrayer).setOnClickListener(v1 -> startActivity(new Intent(getActivity(), PrayerActivity.class)));
+        v.findViewById(R.id.btnPrayer).setOnClickListener(v1 -> {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.putExtra("OPEN_FRAGMENT", "prayer");
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        });
         v.findViewById(R.id.btnRiyadus).setOnClickListener(v1 -> startActivity(new Intent(getActivity(), HadithChapterActivity.class)));
         v.findViewById(R.id.btnDaily).setOnClickListener(v1 -> startActivity(new Intent(getActivity(), DailyActivity.class)));
         v.findViewById(R.id.btnChapaQuran).setOnClickListener(v1 -> startActivity(new Intent(getActivity(), PageMainActivity.class)));

@@ -16,10 +16,11 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/Widget.MaterialComponents.Toolbar.Primary">
+            app:elevation="0dp">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolBar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
@@ -43,6 +44,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:cardBackgroundColor="?attr/colorSurface"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="2dp"
                     app:cardUseCompatPadding="true">
@@ -82,7 +84,7 @@
                             android:layout_height="1dp"
                             android:layout_gravity="center"
                             android:layout_marginVertical="16dp"
-                            android:background="?attr/textColorSecondary" />
+                            android:background="?attr/dividerColor" />
 
                         <TextView
                             android:id="@+id/content"

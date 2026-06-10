@@ -70,8 +70,9 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        // Surah 9 (At-Tawbah) does not have Bismillah
-        if (VerseActivity.surahid == 9) {
+        // Surah 9 (At-Tawbah) does not have Bismillah banner
+        // Surah 1 (Al-Fatihah) user wants verse 0 as a regular verse instead of banner
+        if (VerseActivity.surahid == 9 || VerseActivity.surahid == 1) {
             return ITEM_DATA;
         } else {
             if (position == 0) {
@@ -108,10 +109,10 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             // Set Arabic pronunciation visibility
             if (PronunciationUtils.isArabicPronunciationVisible(mcontext)) {
                 mvh.trans.setText(model.getTrans());
-                mvh.trans.setVisibility(View.VISIBLE);
+                mvh.arabicMeana.setVisibility(View.VISIBLE);
             } else {
                 mvh.trans.setText("");
-                mvh.trans.setVisibility(View.GONE);
+                mvh.arabicMeana.setVisibility(View.GONE);
             }
 
             mvh.banglaAyat.setText(Html.fromHtml(new Config(mcontext).HideNumberBySetting(model.getBangla())));
@@ -201,7 +202,7 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             mvh.playSingle.setOnClickListener(v -> {
                 String vv;
-                if (model.getSurahID() == 9) {
+                if (model.getSurahID() == 9 || model.getSurahID() == 1) {
                     vv = String.format("%03d", model.getSurahID()) + String.format("%03d", position + 1);
                 } else {
                     vv = String.format("%03d", model.getSurahID()) + String.format("%03d", position);
@@ -232,6 +233,7 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         } else if (viewType == ITEM_BANNER) {
             banneraddviewholder bvh = (banneraddviewholder) holder;
+            // Banner is not used for Surah 1 anymore based on user request, but keeping logic for others
             if (model.getSurahID() == 1) {
                 bvh.surah1.setVisibility(View.VISIBLE);
                 bvh.surah1Out.setOnClickListener(v -> {
@@ -394,8 +396,10 @@ public class VerseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             surah1Out = itemView.findViewById(R.id.surah1Out);
             surah1 = itemView.findViewById(R.id.surah1);
 
-            this.surah1.setTypeface(FontFamily.Bangla(mcontext));
-            this.surah1.setTextSize(TypedValue.COMPLEX_UNIT_SP, FontSize.Bangla(mcontext));
+            if (mcontext != null) {
+                this.surah1.setTypeface(FontFamily.Bangla(mcontext));
+                this.surah1.setTextSize(TypedValue.COMPLEX_UNIT_SP, FontSize.Bangla(mcontext));
+            }
         }
     }
 

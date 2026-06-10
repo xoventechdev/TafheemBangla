@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.VerseFragment">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/fragmentOut"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/bishmillah"
+                android:orientation="vertical"
+                android:background="@drawable/ayat_header_background"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+                <ImageView
+                    android:padding="10dp"
+                    android:src="@drawable/ic_bismillah"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    app:tint="?attr/textColorPrimary"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.3dp"
+                    android:background="?attr/textColorSecondary"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:id="@+id/arabicLayout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+                <LinearLayout
+                    android:background="?attr/colorPrimary"
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="3dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/arabic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginRight="12dp"
+                        android:fontFamily="@font/al_qalam_quran_majeed"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="26sp" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/arabicMeana"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+                <LinearLayout
+                    android:background="?attr/colorPrimary"
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/trans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:fontFamily="@font/kalpurush"
+                        android:paddingStart="7dp"
+                        android:paddingEnd="10dp"
+                        android:textColor="?attr/colorAccent"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/VerseTai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+                <LinearLayout
+                    android:background="?attr/colorAccent"
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:fontFamily="@font/kalpurush"
+                        android:textColor="?attr/textColorPrimary"
+                        android:textSize="20sp"
+                        android:id="@+id/banglaAyat"
+                        android:paddingStart="7dp"
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tafheemLayout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+                <LinearLayout
+                    android:background="?attr/colorPrimary"
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/kalpurush"
+                            android:text="তাফহীমুল কুরআন :-"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="20sp"
+                            android:textStyle="italic" />
+                        <ImageView
+                            android:id="@+id/copyTafheem"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/ic_baseline_content_copy_24"
+                            app:tint="?attr/colorPrimary"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"/>
+                    </LinearLayout>
+                    <TextView
+                        android:fontFamily="@font/kalpurush"
+                        android:text="tafheem"
+                        android:textSize="18sp"
+                        android:textColor="?attr/textColorPrimary"
+                        android:id="@+id/tafheem"
+                        android:paddingStart="7dp"
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/bayaanLayout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+                <LinearLayout
+                    android:background="?attr/colorAccent"
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/kalpurush"
+                            android:text="তাফসীরে ইবনে কাসীর :-"
+                            android:textColor="?attr/colorAccent"
+                            android:textSize="20sp"
+                            android:textStyle="italic" />
+                        <ImageView
+                            android:id="@+id/copyBayaan"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/ic_baseline_content_copy_24"
+                            app:tint="?attr/colorAccent"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"/>
+                    </LinearLayout>
+                    <TextView
+                        android:fontFamily="@font/kalpurush"
+                        android:text="bayaan"
+                        android:textSize="18sp"
+                        android:textColor="?attr/textColorPrimary"
+                        android:id="@+id/bayaan"
+                        android:paddingStart="7dp"
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+            android:id="@+id/fezilalilLayout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
+            <LinearLayout
+                android:background="?attr/colorPrimaryVariant"
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="তাফসীর ফী যিলালিল কোরআন :-"
+                        android:textColor="?attr/colorPrimaryVariant"
+                        android:textSize="20sp"
+                        android:textStyle="italic" />
+                    <ImageView
+                        android:id="@+id/copyFezilalil"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_baseline_content_copy_24"
+                        app:tint="?attr/colorPrimaryVariant"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"/>
+                </LinearLayout>
+                <TextView
+                    android:fontFamily="@font/kalpurush"
+                    android:text="fezilalil"
+                    android:textSize="18sp"
+                    android:textColor="?attr/textColorPrimary"
+                    android:id="@+id/fezilalil"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+                android:visibility="gone"
+            android:id="@+id/tafheemEnglishLayout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
+            <LinearLayout
+                android:background="?attr/colorTertiary"
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/kalpurush"
+                        android:text="তাফহীমুল কুরআন (ইংরেজি) :-"
+                        android:textColor="?attr/colorTertiary"
+                        android:textSize="20sp"
+                        android:textStyle="italic" />
+                    <ImageView
+                        android:id="@+id/copyTafheemEnglish"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_baseline_content_copy_24"
+                        app:tint="?attr/colorTertiary"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"/>
+                </LinearLayout>
+                <TextView
+                    android:fontFamily="@font/kalpurush"
+                    android:text="tafheemEnglish"
+                    android:textSize="18sp"
+                    android:textColor="?attr/textColorPrimary"
+                    android:id="@+id/tafheemEnglish"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp" />
+            </LinearLayout>
+        </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

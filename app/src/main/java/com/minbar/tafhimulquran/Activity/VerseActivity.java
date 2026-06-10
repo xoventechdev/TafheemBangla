@@ -36,6 +36,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -59,6 +60,7 @@ import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.FontFamily;
 import com.minbar.tafhimulquran.Utils.FontSize;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
+import com.minbar.tafhimulquran.Utils.ThemeManager;
 import com.minbar.tafhimulquran.databinding.ActivityVerseBinding;
 
 import java.io.File;
@@ -139,6 +141,7 @@ public class VerseActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_verse);
 
@@ -215,7 +218,7 @@ public class VerseActivity extends AppCompatActivity {
 
 
 
-        if(surahid==9){
+        if(surahid==9 || surahid == 1){
             totalVerse = verseModels.size();
             binding.seekVerse.setMin(0);
             binding.seekVerse.setMax(verseModels.size()-1);
@@ -312,7 +315,7 @@ public class VerseActivity extends AppCompatActivity {
         binding.seekVerse.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if( surahid==9){
+                if( surahid==9 || surahid == 1){
                     binding.nowItem.setText(Config.ENtoBN(String.valueOf(progress+1)));
                 }else {
                     binding.nowItem.setText(Config.ENtoBN(String.valueOf(progress)));
@@ -587,7 +590,9 @@ public class VerseActivity extends AppCompatActivity {
         String main = query.toString().replace("\\n","<br>");
         aboutContent.setText(Html.fromHtml(main));
         aboutContent.setTypeface(FontFamily.getBangla(this));
-        aboutContent.setTextSize(2, Float.valueOf(FontSize.getArabic(this)));
+        
+        // Use FontSize.Bangla(this) to correctly fetch the set font size
+        aboutContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, FontSize.Bangla(this));
 
         ((ImageView) dialog.findViewById(R.id.copyLayout)).setOnClickListener(v -> {
             ((ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText(mDatabase.getSurahName(surahid)+" এর ভূমিকা", mDatabase.getSurahName(surahid) +"  এর ভূমিকা"+"\n" + aboutContent.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + this.getPackageName()));

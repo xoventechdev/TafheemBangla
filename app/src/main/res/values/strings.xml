@@ -12,13 +12,21 @@
     <string name="main_bottom_nav_store">স্টোর</string>
     <string name="main_bottom_nav_subwise">বিষয় ভিত্তিক</string>
     <string name="main_bottom_nav_library">লাইব্রেরি</string>
-    <string name="main_bottom_nav_settings">সেটিিংস</string>
+    <string name="main_bottom_nav_prayer">নামাজ</string>
+    <string name="main_bottom_nav_settings">সেটিংস</string>
 
     <string name="main_fav_zero_items">প্রিয়তে আপনার কোনো সুরা নেই!</string>
     <string name="main_home_hint_search">সার্চ করুন..</string>
     <string name="main_home_search_msg_zero_found">কোনো সুরা পাওয়া যায়নি!</string>
     <string name="main_toolbar_audio">অডিও</string>
     <string name="main_toolbar_donate">ডোনেট</string>
+
+    <string name="donation_title">দ্বীনের প্রসারে সহযোগিতা করুন</string>
+    <string name="donation_desc">আপনার সামন্য অনুদান এই অ্যাপটি পরিচালনা এবং নতুন নতুন ফিচার যোগ করতে সহায়তা করবে। ইনশাআল্লাহ এটি আপনার জন্য সদকায়ে জারিয়া হিসেবে কবুল হবে।</string>
+    <string name="donation_btn_home">হোম পেজে ফিরে যান</string>
+    <string name="donation_yes">হ্যাঁ, সহযোগিতা করব</string>
+    <string name="donation_no">পরে করব</string>
+
     <string name="main_toolbar_lastread">লাস্ট রিড</string>
     <string name="main_toolbar_search">সার্চ</string>
     <string name="main_toolbar_setting">সেটিিংস</string>
@@ -167,6 +175,12 @@
     <string name="exit_yes_btn">হ্যাঁ, বন্ধ করুন</string>
     <string name="time_separator"> / </string>
 
+    <!-- Quick Navigation -->
+    <string name="quick_nav_surah_hint">সুরা</string>
+    <string name="quick_nav_verse_hint">আয়াত</string>
+    <string name="quick_nav_go_button">GO</string>
+    <string name="warning_select_surah">সুরা নির্বাচন করুন</string>
+    <string name="warning_select_verse">আয়াত নির্বাচন করুন</string>
 
     <string-array name="surat_fr">
         <item>     Al-Fatiha</item>

@@ -13,6 +13,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,10 +46,12 @@ public class Config {
 
 
     public static String ENtoBN(String s){
+        if (s == null) return "";
         return s.replace("0","০").replace("1","১").replace("2","২").replace("3","৩").replace("4","৪").replace("5","৫").replace("6","৬").replace("7","৭").replace("8","৮").replace("9","৯");
     }
 
     public static String BntoEN(String s){
+        if (s == null) return "";
         return s.replace("০","0").replace("১","1").replace("২","2").replace("৩","3").replace("৪","4").replace("৫","5").replace("৬","6").replace("৭","7").replace("৮","8").replace("৯","9");
     }
 
@@ -57,28 +60,61 @@ public class Config {
         return ENtoBN(s);
     }
 
+    private static String getThemeAccentColor() {
+        if (context == null) return "#E91E63";
+        try {
+            TypedValue typedValue = new TypedValue();
+            context.getTheme().resolveAttribute(androidx.appcompat.R.attr.colorAccent, typedValue, true);
+            return String.format("#%06X", (0xFFFFFF & typedValue.data));
+        } catch (Exception e) {
+            return "#E91E63";
+        }
+    }
+
 
     public static String HideNumberBySetting(String s) {
         if (s == null) return "";
         SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         if (defaultSharedPreferences.getString("tika", "on").equals("on")) {
-            return s.replace("০", "<font color='#E91E63'><sup>০</sup></font>").replace("১", "<font color='#E91E63'><sup>১</sup></font>").replace("২", "<font color='#E91E63'><sup>২</sup></font>").replace("৩", "<font color='#E91E63'><sup>৩</sup></font>").replace("৪", "<font color='#E91E63'><sup>৪</sup></font>").replace("৫", "<font color='#E91E63'><sup>৫</sup></font>").replace("৬", "<font color='#E91E63'><sup>৬</sup></font>").replace("৭", "<font color='#E91E63'><sup>৭</sup></font>").replace("৮", "<font color='#E91E63'><sup>৮</sup></font>").replace("৯", "<font color='#E91E63'><sup>৯</sup></font>");
+            String color = getThemeAccentColor();
+            return s.replace("০", "<font color='"+color+"'><sup>০</sup></font>")
+                    .replace("১", "<font color='"+color+"'><sup>১</sup></font>")
+                    .replace("২", "<font color='"+color+"'><sup>২</sup></font>")
+                    .replace("৩", "<font color='"+color+"'><sup>৩</sup></font>")
+                    .replace("৪", "<font color='"+color+"'><sup>৪</sup></font>")
+                    .replace("৫", "<font color='"+color+"'><sup>৫</sup></font>")
+                    .replace("৬", "<font color='"+color+"'><sup>৬</sup></font>")
+                    .replace("৭", "<font color='"+color+"'><sup>৭</sup></font>")
+                    .replace("৮", "<font color='"+color+"'><sup>৮</sup></font>")
+                    .replace("৯", "<font color='"+color+"'><sup>৯</sup></font>");
         }
-        return s.replace("০","").replace("১","").replace("২","").replace("৩","").replace("৪","").replace("৫","").replace("৬","").replace("৭","").replace("৮","").replace("৯","");
+        return HideNumber(s);
     }
 
 
     public static String HideNumber(String s){
+        if (s == null) return "";
         return s.replace("০","").replace("১","").replace("২","").replace("৩","").replace("৪","").replace("৫","").replace("৬","").replace("৭","").replace("৮","").replace("৯","");
     }
 
     public static String TagColor(String s){
-        return s.replace("০","<font color='#E91E63'><sup>০</sup></font>").replace("১","<font color='#E91E63'><sup>১</sup></font>").replace("২","<font color='#E91E63'><sup>২</sup></font>").replace("৩","<font color='#E91E63'><sup>৩</sup></font>").replace("৪","<font color='#E91E63'><sup>৪</sup></font>").replace("৫","<font color='#E91E63'><sup>৫</sup></font>").replace("৬","<font color='#E91E63'><sup>৬</sup></font>").replace("৭","<font color='#E91E63'><sup>৭</sup></font>").replace("৮","<font color='#E91E63'><sup>৮</sup></font>").replace("৯","<font color='#E91E63'><sup>৯</sup></font>");
+        if (s == null) return "";
+        String color = getThemeAccentColor();
+        return s.replace("০","<font color='"+color+"'><sup>০</sup></font>")
+                .replace("১","<font color='"+color+"'><sup>১</sup></font>")
+                .replace("২","<font color='"+color+"'><sup>২</sup></font>")
+                .replace("৩","<font color='"+color+"'><sup>৩</sup></font>")
+                .replace("৪","<font color='"+color+"'><sup>৪</sup></font>")
+                .replace("৫","<font color='"+color+"'><sup>৫</sup></font>")
+                .replace("৬","<font color='"+color+"'><sup>৬</sup></font>")
+                .replace("৭","<font color='"+color+"'><sup>৭</sup></font>")
+                .replace("৮","<font color='"+color+"'><sup>৮</sup></font>")
+                .replace("৯","<font color='"+color+"'><sup>৯</sup></font>");
     }
 
 
     public static String Tajweed(Context context, String s){
-        if (context == null) return s;
+        if (context == null || s == null) return s;
         SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context );
         if (defaultSharedPreferences.getString("Tajwid", "on").equals("on")) {
             Spannable kk = QuranArabicUtils.getTajweed(context,s);
@@ -103,6 +139,7 @@ public class Config {
     }
 
     public static String getStringInBangla(String string) {
+        if (string == null) return "";
         Character[] bangla_number = {'০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'};
         Character[] eng_number = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
         StringBuilder values = new StringBuilder();

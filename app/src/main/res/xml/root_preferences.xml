@@ -6,7 +6,7 @@
         app:title="@string/pref_prayer_schedule_title">
 
         <ListPreference
-            app:defaultValue="azan"
+            app:defaultValue="prayer_call"
             app:entries="@array/azan_sound_names"
             app:entryValues="@array/azan_sound_values"
             app:key="azan_sound_file"
@@ -50,18 +50,18 @@
             app:title="@string/pref_bangla_font_size_title" />
     </PreferenceCategory>
 
-<!--    <PreferenceCategory-->
-<!--        android:layout="@layout/preferences_category"-->
-<!--        app:title="@string/pref_theme_selection_title">-->
+    <PreferenceCategory
+        android:layout="@layout/preferences_category"
+        app:title="@string/pref_theme_selection_title">
 
-<!--        <ListPreference-->
-<!--            android:defaultValue="light"-->
-<!--            android:dialogTitle="@string/pref_choose_theme_title"-->
-<!--            android:entries="@array/entries_theme_list"-->
-<!--            android:entryValues="@array/entryvalues_theme_list"-->
-<!--            android:key="app_theme"-->
-<!--            android:title="@string/pref_app_theme_title" />-->
-<!--    </PreferenceCategory>-->
+        <ListPreference
+            android:defaultValue="light"
+            android:dialogTitle="@string/pref_choose_theme_title"
+            android:entries="@array/entries_theme_list"
+            android:entryValues="@array/entryvalues_theme_list"
+            android:key="app_theme"
+            android:title="@string/pref_app_theme_title" />
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:layout="@layout/preferences_category"

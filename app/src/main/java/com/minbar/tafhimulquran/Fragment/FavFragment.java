@@ -45,14 +45,26 @@ public class FavFragment extends Fragment {
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
-            
+
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < favList.size(); i++) {
                 sb.append(favList.get(i));
                 if (i < favList.size() - 1) sb.append(",");
             }
-            
+
             adapter = new FavVerseAdapter(getActivity(), dbHelper.getFav(sb.toString()));
+            adapter.setOnFavActionListener(new FavVerseAdapter.OnFavActionListener() {
+                @Override
+                public void onClickCalled(String value) {
+                    // Handle arabic layout click - no action needed in fragment context
+                }
+
+                @Override
+                public void checkList() {
+                    // Refresh the favorites list after item removal
+                    FavFragment.this.checkList();
+                }
+            });
             recyclerView.setAdapter(adapter);
         }
     }

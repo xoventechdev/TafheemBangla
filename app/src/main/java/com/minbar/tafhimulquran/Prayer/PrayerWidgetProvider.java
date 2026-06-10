@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
+import com.minbar.tafhimulquran.Activity.MainActivity;
 import com.minbar.tafhimulquran.R;
 
 public class PrayerWidgetProvider extends AppWidgetProvider {
@@ -22,8 +23,10 @@ public class PrayerWidgetProvider extends AppWidgetProvider {
     public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.prayer_widget);
 
-        // Set Intent to open PrayerActivity on click
-        Intent intent = new Intent(context, PrayerActivity.class);
+        // Set Intent to open MainActivity with prayer fragment extra on click
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("OPEN_FRAGMENT", "prayer");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         views.setOnClickPendingIntent(R.id.widget_container, pendingIntent);
 

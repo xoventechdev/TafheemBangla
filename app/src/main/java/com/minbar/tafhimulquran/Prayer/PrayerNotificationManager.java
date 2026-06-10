@@ -69,7 +69,7 @@ public class PrayerNotificationManager {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
-                // PrayerActivity should handle the rationale UI
+                // PrayerFragment should handle the rationale UI
             }
         }
     }

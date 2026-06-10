@@ -35,7 +35,7 @@
         <TextView
             android:textSize="16sp"
             android:id="@+id/surah_name_ayat"
-            android:textColor="?attr/textColorPrimary"
+            android:textColor="?attr/colorOnSurface"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -54,7 +54,7 @@
             android:layout_height="32dp"
             android:layout_marginEnd="8dp"
             android:src="@drawable/ic_baseline_content_copy_black"
-            app:tint="?attr/textColorSecondary"
+            app:tint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -69,7 +69,7 @@
             android:layout_height="32dp"
             android:layout_marginEnd="4dp"
             android:src="@drawable/ic_baseline_share_24"
-            app:tint="?attr/textColorSecondary"
+            app:tint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/copy_ayat"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -84,7 +84,7 @@
             android:layout_height="32dp"
             android:layout_marginEnd="4dp"
             android:src="@drawable/ic_baseline_favorite_border_24"
-            app:tint="?attr/textColorSecondary"
+            app:tint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/share"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -100,7 +100,7 @@
             android:layout_height="32dp"
             android:layout_marginEnd="4dp"
             android:src="@drawable/arg_play"
-            app:tint="?attr/textColorSecondary"
+            app:tint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/fav"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -115,7 +115,7 @@
             android:layout_height="32dp"
             android:layout_marginEnd="4dp"
             android:src="@drawable/ic_baseline_image_24"
-            app:tint="?attr/textColorSecondary"
+            app:tint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/playSingle"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -130,7 +130,7 @@
             android:layout_height="32dp"
             android:layout_marginEnd="4dp"
             android:src="@drawable/writing"
-            app:tint="?attr/textColorSecondary"
+            app:tint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/bit"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -167,7 +167,7 @@
         </LinearLayout>
 
         <View
-            android:background="?attr/colorPrimary"
+            android:background="?attr/colorAccent"
             android:layout_width="4dp"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"/>
@@ -180,7 +180,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp">
         <View
-            android:background="?attr/colorPrimary"
+            android:background="?attr/colorAccent"
             android:layout_width="4dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="8dp"/>
@@ -195,7 +195,7 @@
                 android:gravity="start"
                 android:fontFamily="@font/kalpurush"
                 android:paddingEnd="10dp"
-                android:textColor="?attr/colorAccent"
+                android:textColor="?attr/textColorSecondary"
                 android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>

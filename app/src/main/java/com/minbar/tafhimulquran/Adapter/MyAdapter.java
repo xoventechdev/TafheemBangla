@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.minbar.tafhimulquran.Model.VerseModel;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.Config;
+import com.minbar.tafhimulquran.Utils.PronunciationUtils;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
 
 import java.io.File;
@@ -76,7 +77,16 @@ public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.AudioItemsViewHol
 
         holder.ayat_no.setText(Config.ENtoBN(verse_id));
         holder.arabic.setText(new Config(mcontext).Tajweed(model.getArabic()));
-        holder.trans.setText(Html.fromHtml(model.getTrans()));
+
+        // Set Arabic pronunciation visibility
+        if (PronunciationUtils.isArabicPronunciationVisible(mcontext)) {
+            holder.trans.setText(Html.fromHtml(model.getTrans()));
+            holder.arabicMeana.setVisibility(View.VISIBLE);
+        } else {
+            holder.trans.setText("");
+            holder.arabicMeana.setVisibility(View.GONE);
+        }
+
         holder.banglaAyat.setText(Html.fromHtml(new Config(mcontext).HideNumber(model.getBangla())+"<i><small> - তাফহীমুল কুরআন</small></i>"));
         holder.english.setText(Html.fromHtml(model.getEnglish()+"<i><small> - Sahih International</small></i>"));
 
@@ -198,8 +208,10 @@ public class MyAdapter  extends RecyclerView.Adapter<MyAdapter.AudioItemsViewHol
             updateNonPlayingView(playingHolder);
         }
 
-        mediaPlayer.release();
-        mediaPlayer = null;
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
         currentPlayingPosition = -1;
     }
 

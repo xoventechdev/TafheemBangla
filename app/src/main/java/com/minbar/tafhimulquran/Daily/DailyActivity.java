@@ -26,6 +26,7 @@ import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.FontFamily;
 import com.minbar.tafhimulquran.Utils.FontSize;
+import com.minbar.tafhimulquran.Utils.PronunciationUtils;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
 import com.minbar.tafhimulquran.Utils.ThemeManager;
 import com.minbar.tafhimulquran.databinding.ActivityDailyBinding;
@@ -116,11 +117,13 @@ public class DailyActivity extends AppCompatActivity {
         if (data != null && !data.isEmpty()) {
             binding.arabic.setText(data.get(0).getArabic());
 
-            if (setting.getString("tafheem", "on").equals("off")) {
-                binding.arabicMeana.setVisibility(View.GONE);
-            } else {
+            // Set Arabic pronunciation visibility
+            if (PronunciationUtils.isArabicPronunciationVisible(this)) {
+                binding.trans.setText(Html.fromHtml(data.get(0).getTrans()));
                 binding.arabicMeana.setVisibility(View.VISIBLE);
-                binding.trans.setText(data.get(0).getTrans());
+            } else {
+                binding.trans.setText("");
+                binding.arabicMeana.setVisibility(View.GONE);
             }
 
             if (setting.getString("banglaOnubadh", "on").equals("off")) {

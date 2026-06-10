@@ -86,6 +86,7 @@
         <item>38</item>
     </string-array>
     <string-array name="items_valueAo">
+        <item>16</item>
         <item>18</item>
         <item>20</item>
         <item>22</item>
@@ -99,6 +100,7 @@
         <item>38</item>
     </string-array>
     <string-array name="items_valueAr">
+        <item>22</item>
         <item>24</item>
         <item>26</item>
         <item>28</item>
@@ -211,14 +213,30 @@
     </string-array>
 
     <string-array name="entries_theme_list">
-        <item>@string/theme_light</item>
-        <item>@string/theme_purple</item>
-        <item>@string/theme_dark_orange</item>
-        <item>@string/theme_dark_turquoise</item>
+        <item>লাইট (সবুজ)</item>
+        <item>বেগুনি</item>
+        <item>লাল</item>
+        <item>গোলাপী</item>
+        <item>গাঢ় গোলাপী</item>
+        <item>নীল</item>
+        <item>আকাশী নীল</item>
+        <item>সবুজ</item>
+        <item>ধূসর</item>
+        <item>বাদামী</item>
+        <item>ডার্ক অরেঞ্জ</item>
+        <item>ডার্ক টারকোয়েজ</item>
     </string-array>
     <string-array name="entryvalues_theme_list">
         <item>light</item>
         <item>purple</item>
+        <item>red</item>
+        <item>pink</item>
+        <item>darkpink</item>
+        <item>blue</item>
+        <item>skyblue</item>
+        <item>green</item>
+        <item>grey</item>
+        <item>brown</item>
         <item>dark_orange</item>
         <item>dark_turquoise</item>
     </string-array>

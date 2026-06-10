@@ -13,6 +13,10 @@
         android:id="@+id/nav_fav"
         android:title="@string/main_bottom_nav_fav"/>
     <item
+        android:icon="@drawable/ic_namaz"
+        android:id="@+id/nav_prayer"
+        android:title="@string/main_bottom_nav_prayer"/>
+    <item
         android:icon="@drawable/ic_home_mm_settings"
         android:id="@+id/nav_setting"
         android:title="@string/main_bottom_nav_settings"/>

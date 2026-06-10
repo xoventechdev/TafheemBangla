@@ -29,17 +29,20 @@ public class FragmentAdapter extends FragmentStateAdapter {
         Bundle bundle = new Bundle();
         bundle.putString(VerseFragment.surahidF, String.valueOf(surahid));
 
-        bundle.putString(VerseFragment.verseidF, String.valueOf(position));
-        //bundle.putString(VerseFragment.contentAr, jcontent);
-        //bundle.putString(VerseFragment.contentTr, transTxt);
-        //bundle.putString(VerseFragment.contentBn, banglaTxt);
+        // Pass the actual verse ID from the 'p' array instead of the position
+        if (p != null && position < p.length) {
+            bundle.putString(VerseFragment.verseidF, p[position]);
+        } else {
+            bundle.putString(VerseFragment.verseidF, String.valueOf(position));
+        }
+        
         fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     public int getItemCount() {
-        return p.length;
+        return p != null ? p.length : 0;
     }
 
 }

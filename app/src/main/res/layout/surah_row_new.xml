@@ -70,7 +70,7 @@
                         android:text="আল - ফাতিহা"
                         android:includeFontPadding="false"
                         android:layout_weight="1"
-                        android:fontFamily="@font/kalpurush"/>
+                        android:fontFamily="@font/solaimanlipi"/>
                     <TextView
                         android:textColor="?attr/textColorPrimary"
                         android:textSize="22sp"
@@ -81,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:text="لتبتبلت"
                         android:includeFontPadding="false"
-                        android:fontFamily="@font/noorehidayat"/>
+                        android:fontFamily="@font/al_mushaf_quran"/>
                 </LinearLayout>
                 <LinearLayout
                     android:gravity="center_vertical"

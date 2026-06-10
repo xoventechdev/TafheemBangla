@@ -15,6 +15,14 @@ public class ThemeManager {
     // Theme constants
     public static final String THEME_LIGHT = "light";
     public static final String THEME_PURPLE = "purple";
+    public static final String THEME_RED = "red";
+    public static final String THEME_PINK = "pink";
+    public static final String THEME_DARK_PINK = "darkpink";
+    public static final String THEME_BLUE = "blue";
+    public static final String THEME_SKYBLUE = "skyblue";
+    public static final String THEME_GREEN = "green";
+    public static final String THEME_GREY = "grey";
+    public static final String THEME_BROWN = "brown";
     public static final String THEME_DARK_ORANGE = "dark_orange";
     public static final String THEME_DARK_TURQUOISE = "dark_turquoise";
 
@@ -37,6 +45,22 @@ public class ThemeManager {
                 return R.style.AppTheme_light;
             case THEME_PURPLE:
                 return R.style.AppTheme_purple;
+            case THEME_RED:
+                return R.style.AppTheme_red;
+            case THEME_PINK:
+                return R.style.AppTheme_pink;
+            case THEME_DARK_PINK:
+                return R.style.AppTheme_darkpink;
+            case THEME_BLUE:
+                return R.style.AppTheme_blue;
+            case THEME_SKYBLUE:
+                return R.style.AppTheme_skyblue;
+            case THEME_GREEN:
+                return R.style.AppTheme_green;
+            case THEME_GREY:
+                return R.style.AppTheme_grey;
+            case THEME_BROWN:
+                return R.style.AppTheme_brown;
             case THEME_DARK_ORANGE:
                 return R.style.DarkOrangeTheme;
             case THEME_DARK_TURQUOISE:
@@ -63,10 +87,8 @@ public class ThemeManager {
     }
 
     public static void recreateActivity(Activity activity) {
-        // Apply smooth transition using activity override
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         activity.recreate();
-        // After recreation, apply the fade transition again
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

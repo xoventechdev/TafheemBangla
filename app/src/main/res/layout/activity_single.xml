@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="?android:attr/colorBackground"
+    android:layoutDirection="ltr"
     tools:context=".Activity.SingleActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,16 +17,6 @@
         android:background="?attr/colorPrimary"
         app:liftOnScroll="true"
         app:elevation="0dp">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:titleTextColor="?attr/colorOnPrimary"
-            app:subtitleTextColor="#D9FFFFFF"
-            app:navigationIconTint="?attr/colorOnPrimary"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/toolbarLayout"
@@ -41,7 +32,7 @@
             app:tabSelectedTextColor="?attr/colorOnPrimary"
             app:tabTextColor="#B3FFFFFF"
             app:tabRippleColor="#26FFFFFF"
-            android:layoutDirection="rtl" />
+            android:layoutDirection="ltr" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -50,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layoutDirection="rtl"
+        android:layoutDirection="ltr"
         android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

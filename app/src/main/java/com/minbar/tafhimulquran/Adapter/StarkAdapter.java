@@ -1,15 +1,18 @@
 package com.minbar.tafhimulquran.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.speech.tts.TextToSpeech;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -30,6 +33,8 @@ import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.Config;
 import com.minbar.tafhimulquran.Utils.FontFamily;
 import com.minbar.tafhimulquran.Utils.FontSize;
+import com.minbar.tafhimulquran.Utils.NoteDatabaseHelper;
+import com.minbar.tafhimulquran.Utils.PronunciationUtils;
 import com.minbar.tafhimulquran.Utils.SqlLiteDbHelper;
 import com.minbar.tafhimulquran.Utils.XovenHandler;
 
@@ -101,7 +106,15 @@ public class StarkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                  mvh.ayat_no.setText(Config.ENtoBN(verse_id));
                  mvh.arabic.setText(new Config(mcontext).Tajweed(model.getArabic()));
-                 mvh.trans.setText(Html.fromHtml(model.getTrans()));
+
+                 // Set Arabic pronunciation visibility
+                 if (PronunciationUtils.isArabicPronunciationVisible(mcontext)) {
+                     mvh.trans.setText(Html.fromHtml(model.getTrans()));
+                     mvh.arabicMeana.setVisibility(View.VISIBLE);
+                 } else {
+                     mvh.trans.setText("");
+                     mvh.arabicMeana.setVisibility(View.GONE);
+                 }
 
                  //getBangla = model.getBangla().replace("০","").replace("১","").replace("২","").replace("৩","").replace("৪","").replace("৫","").replace("৬","").replace("৭","").replace("৮","").replace("৯","");
 
@@ -159,12 +172,12 @@ public class StarkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                  mvh.share.setOnClickListener(v -> {
                      Intent intent = new Intent("android.intent.action.SEND");
                      intent.setType("text/plain");
-                     intent.putExtra("android.intent.extra.TEXT", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + getBangla + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + StarkAdapter.mcontext.getPackageName());
+                     intent.putExtra("android.intent.extra.TEXT", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + mvh.banglaAyat.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + StarkAdapter.mcontext.getPackageName());
                      StarkAdapter.mcontext.startActivity(Intent.createChooser(intent, "Share the verse"));
                  });
                  mvh.copy_ayat.setOnClickListener(v -> {
                      Context context = StarkAdapter.mcontext;
-                     ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + getBangla + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + StarkAdapter.mcontext.getPackageName()));
+                     ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Ayah", VerseActivity.surah_Name +" : "+mvh.ayat_no.getText().toString()+"\n" + mvh.arabic.getText().toString() + "\n" + mvh.banglaAyat.getText().toString() + "\n\n"+"তাফহীমুল কুরআন"+"\nhttps://play.google.com/store/apps/details?id=" + StarkAdapter.mcontext.getPackageName()));
                      //Toast.makeText(VerseAdapter.mcontext, "This verse has been copied", Toast.LENGTH_SHORT).show();
                      Toasty.success(StarkAdapter.mcontext, "The verse is copied.", Toast.LENGTH_SHORT, true).show();
 
@@ -192,6 +205,11 @@ public class StarkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                      intent.putExtra("banglaTxt",model.getBangla());
                      mcontext.startActivity(intent);
                  });
+
+                 mvh.vNote.setOnClickListener(v -> {
+                     showNoteDialog(model.getSurahID(), model.getVerseID());
+                 });
+
 
                  break;
 
@@ -242,6 +260,41 @@ public class StarkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
 
+    private void showNoteDialog(int surahId, int verseId) {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(mcontext);
+        @SuppressLint("InflateParams") View dialogView = LayoutInflater.from(mcontext).inflate(R.layout.dialog_note, null);
+
+        TextView tvDialogTitle = dialogView.findViewById(R.id.tvDialogTitle);
+        EditText etNote = dialogView.findViewById(R.id.etNote);
+        View btnSaveNote = dialogView.findViewById(R.id.btnSaveNote);
+        View btnCloseDialog = dialogView.findViewById(R.id.btnCloseDialog);
+        View btnTafseer = dialogView.findViewById(R.id.btnTafseer);
+        btnTafseer.setVisibility(View.GONE);
+
+        SqlLiteDbHelper db = new SqlLiteDbHelper(mcontext);
+        String surahName = db.getSurahName(surahId);
+        String title = surahName + " - আয়াতঃ " + Config.ENtoBN(String.valueOf(verseId));
+        tvDialogTitle.setText(title);
+
+        NoteDatabaseHelper noteDb = new NoteDatabaseHelper(mcontext);
+        etNote.setText(noteDb.getNote(String.valueOf(surahId), String.valueOf(verseId)));
+
+        androidx.appcompat.app.AlertDialog dialog = builder.setView(dialogView).create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        dialog.show();
+
+        btnSaveNote.setOnClickListener(v -> {
+            String note = etNote.getText().toString().trim();
+            noteDb.saveOrUpdateNote(String.valueOf(surahId), String.valueOf(verseId), note);
+            Toasty.success(mcontext, "নোট সেভ করা হয়েছে", Toast.LENGTH_SHORT, true).show();
+            dialog.dismiss();
+        });
+
+        btnCloseDialog.setOnClickListener(v -> dialog.dismiss());
+    }
+
     //U
     @Override
     public Filter getFilter() {
@@ -286,7 +339,7 @@ public class StarkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
          public TextView ayat_no, arabic,banglaAyat,english, trans;
          //, banglaAyat, english;
          public LinearLayout relativeLayout, arabicLayout, enLayout, arabicMeana, banglaOnubadh;
-         public ImageView share, copy_ayat, fav, bit;
+         public ImageView share, copy_ayat, fav, bit, vNote;
 
 
          public myviewholder(@NonNull View itemView)
@@ -303,6 +356,7 @@ public class StarkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
              this.share = (ImageView) itemView.findViewById(R.id.share);
              this.copy_ayat = (ImageView) itemView.findViewById(R.id.copy_ayat);
              this.bit = (ImageView) itemView.findViewById(R.id.bit);
+             this.vNote = (ImageView) itemView.findViewById(R.id.vNote);
              relativeLayout = (LinearLayout)itemView.findViewById(R.id.ayat_layout);
              arabicLayout = (LinearLayout)itemView.findViewById(R.id.arabicLayout);
              enLayout = (LinearLayout)itemView.findViewById(R.id.enLayout);

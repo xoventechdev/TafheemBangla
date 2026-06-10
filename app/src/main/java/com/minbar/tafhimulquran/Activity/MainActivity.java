@@ -49,6 +49,7 @@ import com.minbar.tafhimulquran.Daily.DailyActivity;
 import com.minbar.tafhimulquran.Fragment.FavFragment;
 import com.minbar.tafhimulquran.Fragment.HomeFragment;
 import com.minbar.tafhimulquran.Fragment.LibraryFragment;
+import com.minbar.tafhimulquran.Fragment.PrayerFragment;
 import com.minbar.tafhimulquran.Fragment.SettingFragment;
 import com.minbar.tafhimulquran.Hadith.HadithChapterActivity;
 import com.minbar.tafhimulquran.Prayer.PrayerFetchWorker;
@@ -70,7 +71,6 @@ import es.dmoral.toasty.Toasty;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String PREFS_NAME_Donation = "MonthlyPrefs";
-    private static final String LAST_RUN_KEY = "lastMonthlyRun";
     private static final int PERMISSION_REQUEST_CODE = 1001;
     private static final String ONESIGNAL_APP_ID = "1c4a0117-7fb4-4843-b0b9-4385a4d0b9e7";
 
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private HomeFragment homeFragment;
     private LibraryFragment libraryFragment;
     private FavFragment favFragment;
+    private PrayerFragment prayerFragment;
     private SettingFragment settingFragment;
     private Fragment activeFragment;
 
@@ -104,14 +105,33 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         homeFragment = new HomeFragment();
         libraryFragment = new LibraryFragment();
         favFragment = new FavFragment();
+        prayerFragment = new PrayerFragment();
         settingFragment = new SettingFragment();
 
         if (savedInstanceState == null) {
-            loadFragment(homeFragment, getString(R.string.app_name), "home");
+            handleIntent(getIntent());
         }
 
         checkAndRunMonthlyTask(this);
         checkPermissions();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        String fragmentToOpen = intent != null ? intent.getStringExtra("OPEN_FRAGMENT") : null;
+        if ("prayer".equals(fragmentToOpen)) {
+            loadFragment(prayerFragment, getString(R.string.main_bottom_nav_prayer), "prayer");
+            mBottomNavigation.setSelectedItemId(R.id.nav_prayer);
+        } else {
+            loadFragment(homeFragment, getString(R.string.app_name), "home");
+            mBottomNavigation.setSelectedItemId(R.id.nav_home);
+        }
     }
 
     private void initViews() {
@@ -180,10 +200,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             loadFragment(libraryFragment, getString(R.string.main_bottom_nav_library), "library");
         } else if (id == R.id.nav_fav) {
             loadFragment(favFragment, getString(R.string.main_bottom_nav_fav), "fav");
+        } else if (id == R.id.nav_prayer) {
+            loadFragment(prayerFragment, getString(R.string.main_bottom_nav_prayer), "prayer");
         } else if (id == R.id.nav_setting || id == R.id.drawer_setting) {
             loadFragment(settingFragment, getString(R.string.main_bottom_nav_settings), "settings");
+        } else if (id == R.id.menu_riadus) {
+            startActivity(new Intent(this, HadithChapterActivity.class));
+        } else if (id == R.id.menu_dailyQuran) {
+            startActivity(new Intent(this, DailyActivity.class));
+        } else if (id == R.id.chapaQuran) {
+            startActivity(new Intent(this, PageMainActivity.class));
+        } else if (id == R.id.banglaOvidan) {
+            startActivity(new Intent(this, OvidhanActivity.class));
+        } else if (id == R.id.tajwid) {
+            startActivity(new Intent(this, TajwidActivity.class));
         } else if (id == R.id.donation) {
             startActivity(new Intent(this, DonationActivity.class));
+        } else if (id == R.id.drawer_request_submit) {
+            Toasty.info(this, "Coming Soon", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.drawer_share) {
             shareApp();
         } else if (id == R.id.drawer_rate) {
@@ -193,11 +227,53 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         } else if (id == R.id.drawer_exit_app) {
             showExitDialog();
         } else if (id == R.id.drawer_about) {
-            // Handle about if needed
+            showAboutDialog();
         }
         
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showAboutDialog() {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_about, null);
+        AlertDialog dialog = new MaterialAlertDialogBuilder(this)
+                .setView(view)
+                .create();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        TextView tvVersion = view.findViewById(R.id.tv_version);
+        if (tvVersion != null) {
+            tvVersion.setText("Version " + BuildConfig.VERSION_NAME);
+        }
+
+        view.findViewById(R.id.bt_close).setOnClickListener(v -> dialog.dismiss());
+        
+        view.findViewById(R.id.bt_getcode).setOnClickListener(v -> {
+            rateApp();
+            dialog.dismiss();
+        });
+
+        view.findViewById(R.id.bt_more_apps).setOnClickListener(v -> {
+            moreApps();
+            dialog.dismiss();
+        });
+
+        view.findViewById(R.id.bt_contact).setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("mailto:mdkamalhosennn@gmail.com"));
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback: Tafheem Bangla");
+            try {
+                startActivity(Intent.createChooser(intent, "Send Email"));
+            } catch (Exception e) {
+                Toasty.error(this, "No email app found", Toast.LENGTH_SHORT).show();
+            }
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 
     private void showExitDialog() {
@@ -262,18 +338,59 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private void checkAndRunMonthlyTask(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME_Donation, Context.MODE_PRIVATE);
-        long lastRun = prefs.getLong(LAST_RUN_KEY, 0);
-        Calendar lastRunCalendar = Calendar.getInstance();
-        lastRunCalendar.setTimeInMillis(lastRun);
+        Calendar current = Calendar.getInstance();
+        int day = current.get(Calendar.DAY_OF_MONTH);
+        String currentMonthYear = (current.get(Calendar.MONTH) + 1) + "-" + current.get(Calendar.YEAR);
+        String todayDateString = day + "-" + currentMonthYear;
 
-        Calendar currentCalendar = Calendar.getInstance();
+        String donatedMonthYear = prefs.getString("donated_month_year", "");
+        String lastShownDate = prefs.getString("last_shown_date", "");
+        String declinedMonthYear = prefs.getString("declined_month_year", "");
 
-        if (lastRun == 0 || (currentCalendar.get(Calendar.MONTH) != lastRunCalendar.get(Calendar.MONTH)) || (currentCalendar.get(Calendar.YEAR) != lastRunCalendar.get(Calendar.YEAR))) {
-            // It's a new month, run the task
-            startActivity(new Intent(MainActivity.this, DonationActivity.class));
-            // Update last run time
-            prefs.edit().putLong(LAST_RUN_KEY, currentCalendar.getTimeInMillis()).apply();
+        // Rule: If donated once this month, do not ask again.
+        if (currentMonthYear.equals(donatedMonthYear)) {
+            return;
         }
+
+        // Prevent showing the popup multiple times on the same day.
+        if (todayDateString.equals(lastShownDate)) {
+            return;
+        }
+
+        // Rule: Show popup on the 5th of every month.
+        if (day == 5) {
+            showDonationReminder(prefs, currentMonthYear, todayDateString);
+        } 
+        // Rule: If they clicked no on the 5th, ask again on the 15th.
+        else if (day == 15) {
+            if (currentMonthYear.equals(declinedMonthYear)) {
+                showDonationReminder(prefs, currentMonthYear, todayDateString);
+            }
+        }
+    }
+
+    private void showDonationReminder(SharedPreferences prefs, String currentMonthYear, String todayDateString) {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.donation_title)
+                .setMessage(R.string.donation_desc)
+                .setCancelable(false)
+                .setPositiveButton(R.string.donation_yes, (dialog, which) -> {
+                    // Record that they chose to donate this month
+                    prefs.edit().putString("donated_month_year", currentMonthYear).apply();
+                    startActivity(new Intent(MainActivity.this, DonationActivity.class));
+                })
+                .setNegativeButton(R.string.donation_no, (dialog, which) -> {
+                    // If it's the 5th, remember that they declined to ask again on the 15th
+                    Calendar current = Calendar.getInstance();
+                    if (current.get(Calendar.DAY_OF_MONTH) == 5) {
+                        prefs.edit().putString("declined_month_year", currentMonthYear).apply();
+                    }
+                    dialog.dismiss();
+                })
+                .show();
+
+        // Mark as shown today
+        prefs.edit().putString("last_shown_date", todayDateString).apply();
     }
 
     @Override
