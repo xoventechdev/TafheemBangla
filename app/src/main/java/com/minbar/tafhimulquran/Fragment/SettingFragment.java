@@ -433,8 +433,10 @@ public class SettingFragment extends PreferenceFragmentCompat {
         if (pronunciationPref != null) {
             pronunciationPref.setOnPreferenceChangeListener((preference, newValue) -> {
                 // Broadcast a notification that the pronunciation setting has changed
-                Intent intent = new Intent("com.minbar.tafhimulquran.PRONUNCIATION_CHANGED");
-                getActivity().sendBroadcast(intent);
+                if (isAdded() && getActivity() != null) {
+                    Intent intent = new Intent("com.minbar.tafhimulquran.PRONUNCIATION_CHANGED");
+                    requireActivity().sendBroadcast(intent);
+                }
 
                 ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue((String) newValue);

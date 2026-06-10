@@ -3,7 +3,6 @@ package com.minbar.tafhimulquran.Prayer;
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -17,14 +16,12 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.preference.PreferenceManager;
 
@@ -35,7 +32,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
-import com.minbar.tafhimulquran.Activity.SettingsActivity;
+import com.minbar.tafhimulquran.Activity.MainActivity;
 import com.minbar.tafhimulquran.R;
 import com.minbar.tafhimulquran.Utils.ThemeManager;
 import com.minbar.tafhimulquran.databinding.ActivityPrayerBinding;
@@ -49,7 +46,6 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class PrayerActivity extends AppCompatActivity {
 
@@ -136,7 +132,9 @@ public class PrayerActivity extends AppCompatActivity {
             return true;
         });
         binding.azanSoundSettings.setOnClickListener(v -> {
-            startActivity(new Intent(this, SettingsActivity.class));
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("OPEN_FRAGMENT", "settings");
+            startActivity(intent);
         });
 
         binding.azanSoundSettings.setOnLongClickListener(v -> {

@@ -123,16 +123,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         handleIntent(intent);
     }
 
-    private void handleIntent(Intent intent) {
-        String fragmentToOpen = intent != null ? intent.getStringExtra("OPEN_FRAGMENT") : null;
-        if ("prayer".equals(fragmentToOpen)) {
-            loadFragment(prayerFragment, getString(R.string.main_bottom_nav_prayer), "prayer");
-            mBottomNavigation.setSelectedItemId(R.id.nav_prayer);
-        } else {
-            loadFragment(homeFragment, getString(R.string.app_name), "home");
-            mBottomNavigation.setSelectedItemId(R.id.nav_home);
-        }
-    }
 
     private void initViews() {
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -402,6 +392,47 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             mBottomNavigation.setSelectedItemId(R.id.nav_home);
         } else {
             showExitDialog();
+        }
+    }
+
+    public void openSettingsFragment() {
+        mBottomNavigation.setSelectedItemId(R.id.nav_setting);
+    }
+
+    private void handleIntent(Intent intent) {
+
+        String fragmentToOpen =
+                intent != null ? intent.getStringExtra("OPEN_FRAGMENT") : null;
+
+        if ("settings".equals(fragmentToOpen)) {
+
+            loadFragment(
+                    settingFragment,
+                    getString(R.string.main_bottom_nav_settings),
+                    "settings"
+            );
+
+            mBottomNavigation.setSelectedItemId(R.id.nav_setting);
+
+        } else if ("prayer".equals(fragmentToOpen)) {
+
+            loadFragment(
+                    prayerFragment,
+                    getString(R.string.main_bottom_nav_prayer),
+                    "prayer"
+            );
+
+            mBottomNavigation.setSelectedItemId(R.id.nav_prayer);
+
+        } else {
+
+            loadFragment(
+                    homeFragment,
+                    getString(R.string.app_name),
+                    "home"
+            );
+
+            mBottomNavigation.setSelectedItemId(R.id.nav_home);
         }
     }
 }

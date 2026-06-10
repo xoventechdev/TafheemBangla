@@ -395,19 +395,38 @@ public class SqlLiteDbHelper extends SQLiteAssetHelper {
     }
 
     @SuppressLint("Range")
-    public String[] getVerseList(int aa) {
-        SQLiteDatabase readableDatabase = getReadableDatabase();
-        // Removed 'AND NOT id=0' to ensure Ayat 0 is included for Surah 1
-        Cursor cursor = readableDatabase.rawQuery("SELECT * FROM alquran WHERE sura_id="+aa+" ORDER BY id ASC ", (String[]) null, (CancellationSignal) null);
+    public String[] getVerseList(int surahId) {
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String query;
+
+        if (surahId == 1) {
+            // Include Ayat 0 for Surah 1
+            query = "SELECT ayat_id FROM alquran " +
+                    "WHERE sura_id = 1 " +
+                    "ORDER BY id ASC";
+        } else {
+            // Exclude Ayat 0 for all other Surahs
+            query = "SELECT ayat_id FROM alquran " +
+                    "WHERE sura_id = " + surahId +
+                    " AND ayat_id > 0 " +
+                    "ORDER BY id ASC";
+        }
+
+        Cursor cursor = db.rawQuery(query, null);
+
         String[] array = new String[cursor.getCount()];
 
-        int q = 0;
-        while(cursor.moveToNext()){
-            String uname = cursor.getString(cursor.getColumnIndex("ayat_id"));
-            array[q] = uname;
-            q++;
+        int i = 0;
+        while (cursor.moveToNext()) {
+            array[i++] = cursor.getString(
+                    cursor.getColumnIndex("ayat_id")
+            );
         }
+
         cursor.close();
+
         return array;
     }
 

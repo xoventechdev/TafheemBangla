@@ -34,7 +34,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
-import com.minbar.tafhimulquran.Activity.SettingsActivity;
+import com.minbar.tafhimulquran.Activity.MainActivity;
 import com.minbar.tafhimulquran.Prayer.DateUtils;
 import com.minbar.tafhimulquran.Prayer.LocationUtils;
 import com.minbar.tafhimulquran.Prayer.PrayerNotificationManager;
@@ -122,20 +122,20 @@ public class PrayerFragment extends Fragment {
 
     private void setupListeners() {
         binding.locationWeatherText.setOnClickListener(v -> showLocationSelectionDialog());
-        binding.azanSoundSettings.setOnClickListener(v -> {
-            if (isAdded()) {
-                startActivity(new Intent(requireContext(), SettingsActivity.class));
-            }
-        });
+//        binding.azanSoundSettings.setOnClickListener(v -> {
+//            if (getActivity() instanceof MainActivity) {
+//                ((MainActivity) getActivity()).openSettingsFragment();
+//            }
+//        });
 
-        binding.azanSoundSettings.setOnLongClickListener(v -> {
-            Context context = getContext();
-            if (context != null) {
-                PrayerNotificationManager.scheduleTestAlarm(context);
-                Toast.makeText(context, "Test Azan will ring in 10 seconds! Lock your phone.", Toast.LENGTH_LONG).show();
-            }
-            return true;
-        });
+//        binding.azanSoundSettings.setOnLongClickListener(v -> {
+//            Context context = getContext();
+//            if (context != null) {
+//                PrayerNotificationManager.scheduleTestAlarm(context);
+//                Toast.makeText(context, "Test Azan will ring in 10 seconds! Lock your phone.", Toast.LENGTH_LONG).show();
+//            }
+//            return true;
+//        });
     }
 
     private void checkExactAlarmPermission() {

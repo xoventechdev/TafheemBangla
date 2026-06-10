@@ -100,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:paddingVertical="10dp"
+            android:paddingVertical="5dp"
             android:layoutDirection="ltr">
 
             <LinearLayout
@@ -176,7 +176,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="10dp">
 
             <!-- Bismillah logic -->
             <LinearLayout
@@ -185,11 +185,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="10dp">
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:padding="8dp"
                     android:src="@drawable/ic_bismillah"
                     app:tint="?attr/textColorPrimary" />
@@ -205,7 +205,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="15dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -242,8 +242,8 @@
 
                     <ImageButton
                         android:id="@+id/btn_note"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
                         android:padding="12dp"
                         android:layout_marginEnd="8dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
@@ -252,8 +252,8 @@
 
                     <ImageButton
                         android:id="@+id/btn_fav"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
                         android:padding="12dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/ic_baseline_favorite_border_24"
@@ -267,8 +267,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_marginBottom="24dp"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="end"
                 android:background="@drawable/bg_arabic_card">
 
@@ -301,7 +301,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp"
+                    android:padding="10dp"
                     android:gravity="start">
 
                     <LinearLayout
@@ -353,7 +353,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|start"
                 android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="10dp">
 
                 <ImageView
                     android:layout_width="32dp"
@@ -382,15 +382,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="24dp"
-                android:padding="16dp"
+                android:layout_marginBottom="15dp"
+                android:padding="10dp"
                 android:gravity="start"
                 android:background="@drawable/bg_tafseer_item">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center_vertical|start"
                     android:orientation="horizontal">
 
@@ -432,8 +432,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="24dp"
-                android:padding="16dp"
+                android:layout_marginBottom="15dp"
+                android:padding="10dp"
                 android:visibility="gone"
                 android:gravity="start"
                 android:background="@drawable/bg_tafseer_item">
@@ -483,9 +483,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="15dp"
                 android:visibility="gone"
-                android:padding="16dp"
+                android:padding="10dp"
                 android:gravity="start"
                 android:background="@drawable/bg_tafseer_item">
 
@@ -534,8 +534,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="24dp"
-                android:padding="16dp"
+                android:layout_marginBottom="15dp"
+                android:padding="10dp"
                 android:visibility="gone"
                 android:gravity="start"
                 android:background="@drawable/bg_tafseer_item">

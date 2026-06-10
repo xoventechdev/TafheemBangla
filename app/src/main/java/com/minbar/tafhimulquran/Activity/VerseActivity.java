@@ -101,13 +101,8 @@ public class VerseActivity extends AppCompatActivity {
                 binding.download.setVisibility(View.GONE);
                 
                 // Re-initialize AudioWife after download
-                AudioWife.getInstance()
-                        .init(VerseActivity.this, Uri.fromFile(filePath))
-                        .setPlayView(binding.play)
-                        .setPauseView(binding.pause)
-                        .setSeekBar(binding.mediaSeekbar)
-                        .setRuntimeView(binding.runTime)
-                        .setTotalTimeView(binding.totalTime);
+                initAudioPlayer();
+
             }
             Toasty.success(getApplicationContext(), surah_Name + " ডাউনলোড হয়েছে", Toast.LENGTH_SHORT, true).show();
         }
@@ -259,22 +254,17 @@ public class VerseActivity extends AppCompatActivity {
 
 
 
-        if (filePath.exists()){
+        if (filePath.exists()) {
             mPlayMedia.setVisibility(View.VISIBLE);
             mDownloadMedia.setVisibility(View.GONE);
             delete.setVisibility(View.VISIBLE);
-            
-            AudioWife.getInstance()
-                    .init(VerseActivity.this, Uri.fromFile(filePath))
-                    .setPlayView(mPlayMedia)
-                    .setPauseView(mPauseMedia)
-                    .setSeekBar(mMediaSeekBar)
-                    .setRuntimeView(mRunTime)
-                    .setTotalTimeView(mTotalTime);
+
+            initAudioPlayer();
         } else {
             mPlayMedia.setVisibility(View.GONE);
             mDownloadMedia.setVisibility(View.VISIBLE);
             delete.setVisibility(View.GONE);
+            binding.mediaSeekbar.setEnabled(false);
         }
 
         mDownloadMedia.setOnClickListener(v -> {
@@ -282,14 +272,8 @@ public class VerseActivity extends AppCompatActivity {
         });
 
         mPlayMedia.setOnClickListener(v -> {
-            if (filePath.exists()){
-                AudioWife.getInstance()
-                        .init(VerseActivity.this, Uri.fromFile(filePath))
-                        .setPlayView(mPlayMedia)
-                        .setPauseView(mPauseMedia)
-                        .setSeekBar(mMediaSeekBar)
-                        .setRuntimeView(mRunTime)
-                        .setTotalTimeView(mTotalTime);
+            if (filePath.exists()) {
+                initAudioPlayer();
             }
         });
 
@@ -339,15 +323,23 @@ public class VerseActivity extends AppCompatActivity {
 
 
 
-    public void deleteFile(){
-        File fileToDelete = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + File.separator + filrName);
-        if (fileToDelete.exists()){
+    public void deleteFile() {
+
+        File fileToDelete = new File(
+                getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+                        + File.separator + filrName);
+
+        if (fileToDelete.exists()) {
+
             fileToDelete.delete();
-            if (binding != null) {
-                binding.delete.setVisibility(View.GONE);
-                binding.play.setVisibility(View.GONE);
-                binding.download.setVisibility(View.VISIBLE);
-            }
+
+            binding.delete.setVisibility(View.GONE);
+            binding.play.setVisibility(View.GONE);
+            binding.download.setVisibility(View.VISIBLE);
+
+            binding.mediaSeekbar.setEnabled(false);
+            binding.mediaSeekbar.setProgress(0);
+
             AudioWife.getInstance().release();
         }
     }
@@ -364,7 +356,7 @@ public class VerseActivity extends AppCompatActivity {
 
             Toasty.success(getApplicationContext(), "all okey", Toasty.LENGTH_SHORT).show();
         }else {
-            if (checkPermission()) {
+//            if (checkPermission()) {
                 if (!Config.isConnected(this)) {
                     Toasty.warning(getApplicationContext(), "আপনার ইন্টারনেট বদ্ধ থাকায় ডাউনলোড সম্ভব না।", Toast.LENGTH_SHORT, true).show();
                 } else {
@@ -396,7 +388,7 @@ public class VerseActivity extends AppCompatActivity {
                     }
                     return;
                 }
-            }
+//            }
 //            requestPermission();
         }
 
@@ -605,8 +597,12 @@ public class VerseActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        AudioWife.getInstance().release();
-        super.onBackPressed();
+        binding.mediaSeekbar.setEnabled(false);
+
+        try {
+            AudioWife.getInstance().release();
+        } catch (Exception ignored) {
+        }        super.onBackPressed();
     }
 
     public boolean checkPermission() {
@@ -678,7 +674,7 @@ public class VerseActivity extends AppCompatActivity {
                 if (showRationale) {
                     // User denied permission but did NOT select "Don't ask again" → Ask again
                     Toast.makeText(this, "Permission Required!", Toast.LENGTH_SHORT).show();
-                    checkPermission(); // Request permission again
+//                    checkPermission(); // Request permission again
                 } else {
                     // User denied permission and selected "Don't ask again" → Redirect to settings
                     showSettingsDialog();
@@ -746,7 +742,7 @@ public class VerseActivity extends AppCompatActivity {
 
     public void dowbloadFile(String url){
 
-        if (checkPermission()) {
+//        if (checkPermission()) {
 
 //            Toasty.info(getApplicationContext(), "হচ্ছে.... PP", Toast.LENGTH_SHORT, true).show();
 
@@ -771,7 +767,7 @@ public class VerseActivity extends AppCompatActivity {
                 }
                 return;
             }
-        }
+//        }
 
 //        requestPermission();
     }
@@ -780,6 +776,14 @@ public class VerseActivity extends AppCompatActivity {
     @Override
     public void onPause(){
         super.onPause();
+
+        binding.mediaSeekbar.setEnabled(false);
+
+        try {
+            AudioWife.getInstance().release();
+        } catch (Exception ignored) {
+        }
+
         index = mLayoutManager.findFirstVisibleItemPosition();
         View v = recyclerView.getChildAt(0);
         top = (v == null) ? 0 : (v.getTop() - recyclerView.getPaddingTop());
@@ -818,6 +822,10 @@ public class VerseActivity extends AppCompatActivity {
         {
             mLayoutManager.scrollToPositionWithOffset( index, top);
         }
+
+        if (filePath.exists()) {
+            initAudioPlayer();
+        }
     }
 
 
@@ -825,5 +833,29 @@ public class VerseActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         adapter.releaseMediaPlayer(); // calling the method inside your adapter
+    }
+
+    private void initAudioPlayer() {
+
+        if (!filePath.exists()) {
+            binding.mediaSeekbar.setEnabled(false);
+            return;
+        }
+
+        try {
+            AudioWife.getInstance()
+                    .init(this, Uri.fromFile(filePath))
+                    .setPlayView(binding.play)
+                    .setPauseView(binding.pause)
+                    .setSeekBar(binding.mediaSeekbar)
+                    .setRuntimeView(binding.runTime)
+                    .setTotalTimeView(binding.totalTime);
+
+            binding.mediaSeekbar.setEnabled(true);
+
+        } catch (Exception e) {
+            binding.mediaSeekbar.setEnabled(false);
+            e.printStackTrace();
+        }
     }
 }
