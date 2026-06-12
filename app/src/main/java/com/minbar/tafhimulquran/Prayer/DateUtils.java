@@ -28,11 +28,16 @@ public class DateUtils {
         }
     }
 
+    /**
+     * Converts Western digits (0-9) in a string to Bengali digits.
+     * Safe against non-Western digits and already converted digits.
+     */
     public static String convertToBengaliDigits(String number) {
-        if (number == null) return "";
+        if (number == null || number.isEmpty()) return "";
         StringBuilder result = new StringBuilder();
-        for (char c : number.toCharArray()) {
-            if (Character.isDigit(c)) {
+        for (int i = 0; i < number.length(); i++) {
+            char c = number.charAt(i);
+            if (c >= '0' && c <= '9') {
                 result.append(BENGALI_DIGITS[c - '0']);
             } else {
                 result.append(c);

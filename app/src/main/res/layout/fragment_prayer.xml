@@ -37,17 +37,17 @@
                         android:layout_height="wrap_content"
                         android:padding="12dp">
 
-<!--                        <ImageView-->
-<!--                            android:id="@+id/azanSoundSettings"-->
-<!--                            android:layout_width="36dp"-->
-<!--                            android:layout_height="36dp"-->
-<!--                            android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--                            android:contentDescription="Azan Settings"-->
-<!--                            android:padding="6dp"-->
-<!--                            android:src="@drawable/ic_home_mm_settings"-->
-<!--                            app:layout_constraintEnd_toEndOf="parent"-->
-<!--                            app:layout_constraintTop_toTopOf="parent"-->
-<!--                            app:tint="?attr/textColorSecondary" />-->
+                        <ImageView
+                            android:id="@+id/calendarIcon"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="Calendar"
+                            android:padding="6dp"
+                            android:src="@drawable/ic_clock"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="?attr/textColorSecondary" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -60,13 +60,22 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <TextView
-                                android:id="@+id/hijri_date_text"
+                                android:id="@+id/current_date_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/kalpurush"
                                 android:textColor="?attr/textColorSecondary"
                                 android:textSize="14sp"
-                                tools:text="Wednesday 11 Safar 1446" />
+                                tools:text="Wednesday, 21 August" />
+
+                            <TextView
+                                android:id="@+id/hijri_date_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/kalpurush"
+                                android:textColor="?attr/textColorSecondary"
+                                android:textSize="12sp"
+                                tools:text="11 Safar 1446" />
 
                             <TextView
                                 android:id="@+id/current_time_text"

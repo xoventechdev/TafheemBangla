@@ -152,12 +152,31 @@ public class LocationUtils {
                 .getBoolean(KEY_USE_COORDINATES, false);
     }
 
+    public static boolean isUsingCoordinates(Context context) {
+        return shouldUseCoordinates(context);
+    }
+
     public static double[] getSavedCoordinates(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return new double[]{
                 prefs.getFloat(KEY_LAT, 0.0f),
                 prefs.getFloat(KEY_LON, 0.0f)
         };
+    }
+
+    public static double getSavedLatitude(Context context) {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getFloat(KEY_LAT, 0.0f);
+    }
+
+    public static double getSavedLongitude(Context context) {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getFloat(KEY_LON, 0.0f);
+    }
+
+    public static String getSavedDistrict(Context context) {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getString(KEY_DISTRICT, "ঢাকা");
     }
 
     public static String getApiCityName(String district, String subDistrict) {

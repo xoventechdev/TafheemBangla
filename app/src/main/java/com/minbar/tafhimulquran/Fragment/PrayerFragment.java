@@ -89,53 +89,52 @@ public class PrayerFragment extends Fragment {
         startClock();
         checkExactAlarmPermission();
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        currentMethod = sp.getString("prayer_calculation_method", "3");
-        currentSchool = sp.getString("prayer_school", "1");
+        Context context = getContext();
+        if (context != null) {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+            currentMethod = sp.getString("prayer_calculation_method", "3");
+            currentSchool = sp.getString("prayer_school", "1");
+        }
 
         checkPermissionsAndFetchData();
     }
 
     private void initClients() {
-        requestQueue = Volley.newRequestQueue(requireContext());
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+        Context context = getContext();
+        if (context != null) {
+            requestQueue = Volley.newRequestQueue(context);
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+        }
     }
 
     private void loadSavedLocation() {
-        String[] savedLocation = LocationUtils.loadLocation(requireContext());
-        selectedDistrict = savedLocation[0];
-        String country = savedLocation.length > 1 ? savedLocation[1] : "Bangladesh";
+        Context context = getContext();
+        if (context == null) return;
 
-        useCoordinates = LocationUtils.shouldUseCoordinates(requireContext());
-        if (useCoordinates) {
-            double[] coords = LocationUtils.getSavedCoordinates(requireContext());
-            latitude = coords[0];
-            longitude = coords[1];
-        }
+        latitude = LocationUtils.getSavedLatitude(context);
+        longitude = LocationUtils.getSavedLongitude(context);
+        selectedDistrict = LocationUtils.getSavedDistrict(context);
+        useCoordinates = LocationUtils.isUsingCoordinates(context);
 
-        if (!"Bangladesh".equals(country)) {
-            binding.locationWeatherText.setText(selectedDistrict + ", " + country);
-        } else {
-            binding.locationWeatherText.setText(selectedDistrict);
+        if (binding != null) {
+            if (useCoordinates) {
+                binding.locationWeatherText.setText(selectedDistrict);
+            } else {
+                String[] loc = LocationUtils.loadLocation(context);
+                String country = loc.length > 1 ? loc[1] : "Bangladesh";
+                if (country.equalsIgnoreCase("Bangladesh")) {
+                    binding.locationWeatherText.setText(selectedDistrict);
+                } else {
+                    binding.locationWeatherText.setText(selectedDistrict + ", " + country);
+                }
+            }
         }
     }
 
     private void setupListeners() {
+        if (binding == null) return;
         binding.locationWeatherText.setOnClickListener(v -> showLocationSelectionDialog());
-//        binding.azanSoundSettings.setOnClickListener(v -> {
-//            if (getActivity() instanceof MainActivity) {
-//                ((MainActivity) getActivity()).openSettingsFragment();
-//            }
-//        });
-
-//        binding.azanSoundSettings.setOnLongClickListener(v -> {
-//            Context context = getContext();
-//            if (context != null) {
-//                PrayerNotificationManager.scheduleTestAlarm(context);
-//                Toast.makeText(context, "Test Azan will ring in 10 seconds! Lock your phone.", Toast.LENGTH_LONG).show();
-//            }
-//            return true;
-//        });
+        binding.calendarIcon.setOnClickListener(v -> checkBatteryOptimizations());
     }
 
     private void checkExactAlarmPermission() {
@@ -146,37 +145,29 @@ public class PrayerFragment extends Fragment {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
                 new AlertDialog.Builder(context)
-                        .setTitle("অ্যালার্ম অনুমতি প্রয়োজন")
-                        .setMessage("সঠিক সময়ে আজান দেওয়ার জন্য 'Alarms & Reminders' অনুমতি প্রয়োজন।")
-                        .setPositiveButton("সেটিংস", (dialog, which) -> {
-                            if (isAdded()) {
-                                Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
-                                startActivity(intent);
-                            }
+                        .setTitle("অনুমতি প্রয়োজন")
+                        .setMessage("সঠিক সময়ে আজান দেওয়ার জন্য এই অনুমতিটি প্রয়োজন।")
+                        .setPositiveButton("অনুমতি দিন", (dialog, which) -> {
+                            Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                            startActivity(intent);
                         })
+                        .setNegativeButton("পরে", null)
                         .show();
-                return;
             }
         }
-        checkBatteryOptimizations();
     }
 
     private void startClock() {
         timeRunnable = new Runnable() {
             @Override
             public void run() {
-                if (getContext() == null) return;
-                SimpleDateFormat sdf = new SimpleDateFormat("h:mm:ss a", Locale.getDefault());
-                binding.currentTimeText.setText(DateUtils.convertToBengaliDigits(sdf.format(Calendar.getInstance().getTime())));
+                if (binding == null) return;
+
+                Calendar calendar = Calendar.getInstance();
+                binding.currentTimeText.setText(new SimpleDateFormat("HH:mm:ss", Locale.US).format(calendar.getTime()));
+                binding.currentDateText.setText(new SimpleDateFormat("EEEE, dd MMMM", new Locale("bn")).format(calendar.getTime()));
 
                 if (todayData != null) {
-                    String nextPrayerInfo = DateUtils.getNextPrayer(todayData);
-                    if (nextPrayerInfo != null && nextPrayerInfo.contains("|")) {
-                        String[] parts = nextPrayerInfo.split("\\|");
-                        binding.nextPrayerText.setText(parts[0]);
-                        binding.nextPrayerTimeText.setText(DateUtils.convertToBengaliDigits(parts[1]));
-                    }
-
                     long[] times = DateUtils.getElapsedAndTotal(todayData);
                     long elapsed = times[0];
                     long total = times[1];
@@ -196,21 +187,28 @@ public class PrayerFragment extends Fragment {
     }
 
     private void showLoader() {
-        binding.progressBar.setVisibility(View.VISIBLE);
+        if (binding != null && binding.progressBar != null) {
+            binding.progressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     private void hideLoader() {
-        binding.progressBar.setVisibility(View.GONE);
+        if (binding != null && binding.progressBar != null) {
+            binding.progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void checkPermissionsAndFetchData() {
+        Context context = getContext();
+        if (context == null) return;
+
         showLoader();
-        todayData = PrayerNotificationManager.getCachedPrayerData(requireContext());
+        todayData = PrayerNotificationManager.getCachedPrayerData(context);
         if (todayData != null) {
             updateUI(todayData);
         }
 
-        if (useCoordinates && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (useCoordinates && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fetchDeviceLocation();
         } else {
             fetchAllPrayerData();
@@ -218,19 +216,23 @@ public class PrayerFragment extends Fragment {
     }
 
     private void fetchDeviceLocation() {
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        Context context = getContext();
+        if (context == null || fusedLocationClient == null) return;
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             fetchAllPrayerData();
             return;
         }
 
-        fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
+        fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
             if (location != null) {
-                if (getContext() == null) return;
+                Context currentContext = getContext();
+                if (currentContext == null || binding == null) return;
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
-                selectedDistrict = LocationUtils.getDistrictFromCoordinates(requireContext(), latitude, longitude);
+                selectedDistrict = LocationUtils.getDistrictFromCoordinates(currentContext, latitude, longitude);
                 useCoordinates = true;
-                LocationUtils.saveCoordinates(requireContext(), latitude, longitude, selectedDistrict);
+                LocationUtils.saveCoordinates(currentContext, latitude, longitude, selectedDistrict);
                 binding.locationWeatherText.setText(selectedDistrict);
             }
             fetchAllPrayerData();
@@ -243,6 +245,9 @@ public class PrayerFragment extends Fragment {
     }
 
     private void fetchPrayerTimes(boolean isToday) {
+        Context context = getContext();
+        if (context == null || requestQueue == null) return;
+
         String url;
         String dateStr = "timings";
         if (!isToday) {
@@ -251,7 +256,7 @@ public class PrayerFragment extends Fragment {
             dateStr = new SimpleDateFormat("dd-MM-yyyy", Locale.US).format(calendar.getTime());
         }
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         String method = sp.getString("prayer_calculation_method", "3");
         String school = sp.getString("prayer_school", "1");
 
@@ -261,14 +266,15 @@ public class PrayerFragment extends Fragment {
             } else {
                 String city = LocationUtils.getApiCityName(selectedDistrict, "");
                 String encodedCity = URLEncoder.encode(city, "UTF-8");
-                String[] savedLocation = LocationUtils.loadLocation(requireContext());
+                String[] savedLocation = LocationUtils.loadLocation(context);
                 String country = savedLocation.length > 1 ? savedLocation[1] : "Bangladesh";
                 url = String.format(Locale.US, "https://api.aladhan.com/v1/timingsByCity/%s?city=%s&country=%s&method=%s&school=%s", dateStr, encodedCity, country, method, school);
             }
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                     response -> {
-                        if (getContext() == null) return;
+                        Context currentContext = getContext();
+                        if (currentContext == null || binding == null) return;
                         PrayerTimesResponse prayerResponse = new Gson().fromJson(response.toString(), PrayerTimesResponse.class);
                         if (prayerResponse != null && prayerResponse.data != null) {
                             if (isToday) {
@@ -281,7 +287,7 @@ public class PrayerFragment extends Fragment {
                             }
 
                             if (todayData != null && tomorrowData != null) {
-                                PrayerNotificationManager.schedulePrayerNotifications(requireContext(), todayData, tomorrowData);
+                                PrayerNotificationManager.schedulePrayerNotifications(currentContext, todayData, tomorrowData);
                             }
                         }
                     },
@@ -296,6 +302,8 @@ public class PrayerFragment extends Fragment {
     }
 
     private void updateUI(PrayerTimesResponse.Data data) {
+        if (binding == null || data == null) return;
+
         if (data.date != null && data.date.hijri != null) {
             binding.hijriDateText.setText(DateUtils.formatHijriDate(data.date.hijri.date, data.date.hijri.month.number));
         }
@@ -349,7 +357,7 @@ public class PrayerFragment extends Fragment {
     }
 
     private void updateTomorrowUI(PrayerTimesResponse.Data data) {
-        if (data != null && data.timings != null) {
+        if (binding != null && data != null && data.timings != null) {
             setupTomorrowItem(binding.tomFajr, "ফজর", data.timings.Fajr);
             setupTomorrowItem(binding.tomDhuhr, "যোহর", data.timings.Dhuhr);
             setupTomorrowItem(binding.tomAsr, "আসর", data.timings.Asr);
@@ -366,13 +374,14 @@ public class PrayerFragment extends Fragment {
     }
 
     private void updateProgressBar(PrayerTimesResponse.Data data) {
+        if (binding == null) return;
         long[] times = DateUtils.getElapsedAndTotal(data);
         long elapsed = times[0];
         long total = times[1];
 
         if (total > 0) {
             float progress = (float) elapsed * 100 / total;
-            binding.circularProgressBar.setProgressWithAnimation(Math.min(100, Math.max(0, progress)), 1000L);
+            binding.circularProgressBar.setProgress(Math.min(100, Math.max(0, progress)));
         }
     }
 
@@ -415,7 +424,9 @@ public class PrayerFragment extends Fragment {
             selectedDistrict = dialogBinding.districtSpinner.getSelectedItem().toString();
             useCoordinates = false;
             LocationUtils.saveLocation(currentContext, selectedDistrict, "");
-            binding.locationWeatherText.setText(selectedDistrict);
+            if (binding != null) {
+                binding.locationWeatherText.setText(selectedDistrict);
+            }
             fetchAllPrayerData();
             dialog.dismiss();
         });
@@ -474,7 +485,9 @@ public class PrayerFragment extends Fragment {
             String selectedCountry = dialogBinding.countrySpinner.getSelectedItem().toString();
             useCoordinates = false;
             LocationUtils.saveInternationalLocation(currentContext, selectedDistrict, selectedCountry);
-            binding.locationWeatherText.setText(selectedDistrict + ", " + selectedCountry);
+            if (binding != null) {
+                binding.locationWeatherText.setText(selectedDistrict + ", " + selectedCountry);
+            }
             fetchAllPrayerData();
             dialog.dismiss();
         });
